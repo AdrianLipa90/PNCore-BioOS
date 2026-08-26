@@ -1,56 +1,63 @@
-# PNCore-BioOS v0.1 — Generation Cell Bootstrap
+# PNCore-BioOS
 
-Status: **ARCHITECTURE CANDIDATE / CANDIDATE_AUTHORITY_ONLY**
+PNCore BioOS is a candidate vector-native system stack for dynamic AC-flow NOEMA/PhaseNav systems on conventional PC hardware.
 
-PNCore-BioOS starts from one native invariant and constructs the system from admitted vector transitions.
-
-```text
-RESET
- -> architecture bootstrap
- -> Triple Pulse: IDENTITY -> DOMAIN -> AUTHORITY
- -> REQUEST -> COUPLING -> ADMISSION
- -> PNCore Transition Spine
- -> PNStore Generation Cell
- -> PNFS relational view
- -> PNCAP capability admission
- -> Genesis.pnv
- -> Sigma_0
-```
-
-## Native parts reused
-
-- `.pnv` remains the native program/witness unit.
-- `.pnh5` remains a transactional trajectory/memory/dataset object profile.
-- Existing PNCS operators are reused; new PNV opcode count in v0.1: **0**.
-- Triple Pulse Boot supplies the admission prefix.
-- PNH5/QCRUZER generation and commit patterns supply persistence design input.
-- PNCS v0.26 Effect Boundary supplies the structural seed for generation-bound capability admission.
-
-## Candidate primitives
-
-- **PN Transition Spine** — common admitted state-transition contract.
-- **PNObject / Generation Cell** — typed content-addressed immutable state object.
-- **PNStore** — append/commit/head persistence over Generation Cells.
-- **PNFS** — relational view over PNObjects; paths are derived views.
-- **PNMap** — common relational mapping/resolve contract.
-- **PNCAP** — generation-bound explicit capability grants.
-- **PNResource** — CPU, RAM, storage and I/O represented as generation-bound PNObjects.
-- **Genesis.pnv** — first native system program producing the initial admitted system state.
-- **PNROM** — immutable x86 reset/long-mode physical realization candidate.
-
-## Current physical witness path
+Current development line: **v0.2 — Build with GREMLIN**.
 
 ```text
 RESET @ 0xFFFF0
  -> PNROM @ 0xF0000
- -> CPUID long-mode admission
- -> PNMap PML4/PDPT/PD realization
- -> long-mode entry
- -> PNCore / Genesis handoff boundary
+ -> x86_64 capability admission
+ -> PNMap/MMU substrate
+ -> long mode
+ -> PNVector Handoff -> RAM 0x5000
+ -> PNCore @ 0xF0156
+ -> PN Realization admission
+ -> Genesis physical predicate
+ -> Sigma_0 @ 0x5200
+ -> transition evidence @ 0x5300
 ```
 
-The first physical backend target is x86_64. The architecture bootstrap stays deliberately small and hands control to PNCore as early as the hardware permits.
+## Core primitives
 
-## Authority boundary
+- **PNV** — native program/witness surface.
+- **PNH5** — transactional trajectory/state persistence profile.
+- **PNR** — content-addressed architecture-specific physical realization binding.
+- **PNObject / Generation Cell** — common generation-bound object model.
+- **PNStore** — admitted append/commit persistence.
+- **PNFS** — relational object-space view.
+- **PNMap** — relational mapping/resolution contract.
+- **PNCAP** — generation-bound capability admission.
+- **PNResource** — physical resources represented through PNObject semantics.
+- **PNVector Handoff** — exact ordered 36D firmware-to-PNCore state carrier.
 
-This branch is a v0.1 candidate. `EPISTEMIC CHYBA`, `canon_allowed=false`. Exact PNCS v0.23 admission + v0.24 `build_native_program_unit` and emulator/physical boot remain separate gates. `main` is not mutated by this candidate branch.
+## GREMLIN-guided reductions
+
+GREMLIN is used only as a bounded candidate generator and structural critic.
+
+Current accepted engineering candidates for this branch:
+
+```text
+separate .pnx executable          -> removed as duplicate
+layered inode/device ontology      -> replaced by unified PNObject relations
+text PNV parser in reset runtime   -> rejected by structural comparison
+schedule-only physical table       -> rejected by structural comparison
+PN Realization                     -> structural match candidate
+x86 page walk <-> PNMap resolve    -> structural match candidate
+separate boot-info block           -> folded into PNVector Handoff path
+```
+
+## Current evidence
+
+```text
+64 KiB PNROM build: PASS
+final ELF relocations: 0
+reset vector: exact @ 0xFFF0
+live PhaseNav registry binding: PASS
+PNR program/schedule/composition binding: PASS
+PNVector Handoff structural binding: PASS
+runtime emulation: pending
+physical-machine execution: pending
+```
+
+All project-native runtime/program artifacts remain PNV/PNR and assembly bootstrap sources; the target tree contains zero `.py` files.
