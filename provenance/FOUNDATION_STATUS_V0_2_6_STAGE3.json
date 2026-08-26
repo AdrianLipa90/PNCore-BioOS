@@ -1,0 +1,22 @@
+{
+  "branch": "feat/bioos-v0.2-build-with-gremlin",
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "gremlin_evaluation": "SUPPORTED_BY_DECLARED_TESTS",
+  "gremlin_hypothesis_id": "gremlin:hypothesis:sha256:f4477b2aa2ab7cc9f2294014b16dec60ccaf8620057fdfb39507abf234475ec1",
+  "implemented": [
+    "exact pair commensurability reduction",
+    "correct n*theta_i-m*theta_j phase invariant",
+    "weighted phase-lock resultant",
+    "low-order resonance admission",
+    "canonical reverse-edge semantics",
+    "derived H-band resonance graph"
+  ],
+  "live_graph": "EMPTY / upstream FREQUENCY_UNRESOLVED",
+  "main_modified": false,
+  "new_pnv_opcodes": 0,
+  "parent_head": "657f90cd23f34e118803f05eb133de9e5af4a836",
+  "reference_conformance": "18/18 PASS",
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_6_STAGE3",
+  "status": "PASS_STAGE3"
+}
