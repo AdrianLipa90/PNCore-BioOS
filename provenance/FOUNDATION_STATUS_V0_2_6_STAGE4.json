@@ -1,0 +1,24 @@
+{
+  "branch": "feat/bioos-v0.2-build-with-gremlin",
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "gremlin_evaluation": "SUPPORTED_BY_DECLARED_TESTS",
+  "gremlin_hypothesis_id": "gremlin:hypothesis:sha256:232fe27b17713119f2aea91c6c52e0f4d8fe77135ccc8edce95afd29b36a5e5d",
+  "implemented": [
+    "phase-revisit candidate generation",
+    "bounded previous-frame candidate set",
+    "exact uint64 XOR cost selector",
+    "never-worse baseline fallback",
+    "RUN/REF/DELTA routing",
+    "exact decode verification spine"
+  ],
+  "live_static_path": "RUN / harmonic_override=false",
+  "main_modified": false,
+  "new_pnv_opcodes": 0,
+  "parent_head": "23036e27f753abf9345798b1b06158bf895f3945",
+  "reference_conformance": "24/24 PASS",
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_6_STAGE4",
+  "status": "PASS_STAGE4",
+  "synthetic_dynamic_changed_word_reduction": 0.9333333333333333,
+  "synthetic_dynamic_nonprevious_base_selections": 252
+}

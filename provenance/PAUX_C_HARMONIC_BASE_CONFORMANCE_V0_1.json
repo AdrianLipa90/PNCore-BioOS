@@ -1,0 +1,162 @@
+{
+  "base_head": "23036e27f753abf9345798b1b06158bf895f3945",
+  "boundaries": {
+    "authority_class": "LOSSLESS_EXACT_AFTER_DECODE",
+    "capability_authority": "PNCAP",
+    "effect_boundary": "AUX",
+    "harmonic_candidate_refs": "DERIVED_INDEX",
+    "object_id_authority": "PNV_STATE_OBJECT",
+    "paux_r_orbital_reconstruction": "PENDING_STAGE5",
+    "resonant_recall": "PENDING_STAGE6"
+  },
+  "branch": "feat/bioos-v0.2-build-with-gremlin",
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "gremlin": {
+    "comparison_sha256": "5fcb970d7ff29be9bbf9354106385c4964d44ab061bb26bbab1a0f8231cc2779",
+    "evaluation": "SUPPORTED_BY_DECLARED_TESTS",
+    "hypothesis_id": "gremlin:hypothesis:sha256:232fe27b17713119f2aea91c6c52e0f4d8fe77135ccc8edce95afd29b36a5e5d",
+    "structurally_isomorphic": true
+  },
+  "host_reference_harness": {
+    "sha256": "e23c5b2c791cc906ba70ba296698e0b29fff272d19b1898978738c8231b99cf8",
+    "target_tree_persisted": false
+  },
+  "live_fixture": {
+    "classification": "NATURAL_SYSTEM_STATE / ENDOGENOUS_RUNTIME_DYNAMICS",
+    "harmonic_override": false,
+    "selected_transform": "RUN",
+    "state": "STATIC"
+  },
+  "live_tether_at_validation": "ACTIVE",
+  "new_pnv_opcodes": 0,
+  "reference": {
+    "invariants": {
+      "baseline_always_candidate": true,
+      "delta_transform": "exact uint64 XOR words",
+      "max_candidate_age": 64,
+      "selection_never_worse_by_changed_word_cost": true,
+      "tie_break": "lower changed words, lower age, lower frame index"
+    },
+    "live_static_fixture": {
+      "classification": "NATURAL_SYSTEM_STATE / ENDOGENOUS_RUNTIME_DYNAMICS",
+      "frames_observed_for_selector": 8,
+      "harmonic_override": false,
+      "transform": "RUN"
+    },
+    "schema": "PAUX_C_HARMONIC_BASE_REFERENCE_V0_1",
+    "status": "PASS",
+    "synthetic_dynamic_fixture": {
+      "baseline_changed_words": 9180,
+      "changed_word_reduction": 0.9333333333333333,
+      "classification": "SYNTHETIC_REFERENCE",
+      "frames": 256,
+      "nonprevious_base_selections": 252,
+      "period_frames": 4,
+      "selected_changed_words": 612
+    },
+    "tests": [
+      {
+        "name": "harmonic_base_selected",
+        "pass": true
+      },
+      {
+        "name": "harmonic_base_two_changed",
+        "pass": true
+      },
+      {
+        "name": "baseline_is_worse",
+        "pass": true
+      },
+      {
+        "name": "exact_decode_single",
+        "pass": true
+      },
+      {
+        "name": "sequence_exact",
+        "pass": true
+      },
+      {
+        "name": "sequence_harmonic_picked",
+        "pass": true
+      },
+      {
+        "name": "sequence_cost_reduced",
+        "pass": true
+      },
+      {
+        "name": "empty_candidate_baseline",
+        "pass": true
+      },
+      {
+        "name": "never_worse_than_baseline",
+        "pass": true
+      },
+      {
+        "name": "tie_nearest",
+        "pass": true
+      },
+      {
+        "name": "run_path",
+        "pass": true
+      },
+      {
+        "name": "ref_path",
+        "pass": true
+      },
+      {
+        "name": "age_bound",
+        "pass": true
+      },
+      {
+        "name": "future_excluded",
+        "pass": true
+      },
+      {
+        "name": "duplicate_deterministic",
+        "pass": true
+      },
+      {
+        "name": "index_reject",
+        "pass": true
+      },
+      {
+        "name": "duplicate_index_reject",
+        "pass": true
+      },
+      {
+        "name": "corrupt_delta_detectable",
+        "pass": true
+      },
+      {
+        "name": "uint64_xor_words",
+        "pass": true
+      },
+      {
+        "name": "random_never_worse",
+        "pass": true
+      },
+      {
+        "name": "live_static_prefers_nearest_run",
+        "pass": true
+      },
+      {
+        "name": "phase_revisit_finds_previous_orbit",
+        "pass": true
+      },
+      {
+        "name": "phase_revisit_rejects_unrelated",
+        "pass": true
+      },
+      {
+        "name": "phase_revisit_unresolved_empty",
+        "pass": true
+      }
+    ],
+    "tests_passed": 24,
+    "tests_total": 24
+  },
+  "repo": "AdrianLipa90/PNCore-BioOS",
+  "schema": "PAUX_C_HARMONIC_BASE_CONFORMANCE_V0_1",
+  "status": "PASS_STAGE4_REFERENCE_CONFORMANCE"
+}
