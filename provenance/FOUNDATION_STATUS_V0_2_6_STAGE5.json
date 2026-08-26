@@ -1,0 +1,25 @@
+{
+  "branch": "feat/bioos-v0.2-build-with-gremlin",
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "gremlin_evaluation": "SUPPORTED_BY_DECLARED_TESTS",
+  "gremlin_hypothesis_id": "gremlin:hypothesis:sha256:3e8f3fa852f31ec599fbd8bd7682c2ff156bc66f2a28776177339fedba41186b",
+  "implemented": [
+    "orbital sin/cos trajectory model",
+    "mean fallback for unresolved bands",
+    "QR8 and QR16 residual representations",
+    "versioned reconstruction quality gate",
+    "smallest-passing profile selector",
+    "separate reconstruction identity"
+  ],
+  "live_profile": "PAUX-C RUN preferred",
+  "main_modified": false,
+  "new_pnv_opcodes": 0,
+  "parent_head": "87edc1fb1b7b57395201ad71252678b87924718b",
+  "reference_conformance": "21/21 PASS",
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_6_STAGE5",
+  "selected_reference_profile": "MODEL_QR8",
+  "status": "PASS_STAGE5",
+  "synthetic_qr8_logical_reduction": 0.857421875,
+  "synthetic_qr8_nrmse": 0.00040190830518126766
+}

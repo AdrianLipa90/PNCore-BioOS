@@ -1,0 +1,174 @@
+{
+  "base_head": "87edc1fb1b7b57395201ad71252678b87924718b",
+  "boundaries": {
+    "authority_class": "RECONSTRUCTION_ONLY",
+    "capability_authority": "PNCAP",
+    "effect_boundary": "AUX",
+    "live_restore_mutation": "NOT_PERFORMED",
+    "resonant_recall": "PENDING_STAGE6",
+    "source_object_authority": "PNV_STATE_OBJECT"
+  },
+  "branch": "feat/bioos-v0.2-build-with-gremlin",
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "gremlin": {
+    "comparison_sha256": "c4e08146e287620a27ecc66fa41e52dcac4316d716d47d38c28e3010daa70a1a",
+    "evaluation": "SUPPORTED_BY_DECLARED_TESTS",
+    "hypothesis_id": "gremlin:hypothesis:sha256:3e8f3fa852f31ec599fbd8bd7682c2ff156bc66f2a28776177339fedba41186b",
+    "structurally_isomorphic": true
+  },
+  "host_reference_harness": {
+    "sha256": "b86c3b1ac7fda2d9c689325629a52e8f6d937546708fd1b4eaf0f238892bd449",
+    "target_tree_persisted": false
+  },
+  "live_tether_at_validation": "ACTIVE",
+  "new_pnv_opcodes": 0,
+  "reference": {
+    "identity": {
+      "authority_class": "RECONSTRUCTION_ONLY",
+      "reconstruction_id_qr16": "c5489a76ade2d8ebb81f3eda268b1ad272259847408de1a79ab21bde15923de2",
+      "reconstruction_id_qr8": "4465ebc5ac0ab9ab08e42cf312826c50fd78dddef01c803db47aa218ec8630f7",
+      "source_object_reference": "d2d643f5241a32c72cdb5e861794d001fbfa0260ff1f06894cc6b7cc22cdb5ce"
+    },
+    "live_fixture": {
+      "classification": "NATURAL_SYSTEM_STATE / ENDOGENOUS_RUNTIME_DYNAMICS",
+      "paux_r_promotion": false,
+      "preferred_profile": "PAUX-C RUN",
+      "state": "STATIC"
+    },
+    "quality_gate": {
+      "energy_ratio_max": 1.02,
+      "energy_ratio_min": 0.98,
+      "max_abs_norm_max": 0.02,
+      "nrmse_max": 0.02,
+      "phase_mean_error_rad_max": 0.05,
+      "relation_retention_min": 0.95
+    },
+    "schema": "PAUX_R_ORBITAL_RECONSTRUCTION_REFERENCE_V0_1",
+    "status": "PASS",
+    "synthetic_fixture": {
+      "channels": 36,
+      "classification": "SYNTHETIC_REFERENCE",
+      "frames": 256,
+      "model_metrics": {
+        "energy_ratio": 0.9963380717448062,
+        "max_abs_norm": 0.11698488565601425,
+        "nrmse": 0.057847828514387835,
+        "phase_mean_error_rad": 0.0002462926332455488,
+        "relation_retention": 1.0
+      },
+      "model_only_bytes": 1008,
+      "qr16_bytes": 19728,
+      "qr16_metrics": {
+        "energy_ratio": 1.0000000111324523,
+        "max_abs_norm": 1.7711597972159073e-06,
+        "nrmse": 1.5583361965591063e-06,
+        "phase_mean_error_rad": 6.814345160971733e-08,
+        "relation_retention": 1.0
+      },
+      "qr16_reduction": 0.732421875,
+      "qr8_bytes": 10512,
+      "qr8_metrics": {
+        "energy_ratio": 0.9999920884961414,
+        "max_abs_norm": 0.0004592690666057891,
+        "nrmse": 0.00040190830518126766,
+        "phase_mean_error_rad": 2.1316606872754846e-05,
+        "relation_retention": 1.0
+      },
+      "qr8_reduction": 0.857421875,
+      "raw_bytes": 73728,
+      "selected_profile": "MODEL_QR8"
+    },
+    "tests": [
+      {
+        "name": "source_resolved_36",
+        "pass": true
+      },
+      {
+        "name": "model_only_fails_strict_quality",
+        "pass": true
+      },
+      {
+        "name": "qr8_quality_pass",
+        "pass": true
+      },
+      {
+        "name": "qr16_quality_pass",
+        "pass": true
+      },
+      {
+        "name": "qr16_lower_error",
+        "pass": true
+      },
+      {
+        "name": "qr8_smaller_raw",
+        "pass": true
+      },
+      {
+        "name": "qr16_smaller_raw",
+        "pass": true
+      },
+      {
+        "name": "qr8_smaller_qr16",
+        "pass": true
+      },
+      {
+        "name": "relation_retention_qr8",
+        "pass": true
+      },
+      {
+        "name": "phase_error_qr8",
+        "pass": true
+      },
+      {
+        "name": "energy_qr8",
+        "pass": true
+      },
+      {
+        "name": "reconstruction_id_separate_source",
+        "pass": true
+      },
+      {
+        "name": "profiles_have_distinct_ids",
+        "pass": true
+      },
+      {
+        "name": "representation_mutation_changes_id",
+        "pass": true
+      },
+      {
+        "name": "zero_scale_reject",
+        "pass": true
+      },
+      {
+        "name": "nan_reject",
+        "pass": true
+      },
+      {
+        "name": "mixed_has_unresolved",
+        "pass": true
+      },
+      {
+        "name": "unresolved_residual_quality",
+        "pass": true
+      },
+      {
+        "name": "selector_picks_qr8",
+        "pass": true
+      },
+      {
+        "name": "live_static_exact_run_preferred",
+        "pass": true
+      },
+      {
+        "name": "authority_reconstruction_only",
+        "pass": true
+      }
+    ],
+    "tests_passed": 21,
+    "tests_total": 21
+  },
+  "repo": "AdrianLipa90/PNCore-BioOS",
+  "schema": "PAUX_R_ORBITAL_RECONSTRUCTION_CONFORMANCE_V0_1",
+  "status": "PASS_STAGE5_REFERENCE_CONFORMANCE"
+}
