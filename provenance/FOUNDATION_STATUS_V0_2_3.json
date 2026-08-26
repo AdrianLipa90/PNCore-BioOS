@@ -1,0 +1,21 @@
+{
+  "branch": "feat/bioos-v0.2-build-with-gremlin",
+  "canon_allowed": false,
+  "clock_realization": "TSC_DEADLINE_EXACT_OR_QUIET_CANDIDATE",
+  "conformance_receipt_sha256": "3e5606b36e9d0bf607e008ee79675b14cf21450afcf7e81d4a5d9eeb8d7cbf18",
+  "epistemic_operator": "CHYBA",
+  "gremlin_pnstore_critic_sha256": "a8a5d28c2820f2be141d4247df0ab124f1adda1fed1bea762a57b7116069cfe6",
+  "harmonic_scheduler": "ACTIVE_CANDIDATE",
+  "physical_execution_tested": false,
+  "pnr_realization_id": "pnr:realization:sha256:dc5c68c7ccb1c30a946db7630001708d5e5482be85b88014abf2ea5ba7cbeb5b",
+  "pnstore_build_receipt_sha256": "01b2d9cafe2d7719c27bdb18a8fb78e9c12e6663ab6695c6cede159fbefb2a7b",
+  "pnstore_device_backend_bound": false,
+  "pnstore_durable_barrier_required": true,
+  "pnstore_host_block_image_conformance": "118/118_PASS",
+  "pnstore_media_core": "ACTIVE_CANDIDATE",
+  "receipt_sha256": "8369d408b568041bd6a5b8bf62cfccefbd8189006ff5c8bbe37c2835b973e790",
+  "rom_sha256": "13b2e261d5a4de6749f3d72e58d9d4634bc08c74ef6d65a1574e1a58ac36844c",
+  "runtime_emulation_tested": false,
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_3",
+  "status": "PASS_CANDIDATE_FOUNDATION"
+}

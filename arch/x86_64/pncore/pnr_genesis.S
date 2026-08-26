@@ -27,4 +27,8 @@ pnr_genesis_composition_digest:
     .long 0x00005700               # PN Clock evidence target
     .long pn_clock_probe_tsc_deadline_exact # exact hardware clock probe
     .long pn_clock_deadline_for_tick       # absolute phase-index mapper
-    .long 160                      # complete PNR header bytes
+    .long 0x00005800               # PNStore media evidence target
+    .long pnstore_prepare_commit    # append-only extent preparation
+    .long pnstore_publish_head      # alternating HEAD publication
+    .long pnstore_recover           # verified dual-HEAD recovery
+    .long 176                      # complete PNR header bytes

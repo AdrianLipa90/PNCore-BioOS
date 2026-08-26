@@ -1,0 +1,130 @@
+{
+  "check_count": 25,
+  "checks": [
+    {
+      "detail": "51/51",
+      "name": "parent_v0_2_2_pass",
+      "pass": true
+    },
+    {
+      "detail": 65536,
+      "name": "rom_size_65536",
+      "pass": true
+    },
+    {
+      "name": "zero_relocations",
+      "pass": true
+    },
+    {
+      "detail": "ea000000f0",
+      "name": "reset_vector_exact",
+      "pass": true
+    },
+    {
+      "detail": "0x000f0adc",
+      "name": "symbol_pnstore_crc32c",
+      "pass": true
+    },
+    {
+      "detail": "0x000f0b10",
+      "name": "symbol_pnstore_format",
+      "pass": true
+    },
+    {
+      "detail": "0x000f0b8f",
+      "name": "symbol_pnstore_verify_super",
+      "pass": true
+    },
+    {
+      "detail": "0x000f0c0f",
+      "name": "symbol_pnstore_validate_extent",
+      "pass": true
+    },
+    {
+      "detail": "0x000f0cc5",
+      "name": "symbol_pnstore_validate_head",
+      "pass": true
+    },
+    {
+      "detail": "0x000f0d51",
+      "name": "symbol_pnstore_recover",
+      "pass": true
+    },
+    {
+      "detail": "0x000f0dd7",
+      "name": "symbol_pnstore_prepare_commit",
+      "pass": true
+    },
+    {
+      "detail": "0x000f0f5a",
+      "name": "symbol_pnstore_publish_head",
+      "pass": true
+    },
+    {
+      "detail": "118/118",
+      "name": "host_store_118_checks",
+      "pass": true
+    },
+    {
+      "name": "bounded_15_generations",
+      "pass": true
+    },
+    {
+      "name": "generation_16_fail_closed",
+      "pass": true
+    },
+    {
+      "name": "historical_exactly_once",
+      "pass": true
+    },
+    {
+      "name": "gremlin_append_extent_match",
+      "pass": true
+    },
+    {
+      "name": "gremlin_inplace_nonmatch",
+      "pass": true
+    },
+    {
+      "name": "gremlin_journal_nonmatch",
+      "pass": true
+    },
+    {
+      "detail": "a8a5d28c2820f2be141d4247df0ab124f1adda1fed1bea762a57b7116069cfe6",
+      "name": "gremlin_critic_pass",
+      "pass": true
+    },
+    {
+      "name": "target_python_zero",
+      "pass": true
+    },
+    {
+      "name": "tether_active",
+      "pass": true
+    },
+    {
+      "detail": "13b2e261d5a4de6749f3d72e58d9d4634bc08c74ef6d65a1574e1a58ac36844c",
+      "name": "pnr_rom_sha_exact",
+      "pass": true
+    },
+    {
+      "name": "pnr_store_addresses_exact",
+      "pass": true
+    },
+    {
+      "detail": "dc5c68c7ccb1c30a946db7630001708d5e5482be85b88014abf2ea5ba7cbeb5b",
+      "name": "pnr_identity_exact",
+      "pass": true
+    }
+  ],
+  "elf_sha256": "52d7c01bc117f644ac562ebfe833ef0bae1d423c7bea2036b41a21d9ab1c62df",
+  "gremlin_pnstore_hypothesis_receipt_sha256": "fe6dcae922e039f8b3b906a3658b0fe9ad7a1db9bb8b8fa39b0b07ca19db9b37",
+  "parent_conformance_receipt_sha256": "c3ff31efa23964aa47c14502229fdce8267146638ba554ed4ca07c94a9b556d0",
+  "pass_count": 25,
+  "pnr_realization_id": "pnr:realization:sha256:dc5c68c7ccb1c30a946db7630001708d5e5482be85b88014abf2ea5ba7cbeb5b",
+  "pnstore_host_receipt_sha256": "cc7d8461181f83a2b9b94787ddf639858be91358b9404b14ebca06bed0827104",
+  "receipt_sha256": "3e5606b36e9d0bf607e008ee79675b14cf21450afcf7e81d4a5d9eeb8d7cbf18",
+  "rom_sha256": "13b2e261d5a4de6749f3d72e58d9d4634bc08c74ef6d65a1574e1a58ac36844c",
+  "schema": "PNCORE_BIOOS_V0_2_3_CONFORMANCE",
+  "status": "PASS"
+}

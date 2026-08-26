@@ -1,0 +1,48 @@
+{
+  "candidate_only": true,
+  "canon_allowed": false,
+  "device_backend_bound": false,
+  "durability_order": [
+    "PREPARE_EXTENT",
+    "DURABLE_BARRIER",
+    "PUBLISH_HEAD",
+    "DURABLE_BARRIER"
+  ],
+  "elf_sha256": "52d7c01bc117f644ac562ebfe833ef0bae1d423c7bea2036b41a21d9ab1c62df",
+  "final_elf_relocations": 0,
+  "host_conformance_receipt_sha256": "cc7d8461181f83a2b9b94787ddf639858be91358b9404b14ebca06bed0827104",
+  "implementation_issue": {
+    "class": "CALLER_SAVED_EXTENT_OFFSET_AFTER_VALIDATOR",
+    "observed": "host harness segmentation fault during historical exactly-once scan",
+    "regression_basic": "20/20 PASS",
+    "regression_bounded_log": "98/98 PASS",
+    "resolution": "recompute extent offset from bounded generation index after validator return",
+    "status": "FIXED"
+  },
+  "media_geometry": {
+    "bytes": 65536,
+    "extent_bytes": 4096,
+    "head_a_offset": 512,
+    "head_b_offset": 1024,
+    "max_generations": 15,
+    "sector_bytes": 512
+  },
+  "physical_machine_execution_tested": false,
+  "pnr_realization_id": "pnr:realization:sha256:dc5c68c7ccb1c30a946db7630001708d5e5482be85b88014abf2ea5ba7cbeb5b",
+  "qemu_execution_tested": false,
+  "receipt_sha256": "01b2d9cafe2d7719c27bdb18a8fb78e9c12e6663ab6695c6cede159fbefb2a7b",
+  "rom_sha256": "13b2e261d5a4de6749f3d72e58d9d4634bc08c74ef6d65a1574e1a58ac36844c",
+  "rom_size_bytes": 65536,
+  "schema": "PNSTORE_MEDIA_BUILD_RECEIPT_V0_1",
+  "status": "PASS_CANDIDATE",
+  "symbols": {
+    "pnstore_crc32c": "0x000f0adc",
+    "pnstore_format": "0x000f0b10",
+    "pnstore_prepare_commit": "0x000f0dd7",
+    "pnstore_publish_head": "0x000f0f5a",
+    "pnstore_recover": "0x000f0d51",
+    "pnstore_validate_extent": "0x000f0c0f",
+    "pnstore_validate_head": "0x000f0cc5",
+    "pnstore_verify_super": "0x000f0b8f"
+  }
+}

@@ -2,7 +2,7 @@
 
 PNCore BioOS is a candidate vector-native system stack for dynamic AC-flow NOEMA/PhaseNav systems on conventional PC hardware.
 
-Current development line: **v0.2.2 — Build with GREMLIN**.
+Current development line: **v0.2.3 — Build with GREMLIN**.
 
 ```text
 RESET @ 0xFFFF0
@@ -18,6 +18,8 @@ RESET @ 0xFFFF0
  -> transition evidence @ 0x5300
  -> harmonic admission selector
  -> PNClock exact-rational source gate
+ -> PNStore append-only media core
+ -> dual-HEAD recovery / exactly-once evidence
 ```
 
 ## Core primitives
@@ -34,6 +36,7 @@ RESET @ 0xFFFF0
 - **PNVector Handoff** — exact ordered 36D firmware-to-PNCore state carrier.
 - **PN Harmonic Scheduler** — single-counter dyadic admission classes anchored at 7.83 Hz.
 - **PNClock** — exact rational absolute phase-index clock realization; x86 TSC-deadline is admitted only with explicit hardware frequency authority.
+- **PNStore Media Core** — byte-exact append-only generation extents, CRC32C commit seals, alternating dual HEAD and bounded recovery.
 
 ## GREMLIN-guided reductions
 
@@ -51,6 +54,8 @@ x86 page walk <-> PNMap resolve    -> structural match candidate
 separate boot-info block           -> folded into PNVector Handoff path
 seven independent band timers       -> one tick index + ctz/BSF selector
 incremental timer catch-up path      -> absolute phase-index deadlines
+in-place PNStore mutation             -> append-only generation extents
+classic replay journal                -> commit seal + alternating dual HEAD
 ```
 
 ## Current evidence
@@ -62,10 +67,13 @@ reset vector: exact @ 0xFFF0
 live PhaseNav registry binding: PASS
 PNR program/schedule/composition binding: PASS
 PNVector Handoff structural binding: PASS
-harmonic scheduler host execution: 2,097,189 checks PASS (1,048,576 tick range + jitter demotion)
+harmonic scheduler host reference: 1,048,576/1,048,576 PASS
 PNClock host conformance: 224,576 checks PASS
 current host exact CPUID.15 source: QUIET / fail-closed
-v0.2.2 conformance: 51/51 PASS
+PNStore fsync block-image conformance: 118/118 PASS
+PNStore bounded generations: 15; generation 16 fail-closed
+PNStore device backend: PENDING
+v0.2.3 conformance: 25/25 PASS
 runtime emulation: pending
 physical-machine execution: pending
 ```
@@ -83,3 +91,9 @@ The x86_64 physical selector lives in `arch/x86_64/pncore/pnscheduler.S`. Host e
 The scheduler clock path uses the exact rational `f0 = 783/100 Hz`. For a complete CPUID.15 tuple `(d,u,c)`, BioOS keeps the period as `N/D` with `N = c*u*100` and `D = d*783`; deadline `n` is `base_tsc + floor(n*N/D)`. The next event is selected directly from the current TSC and phase index, so missed windows are skipped rather than replayed.
 
 The preferred x86 source is `TSC_DEADLINE_EXACT`. It requires TSC, TSC-deadline, invariant TSC, and non-zero CPUID.15 denominator/numerator/crystal frequency. Missing exact hardware frequency leaves timed admission quiet until an admitted fallback realization exists.
+
+## PNStore Media Core candidate
+
+PNStore v0.2.3 freezes the first byte-exact medium realization. A 64 KiB bounded image carries a CRC32C superblock, two alternating 512-byte HEAD slots and fifteen immutable 4 KiB generation extents. Extent preparation and HEAD publication are separate operations so a hardware backend can enforce `PREPARE -> DURABLE_BARRIER -> HEAD -> DURABLE_BARRIER`.
+
+Host execution uses the same assembly media core against an `mmap + msync + fsync` block image. Power-cut tests verify that an unreferenced prepared tail stays outside current state, a torn newer HEAD or corrupt newer extent falls back to the previous valid generation, and replay of any previously committed transition ID returns its original generation without byte mutation.

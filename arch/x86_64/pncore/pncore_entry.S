@@ -12,6 +12,8 @@
 .set PN_CLOCK_TEST_STATE,0x5600
 .set PN_CLOCK_HW_STATE,  0x5680
 .set PN_CLOCK_EVIDENCE,  0x5700
+.set PN_STORE_EVIDENCE,  0x5800
+.set PN_STORE_MEDIA,     0x10000
 .set PN_PML4,          0x7000
 .set PN_PDPT,          0x8000
 .set PN_PD,            0x9000
@@ -257,17 +259,94 @@ pncore_entry:
     call pn_clock_probe_tsc_deadline_exact
     movl %eax, %r9d
 
-    movl $0x4b434e50, PN_CLOCK_EVIDENCE+0   # "PNCK"
+    movl $0x4b434e50, PN_CLOCK_EVIDENCE+0  # "PNCK"
     movl $1,          PN_CLOCK_EVIDENCE+4
-    movl $783,        PN_CLOCK_EVIDENCE+8
-    movl $100,        PN_CLOCK_EVIDENCE+12
-    movl $1,          PN_CLOCK_EVIDENCE+16  # rational self-test passed
-    movl %r9d,       PN_CLOCK_EVIDENCE+20  # hw exact source admitted
-    movl $1,          PN_CLOCK_EVIDENCE+24  # absolute phase-index policy
-    movl $1,          PN_CLOCK_EVIDENCE+28  # missed windows skip
-    movl $0,          PN_CLOCK_EVIDENCE+32  # catch-up forbidden
-    movl $PN_CLOCK_HW_STATE, PN_CLOCK_EVIDENCE+36
-    movl $PN_SCHED_POLICY_STATE, PN_CLOCK_EVIDENCE+40
+    movl $783,        PN_CLOCK_EVIDENCE+8  # frequency numerator
+    movl $100,        PN_CLOCK_EVIDENCE+12 # frequency denominator
+    movl $1,          PN_CLOCK_EVIDENCE+16 # rational self-test PASS
+    movl %r9d,        PN_CLOCK_EVIDENCE+20 # exact hardware source admitted?
+    movl PN_CLOCK_HW_STATE+8, %eax
+    movl %eax,        PN_CLOCK_EVIDENCE+24 # source enum
+    movl $1,          PN_CLOCK_EVIDENCE+28 # absolute phase-index
+    movl $1,          PN_CLOCK_EVIDENCE+32 # missed -> skip
+    movl $0,          PN_CLOCK_EVIDENCE+36 # catch-up forbidden
+
+    # PNStore Media Core self-test. This validates exact medium bytes and
+    # commit ordering logic; it does not claim device durability.
+    movl $PN_STORE_MEDIA, %edi
+    movl $65536, %esi
+    call pnstore_format
+    cmpl $1, %eax
+    jne pncore_fail
+
+    movl $PN_STORE_MEDIA, %edi
+    call pnstore_recover
+    testq %rax, %rax
+    jne pncore_fail
+    testq %rdx, %rdx
+    jne pncore_fail
+
+    movl $PN_STORE_MEDIA, %edi
+    movl $expected_genesis_store_transition_id, %esi
+    movl $expected_genesis_program_digest, %edx
+    movl $PN_SIGMA0, %ecx
+    movl $152, %r8d
+    call pnstore_prepare_commit
+    cmpq $1, %rax
+    jne pncore_fail
+    cmpq $4096, %rdx
+    jne pncore_fail
+    cmpq $1, %rcx
+    jne pncore_fail
+
+    # Before HEAD publication, a prepared valid extent is not current state.
+    movl $PN_STORE_MEDIA, %edi
+    call pnstore_recover
+    testq %rax, %rax
+    jne pncore_fail
+
+    # Real backends require: prepared extent -> DURABLE_BARRIER -> HEAD write
+    # -> DURABLE_BARRIER. The RAM self-test exercises only the byte logic.
+    movl $PN_STORE_MEDIA, %edi
+    movl $1, %esi
+    movl $4096, %edx
+    call pnstore_publish_head
+    cmpq $1, %rax
+    jne pncore_fail
+
+    movl $PN_STORE_MEDIA, %edi
+    call pnstore_recover
+    cmpq $1, %rax
+    jne pncore_fail
+    cmpq $512, %rdx
+    jne pncore_fail
+
+    # Stable transition identity must return the existing generation.
+    movl $PN_STORE_MEDIA, %edi
+    movl $expected_genesis_store_transition_id, %esi
+    movl $expected_genesis_program_digest, %edx
+    movl $PN_SIGMA0, %ecx
+    movl $152, %r8d
+    call pnstore_prepare_commit
+    cmpq $1, %rax
+    jne pncore_fail
+    cmpq $4096, %rdx
+    jne pncore_fail
+    cmpq $2, %rcx
+    jne pncore_fail
+
+    movl $0x54534e50, PN_STORE_EVIDENCE+0  # "PNST"
+    movl $1,          PN_STORE_EVIDENCE+4
+    movl $65536,      PN_STORE_EVIDENCE+8
+    movl $512,        PN_STORE_EVIDENCE+12
+    movl $4096,       PN_STORE_EVIDENCE+16
+    movl $15,         PN_STORE_EVIDENCE+20
+    movl $1,          PN_STORE_EVIDENCE+24 # media logic self-test PASS
+    movl $1,          PN_STORE_EVIDENCE+28 # dual HEAD enabled
+    movl $1,          PN_STORE_EVIDENCE+32 # append-only generations
+    movl $1,          PN_STORE_EVIDENCE+36 # exactly-once historical scan
+    movl $1,          PN_STORE_EVIDENCE+40 # durable barrier required
+    movl $0,          PN_STORE_EVIDENCE+44 # device backend not yet bound
 
     OUTC 'S'
     OUTC 'I'
@@ -275,6 +354,12 @@ pncore_entry:
     OUTC 'M'
     OUTC 'A'
     OUTC '0'
+    OUTC 0x0a
+    OUTC 'S'
+    OUTC 'C'
+    OUTC 'H'
+    OUTC 'E'
+    OUTC 'D'
     OUTC 0x0a
 
 pncore_halt:
@@ -295,5 +380,5 @@ expected_genesis_program_digest:
     .byte 0x4d, 0xd5, 0x96, 0x0a, 0xad, 0x4a, 0xde, 0x90, 0x29, 0x85, 0x91, 0x47, 0xc9, 0x0d, 0xb5, 0xb2, 0xf4, 0xfc, 0x83, 0x35, 0x34, 0x07, 0x78, 0x6e, 0x66, 0xe6, 0x47, 0x62, 0x79, 0xca, 0x89, 0x74
 expected_genesis_schedule_digest:
     .byte 0xbd, 0x6e, 0x79, 0xf1, 0x14, 0x68, 0xa3, 0xd5, 0xe2, 0x44, 0xb8, 0xdf, 0x4a, 0xda, 0x6e, 0x3b, 0x74, 0x94, 0x18, 0x7c, 0xaa, 0x97, 0x1c, 0xad, 0x0a, 0x26, 0xea, 0x16, 0xca, 0xd3, 0x8c, 0x34
-
-.section .note.GNU-stack,"",@progbits
+expected_genesis_store_transition_id:
+    .byte 0x25, 0xdf, 0x44, 0x21, 0x2c, 0xfa, 0xd5, 0x17, 0x86, 0xf3, 0x4a, 0xa4, 0x2b, 0x37, 0x80, 0xa4, 0xe5, 0x1b, 0x24, 0xca, 0x24, 0xf1, 0xdb, 0x4d, 0x2b, 0x54, 0xae, 0x0d, 0x00, 0x98, 0x18, 0xe0

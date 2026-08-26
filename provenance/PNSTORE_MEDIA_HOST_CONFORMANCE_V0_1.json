@@ -1,0 +1,39 @@
+{
+  "basic_powercut_suite": {
+    "checks": 20,
+    "fail_count": 0,
+    "pass_count": 20,
+    "scenarios": [
+      "CRC32C standard vector",
+      "empty recovery",
+      "prepared extent without HEAD is not current",
+      "publish gen1 and recover HEAD_A",
+      "current exactly-once replay has zero byte mutation",
+      "gen2 extent barrier without HEAD recovers gen1",
+      "publish gen2 and recover HEAD_B",
+      "historical gen1 replay while HEAD=gen2 returns gen1 with zero mutation",
+      "corrupt gen2 extent falls back gen1",
+      "torn HEAD_B falls back gen1"
+    ]
+  },
+  "bounded_log_stress": {
+    "alternating_head_verified": true,
+    "barrier_after_each_head": true,
+    "barrier_after_each_prepare": true,
+    "checks": 98,
+    "fail_count": 0,
+    "generation_16_fail_closed": true,
+    "generations_committed": 15,
+    "historical_replay_after_generation_15": true,
+    "pass_count": 98
+  },
+  "device_backend_bound": false,
+  "host_backend": "mmap(MAP_SHARED)+msync(MS_SYNC)+fsync",
+  "power_cycle_physical_hardware_tested": false,
+  "receipt_sha256": "cc7d8461181f83a2b9b94787ddf639858be91358b9404b14ebca06bed0827104",
+  "schema": "PNSTORE_MEDIA_HOST_CONFORMANCE_V0_1",
+  "status": "PASS",
+  "total_checks": 118,
+  "total_fail_count": 0,
+  "total_pass_count": 118
+}
