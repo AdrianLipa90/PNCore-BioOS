@@ -1,0 +1,33 @@
+{
+  "claim_boundary": "fixture measurement, not physical terminal throughput",
+  "commands_per_trial": 50000,
+  "fixture": "short echo command, line discipline + tokenizer + envelope + exact PNCAP check + read-only dispatch + result hash",
+  "max_commands_per_second": 36368.76459748413,
+  "median_commands_per_second": 34910.47360555397,
+  "min_commands_per_second": 27167.50381589977,
+  "schema": "PNTERM_HOST_BENCHMARK_V0_1",
+  "scope": "HOST_REFERENCE_ONLY",
+  "status": "PASS_MEASURED_FIXTURE",
+  "trials": [
+    {
+      "commands_per_sec": 27167.50381589977,
+      "seconds": 1.8404340840006626
+    },
+    {
+      "commands_per_sec": 28475.106868798706,
+      "seconds": 1.7559196610000072
+    },
+    {
+      "commands_per_sec": 34910.47360555397,
+      "seconds": 1.432234937999965
+    },
+    {
+      "commands_per_sec": 36368.76459748413,
+      "seconds": 1.3748061160004
+    },
+    {
+      "commands_per_sec": 36196.64953115052,
+      "seconds": 1.3813433189989155
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "branch": "feat/bioos-v0.2.8-terminal-core",
+  "canon_allowed": false,
+  "default_write_commands": 0,
+  "epistemic": "CHYBA",
+  "gremlin_structural_match": true,
+  "live_terminal_session": "NOT_YET_BOUND",
+  "new_pnv_opcodes": 0,
+  "parent_feature": "e8134c7329799b593da53308eebc43a21e00050f",
+  "physical_terminal_adapter": "PENDING_STAGE2",
+  "pnterm_checks_passed": 47,
+  "pnterm_checks_total": 47,
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_8_STAGE1",
+  "semantic_io_boundary": "AUX.TERM.RX/TX",
+  "status": "PASS_TERMINAL_CORE_REFERENCE",
+  "target_py_files": 0
+}
