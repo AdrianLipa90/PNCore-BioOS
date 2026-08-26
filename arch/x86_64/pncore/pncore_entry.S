@@ -7,6 +7,7 @@
 .set PN_SIGMA0,        0x5200
 .set PN_EVIDENCE,      0x5300
 .set PN_MAP_EVIDENCE,  0x5400
+.set PN_SCHED_EVIDENCE,0x5500
 .set PN_PML4,          0x7000
 .set PN_PDPT,          0x8000
 .set PN_PD,            0x9000
@@ -100,9 +101,6 @@ pncore_entry:
     OUTC 'K'
     OUTC 0x0a
 
-    # Reaching this point is the lowered physical predicate:
-    # boot.admission EQUAL 1 -> bioos.genesis.
-
     movl $0x30534e50, PN_SIGMA0+0
     movl $1, PN_SIGMA0+4
     movl $pnr_genesis_program_digest, %esi
@@ -130,12 +128,65 @@ pncore_entry:
     movl $PN_PNVH, PN_EVIDENCE+20
     movl $1, PN_EVIDENCE+24
 
+    # PN Harmonic Scheduler physical selector self-test.
+    movq $1, %rdi
+    call pn_sched_classify_tick
+    cmpl $1, %eax
+    jne pncore_fail
+    movq $2, %rdi
+    call pn_sched_classify_tick
+    cmpl $2, %eax
+    jne pncore_fail
+    movq $4, %rdi
+    call pn_sched_classify_tick
+    cmpl $3, %eax
+    jne pncore_fail
+    movq $8, %rdi
+    call pn_sched_classify_tick
+    cmpl $4, %eax
+    jne pncore_fail
+    movq $16, %rdi
+    call pn_sched_classify_tick
+    cmpl $5, %eax
+    jne pncore_fail
+    movq $32, %rdi
+    call pn_sched_classify_tick
+    cmpl $6, %eax
+    jne pncore_fail
+    movq $64, %rdi
+    call pn_sched_classify_tick
+    cmpl $7, %eax
+    jne pncore_fail
+    movq $128, %rdi
+    call pn_sched_classify_tick
+    cmpl $8, %eax
+    jne pncore_fail
+    movq $128, %rdi
+    call pn_sched_admit_band
+    testl %eax, %eax
+    jne pncore_fail
+
+    movl $0x43534e50, PN_SCHED_EVIDENCE+0
+    movl $1, PN_SCHED_EVIDENCE+4
+    movl $7830, PN_SCHED_EVIDENCE+8
+    movl $7, PN_SCHED_EVIDENCE+12
+    movl $1, PN_SCHED_EVIDENCE+16
+    movl $1, PN_SCHED_EVIDENCE+20
+    movl $1, PN_SCHED_EVIDENCE+24
+    movl $1, PN_SCHED_EVIDENCE+28
+
     OUTC 'S'
     OUTC 'I'
     OUTC 'G'
     OUTC 'M'
     OUTC 'A'
     OUTC '0'
+    OUTC 0x0a
+    OUTC 'S'
+    OUTC 'C'
+    OUTC 'H'
+    OUTC 'E'
+    OUTC 'D'
     OUTC 0x0a
 
 pncore_halt:
