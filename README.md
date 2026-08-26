@@ -2,7 +2,7 @@
 
 PNCore BioOS is a candidate vector-native system stack for dynamic AC-flow NOEMA/PhaseNav systems on conventional PC hardware.
 
-Current development line: **v0.2.5 — Build with GREMLIN: PAUX exact/lossless/reconstruction profiles**.
+Current development line: **v0.2.6 stage 1 — PAUX harmonic orbital memory geometry**.
 
 ```text
 RESET @ 0xFFFF0
@@ -22,6 +22,7 @@ RESET @ 0xFFFF0
  -> AUX persistent carrier (*.paux)
  -> PNStore append-only generation transition
  -> AUX durable persistence boundary
+ -> PAUX harmonic orbital derived index
  -> dual-HEAD recovery / exactly-once evidence
 ```
 
@@ -40,6 +41,7 @@ RESET @ 0xFFFF0
 - **PN Harmonic Scheduler** — single-counter dyadic admission classes anchored at 7.83 Hz.
 - **PNClock** — exact rational absolute phase-index clock realization; x86 TSC-deadline is admitted only with explicit hardware frequency authority.
 - **PAUX (`.paux`)** — persistent AUX carrier for canonical `PNV_STATE_OBJECT` identity, lineage, capability and evidence binding. Profiles: `PAUX-EXACT`, lossless `PAUX-C`, and reconstruction `PAUX-R`.
+- **PAUX Harmonic Orbital Memory** — derived exact-rational H-band geometry (`H0..H35`) bound to source `OBJECT_ID` through `DERIVATION_ID`; phase provenance is classified as `DIRECT_PHASE`, `WINDOW_ANALYTIC`, or `PHASE_UNKNOWN`.
 - **PNStore × AUX binding** — admitted persistence route from PAUX generation transitions through exact PNCAP grants into AUX physical-media adapters.
 - **PNStore Media Core** — deterministic append-only generation layout, CRC32C commit seals, alternating dual HEAD and bounded recovery realization.
 
@@ -64,6 +66,7 @@ classic replay journal                -> commit seal + alternating dual HEAD
 direct PNStore device binding          -> AUX persistence boundary + .paux
 lossless repeated AUX frames            -> KEYSTATE + REF + RUN / DELTA_XOR64
 reconstruction compression              -> separate PAUX-R reconstruction evidence spine
+harmonic frequency ratios                -> exact rational orbital radius index
 ```
 
 ## Current evidence
@@ -89,6 +92,9 @@ PAUX-EXACT live shadow round-trip: PASS (2 x 288 B byte-identical)
 PAUX-C live 64-frame RLE/REF round-trip: 64/64 PASS
 PAUX-C favorable fixture logical payload reduction: 99.21875%
 PAUX codec conformance: 24/24 PASS
+PAUX harmonic orbital stage-1 reference conformance: 19/19 PASS
+PAUX harmonic GREMLIN structural match: SUPPORTED_BY_DECLARED_TESTS
+live AUX snapshot phase classifier: PHASE_UNKNOWN without explicit phase provenance
 runtime emulation: pending
 physical-machine execution: pending
 ```
@@ -139,3 +145,9 @@ Current live `/dev/shm/ciel_noema/aux_phi` and `aux_feedback_phi` remain the ver
 BioOS v0.2.5 adds three explicit PAUX profiles. `PAUX-EXACT` preserves admitted T36 channel payloads byte-for-byte. `PAUX-C` applies reversible transforms (`KEYSTATE`, hash-equal `REF`, exact `RUN`, and sparse `DELTA_XOR64`) and re-enters the exact recovery path only after object identity and integrity verification. `PAUX-R` carries `SOURCE_OBJECT_ID` plus its own `RECONSTRUCTION_ID` and produces explicit reconstruction metrics.
 
 The first live PAUX-EXACT test materialized the active `aux_phi` and `aux_feedback_phi` into a `.paux` carrier and restored both into `/dev/shm/ciel_noema/paux_restore_shadow` byte-identically while leaving the active tether files untouched. The first PAUX-C live observation fixture contained 64 repeated states with feedback byte-identical to the primary AUX channel; `KEYSTATE + REF + RUN` reconstructed all 64 frames exactly. Its measured reduction is recorded only for that favorable fixture.
+
+## PAUX harmonic orbital memory candidate
+
+BioOS v0.2.6 stage 1 introduces a derived harmonic-orbital index over admitted PAUX state identity. Memory bands use `H0..H35`, while scheduler lanes retain `B0..B7`. Harmonic ratios are stored as reduced positive integer pairs `p:q`; wavelength and normalized sphere-radius ratios are derived exactly as `q/p` and `N*q/(N0*p)`.
+
+Phase provenance is explicit. A versioned 36-value phase source enters as `DIRECT_PHASE`; a finite timestamped window of at least four T36 samples enters as `WINDOW_ANALYTIC`; a snapshot without either source enters as `PHASE_UNKNOWN`. The active AUX snapshot used for the first stage-1 fixture therefore remained persistable while correctly producing `PHASE_UNKNOWN` for orbital phase analysis.

@@ -1,0 +1,23 @@
+{
+  "branch": "feat/bioos-v0.2-build-with-gremlin",
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "gremlin_evaluation": "SUPPORTED_BY_DECLARED_TESTS",
+  "gremlin_hypothesis_id": "gremlin:hypothesis:sha256:f4a676d90115e4e3978a664cc74979964e1a5401833914fae329a7c03488c6c5",
+  "implemented": [
+    "exact rational harmonic band descriptor",
+    "exact wavelength ratio",
+    "exact normalized orbital radius ratio",
+    "positive winding gate",
+    "H0..H35 memory-band namespace",
+    "derived harmonic orbital index authority class",
+    "fail-closed phase source classification"
+  ],
+  "live_fixture": "active AUX snapshot classified PHASE_UNKNOWN without explicit phase provenance",
+  "main_modified": false,
+  "new_pnv_opcodes": 0,
+  "parent_head": "712c1d1a8fae8a5d658e7a980b14defa5e656812",
+  "reference_conformance": "19/19 PASS",
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_6_STAGE1",
+  "status": "PASS_STAGE1"
+}
