@@ -2,7 +2,7 @@
 
 PNCore BioOS is a candidate vector-native system stack for dynamic AC-flow NOEMA/PhaseNav systems on conventional PC hardware.
 
-Current development line: **v0.2.3 — Build with GREMLIN**.
+Current development line: **v0.2.4 — Build with GREMLIN: AUX/.paux persistence binding**.
 
 ```text
 RESET @ 0xFFFF0
@@ -18,7 +18,10 @@ RESET @ 0xFFFF0
  -> transition evidence @ 0x5300
  -> harmonic admission selector
  -> PNClock exact-rational source gate
- -> PNStore append-only media core
+ -> PNV relational state object
+ -> AUX persistent carrier (*.paux)
+ -> PNStore append-only generation transition
+ -> AUX durable persistence boundary
  -> dual-HEAD recovery / exactly-once evidence
 ```
 
@@ -36,7 +39,9 @@ RESET @ 0xFFFF0
 - **PNVector Handoff** — exact ordered 36D firmware-to-PNCore state carrier.
 - **PN Harmonic Scheduler** — single-counter dyadic admission classes anchored at 7.83 Hz.
 - **PNClock** — exact rational absolute phase-index clock realization; x86 TSC-deadline is admitted only with explicit hardware frequency authority.
-- **PNStore Media Core** — byte-exact append-only generation extents, CRC32C commit seals, alternating dual HEAD and bounded recovery.
+- **PAUX (`.paux`)** — persistent AUX carrier for canonical `PNV_STATE_OBJECT` identity, lineage, capability and evidence binding.
+- **PNStore × AUX binding** — admitted persistence route from PAUX generation transitions through exact PNCAP grants into AUX physical-media adapters.
+- **PNStore Media Core** — deterministic append-only generation layout, CRC32C commit seals, alternating dual HEAD and bounded recovery realization.
 
 ## GREMLIN-guided reductions
 
@@ -56,6 +61,7 @@ seven independent band timers       -> one tick index + ctz/BSF selector
 incremental timer catch-up path      -> absolute phase-index deadlines
 in-place PNStore mutation             -> append-only generation extents
 classic replay journal                -> commit seal + alternating dual HEAD
+direct PNStore device binding          -> AUX persistence boundary + .paux
 ```
 
 ## Current evidence
@@ -72,8 +78,11 @@ PNClock host conformance: 224,576 checks PASS
 current host exact CPUID.15 source: QUIET / fail-closed
 PNStore fsync block-image conformance: 118/118 PASS
 PNStore bounded generations: 15; generation 16 fail-closed
-PNStore device backend: PENDING
+PNStore effect boundary: AUX/.paux BOUND
+physical AUX media adapter: PENDING
 v0.2.3 conformance: 25/25 PASS
+PAUX × PNV-State-Memory GREMLIN structural test: SUPPORTED_BY_DECLARED_TESTS
+PAUX GREMLIN critic: PASS
 runtime emulation: pending
 physical-machine execution: pending
 ```
@@ -97,3 +106,24 @@ The preferred x86 source is `TSC_DEADLINE_EXACT`. It requires TSC, TSC-deadline,
 PNStore v0.2.3 freezes the first byte-exact medium realization. A 64 KiB bounded image carries a CRC32C superblock, two alternating 512-byte HEAD slots and fifteen immutable 4 KiB generation extents. Extent preparation and HEAD publication are separate operations so a hardware backend can enforce `PREPARE -> DURABLE_BARRIER -> HEAD -> DURABLE_BARRIER`.
 
 Host execution uses the same assembly media core against an `mmap + msync + fsync` block image. Power-cut tests verify that an unreferenced prepared tail stays outside current state, a torn newer HEAD or corrupt newer extent falls back to the previous valid generation, and replay of any previously committed transition ID returns its original generation without byte mutation.
+
+## PAUX persistent AUX binding candidate
+
+BioOS v0.2.4 binds persistence to the existing `PNV-State-Memory` object model. A persistent AUX artifact uses the `.paux` extension and carries the canonical `PNV_STATE_OBJECT.object_id`, integrity commitment and immutable lineage into the AUX/PNStore transition path.
+
+```text
+live AUX state
+ -> PNV relational snapshot
+ -> PNV_STATE_OBJECT
+ -> PNCAP persistence admission
+ -> *.paux
+ -> PNStore generation prepare
+ -> AUX durable barrier
+ -> PNStore HEAD publication
+ -> AUX durable barrier
+ -> evidence
+```
+
+The canonical state identity remains the PNV-State-Memory `OBJECT_ID`. Generation, transition, capability and evidence references are persistence-envelope data around that object. Device-specific storage realization is dispatched below the AUX boundary.
+
+Current live `/dev/shm/ciel_noema/aux_phi` and `aux_feedback_phi` remain the versioned live T36 transport endpoints. `.paux` applies to persistent AUX materializations in this version.

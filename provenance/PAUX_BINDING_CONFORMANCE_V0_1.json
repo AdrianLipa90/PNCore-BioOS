@@ -1,0 +1,33 @@
+{
+  "canon_allowed": false,
+  "check_count": 16,
+  "checks": {
+    "gremlin_critic_pass": true,
+    "gremlin_supported": true,
+    "live_aux_endpoints_preserved": true,
+    "paux_aux_path_required": true,
+    "paux_extension": true,
+    "paux_integrity_inherited": true,
+    "paux_lineage_inherited": true,
+    "paux_no_new_opcodes": true,
+    "paux_object_id_inherited": true,
+    "paux_pncap_required": true,
+    "pnstore_adapter_authority_aux": true,
+    "pnstore_exactly_once": true,
+    "pnstore_two_barriers": true,
+    "readme_paux_path": true,
+    "readme_v0_2_4": true,
+    "target_python_zero": true
+  },
+  "epistemic_operator": "CHYBA",
+  "gremlin_critic_sha256": "600e48c3d071954a4d8b4101f3a22c64697c400825d3d37115336dbcc59ec2d4",
+  "gremlin_evaluation_sha256": "1d5f9795de9b09ac19242c8e870b1532cb1521e213ef05a1e6956973034b1d13",
+  "gremlin_hypothesis_id": "gremlin:hypothesis:sha256:69f1604e1e67ca8087a56f3a61cbd34abbdeb1c5a25c2e8ee7ea57558915d54c",
+  "pass_count": 16,
+  "paux_extension": ".paux",
+  "schema": "PAUX_BINDING_CONFORMANCE_V0_1",
+  "source_commit": "e997502108e5524c174f3a7730251aebfd281e50",
+  "source_contract": "spec/PNV_STATE_MEMORY_V0_1.pnv",
+  "source_repo": "AdrianLipa90/PNV-State-Memory",
+  "status": "PASS"
+}
