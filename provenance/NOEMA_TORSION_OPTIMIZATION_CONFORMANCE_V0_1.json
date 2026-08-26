@@ -1,0 +1,36 @@
+{
+  "benchmark": {
+    "compiled_seconds": 0.09453688699977647,
+    "compiled_speedup": 1.22003021953663,
+    "dirty_component_cost_reduction": 0.75,
+    "dirty_component_full_units": 72,
+    "dirty_component_units": 18,
+    "n36_e90_loops": 10000,
+    "uncompiled_seconds": 0.11533785900064686
+  },
+  "checks": {
+    "compiled_L_finite": true,
+    "compiled_exact_equivalence": true,
+    "compiled_not_slower_2x": true,
+    "dirty_component_fraction_quarter": true,
+    "dirty_cost_reduction": true,
+    "four_components_found": true
+  },
+  "checks_passed": 6,
+  "checks_total": 6,
+  "optimized_runtime": {
+    "edge_storage": "canonical_sparse_compiled",
+    "precomputed": [
+      "i",
+      "j",
+      "m",
+      "n",
+      "tau",
+      "g=K*R",
+      "L_bound"
+    ],
+    "update_scope": "dirty_connected_component_when_topology_allows"
+  },
+  "schema": "NOEMA_TORSION_OPTIMIZATION_REFERENCE_V0_1",
+  "status": "PASS"
+}

@@ -1,0 +1,37 @@
+{
+  "aux_mutated": false,
+  "boundaries": {
+    "live_flow": "QUIET",
+    "live_phase_frequency": "UPSTREAM_UNRESOLVED",
+    "main_merge": "NOT_REQUESTED",
+    "physical_machine_torsion_flow": "PENDING"
+  },
+  "branch": "feat/bioos-v0.2.7-torsion-memory",
+  "canon_allowed": false,
+  "coupling_policy": {
+    "formula": "kappa/max(1,degree_i,degree_j)",
+    "id": "DEGREE_MAX_KAPPA_V0_1",
+    "kappa": "ln(2)/(24*pi)",
+    "reference_conformance": "13/13 PASS"
+  },
+  "epistemic": "CHYBA",
+  "live_effect": "NONE",
+  "live_surface_status": "QUIET_UPSTREAM_UNRESOLVED",
+  "new_checks_passed": 60,
+  "new_checks_total": 60,
+  "new_pnv_opcodes": 0,
+  "optimization": {
+    "compiled_seconds": 0.09453688699977647,
+    "compiled_speedup": 1.22003021953663,
+    "dirty_component_cost_reduction": 0.75,
+    "dirty_component_full_units": 72,
+    "dirty_component_units": 18,
+    "n36_e90_loops": 10000,
+    "uncompiled_seconds": 0.11533785900064686
+  },
+  "parent_main": "67a2c6aaad21db8016d7e7386d394663ec0cad69",
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_7",
+  "static_gate": "PASS",
+  "status": "PASS_REFERENCE_IMPLEMENTATION",
+  "target_py_files": 0
+}

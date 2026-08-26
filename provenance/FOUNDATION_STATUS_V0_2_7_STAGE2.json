@@ -1,0 +1,21 @@
+{
+  "canon_allowed": false,
+  "direct_frequency": "ADMITTED_QHTRI_OMEGA",
+  "direct_phase": "ADMITTED_QHTRI_PHI",
+  "epistemic": "CHYBA",
+  "live_observer_edges": 1,
+  "live_publish": "BLOCKED_OWNER_GATE_FAIL_CLOSED",
+  "main_modified": false,
+  "new_checks_passed": 28,
+  "new_checks_total": 28,
+  "new_pnv_opcodes": 0,
+  "parent_feature": "7f454db43f2482079621d2b675e19c6e37349a79",
+  "publish_reference_checks": 12,
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_7_STAGE2",
+  "stage2_declared_checks_passed": 40,
+  "stage2_declared_checks_total": 40,
+  "status": "PASS_OBSERVER_BIND",
+  "target_py_files": 0,
+  "v0_2_7_total_declared_checks_passed": 100,
+  "v0_2_7_total_declared_checks_total": 100
+}

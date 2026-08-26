@@ -1,0 +1,18 @@
+{
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "live_writer_installation": "PENDING_RUNTIME_INTEGRATION",
+  "main_modified": false,
+  "new_pnv_opcodes": 0,
+  "parent_feature": "5e8663038061171d606ee33f9724b836c07f60dd",
+  "permission_bypass": "DENIED",
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_7_STAGE3",
+  "stage3_checks_passed": 20,
+  "stage3_checks_total": 20,
+  "status": "PASS_WRITER_PRINCIPAL_CONTRACT",
+  "target_py_files": 0,
+  "v0_2_7_total_declared_checks_passed": 120,
+  "v0_2_7_total_declared_checks_total": 120,
+  "writer_principal": "NOEMA_TORSION_SURFACE_WRITER_V0_1",
+  "writer_principal_id": "d92ff0cc0fac8b1a23bc9e0e8de8a35c8b49887e03f866bf254f9fb0fca5ab62"
+}

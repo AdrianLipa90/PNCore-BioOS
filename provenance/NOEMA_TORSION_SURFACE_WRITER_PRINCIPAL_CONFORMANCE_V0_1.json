@@ -1,0 +1,51 @@
+{
+  "allowed_paths": [
+    "active_head",
+    "orchestration_status.json",
+    "surface_A.json",
+    "surface_B.json"
+  ],
+  "checks": {
+    "aux_path_denied": true,
+    "correct_grant_admitted": true,
+    "empty_paths_denied": true,
+    "host_owner_gid_evidence": true,
+    "host_owner_uid_evidence": true,
+    "omega_path_denied": true,
+    "only_declared_paths_admitted": true,
+    "path_traversal_denied": true,
+    "phi_path_denied": true,
+    "principal_id_deterministic": true,
+    "replay_denied": true,
+    "socket_owner_matches": true,
+    "stale_tick_denied": true,
+    "wrong_generation_denied": true,
+    "wrong_gid_denied": true,
+    "wrong_head_denied": true,
+    "wrong_operation_denied": true,
+    "wrong_principal_denied": true,
+    "wrong_root_denied": true,
+    "wrong_uid_denied": true
+  },
+  "checks_passed": 20,
+  "checks_total": 20,
+  "host_realization_evidence": {
+    "pid_563_uid_line": "Uid:\t0\t0\t0\t0",
+    "pid_573_uid_line": "Uid:\t0\t0\t0\t0",
+    "pid_608_uid_line": "Uid:\t0\t0\t0\t0",
+    "socket_gid": 0,
+    "socket_mode": "0o600",
+    "socket_uid": 0,
+    "surface_root_gid": 0,
+    "surface_root_mode": "0o755",
+    "surface_root_uid": 0
+  },
+  "live_integration": "PENDING_RUNTIME_WRITER_INSTALLATION",
+  "operation": "PUBLISH_DERIVED_TORSION_GENERATION",
+  "permission_bypass": "DENIED",
+  "principal": "NOEMA_TORSION_SURFACE_WRITER_V0_1",
+  "principal_id": "d92ff0cc0fac8b1a23bc9e0e8de8a35c8b49887e03f866bf254f9fb0fca5ab62",
+  "schema": "NOEMA_TORSION_SURFACE_WRITER_PRINCIPAL_REFERENCE_V0_1",
+  "status": "PASS",
+  "target_root": "/dev/shm/ciel_noema/torsion_memory"
+}
