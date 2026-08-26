@@ -1,0 +1,69 @@
+{
+  "capability_count": 29,
+  "execution_over_direct_hash_ratio": 14.441331498362928,
+  "hash_primitive": {
+    "iterations": 100000,
+    "ops_per_s": 439790.70043922483,
+    "us_per_op": 2.273808879999706
+  },
+  "operation_lookup": {
+    "dict_lookup_per_s": 43073547.43600654,
+    "dict_ns_per_lookup": 23.216105000074094,
+    "dict_vs_linear_speedup": 18.383625978554942,
+    "iterations": 1000000,
+    "linear_lookup_per_s": 2343038.717511613,
+    "linear_ns_per_lookup": 426.79619100022137
+  },
+  "pnterm_envelope_hash": {
+    "iterations": 200000,
+    "ops_per_s": 294043.2930232132,
+    "us_per_op": 3.400859749999654
+  },
+  "profile_verify": {
+    "iterations": 10000,
+    "us_per_verification": 31.68114640000113,
+    "verifications_per_s": 31564.514344719686
+  },
+  "runtime_hashes": {
+    "concept_gates.py": "a3aeda6f1ca0c445767bba8176c5b6c7d791bd97e03b33fe2ed8dccb9c97bc49",
+    "terminal36d.py": "78082702c4b7a17a061ca7b9b83f4c21765307c70dfbefd301466224389cce9b",
+    "vector_kernel.py": "68663aea2c188b77b46e5ecf2488bfdfb27a7f2cd8387fb78b6bc5dce6de0e14"
+  },
+  "schema": "PNCORE_BIOOS_TERMINAL36D_V8_BENCHMARK_V0_2_8",
+  "status": "PASS_BENCHMARK_REFERENCE",
+  "terminal36d_execute": {
+    "iterations": 20000,
+    "ops_per_s": 30453.611600085464,
+    "us_per_op": 32.83682779999708
+  },
+  "vectorize": [
+    {
+      "batch": 1,
+      "seconds": 0.08687214199994742,
+      "us_per_vector": 4.343607099997371,
+      "vectors": 20000,
+      "vectors_per_s": 230223.401191283
+    },
+    {
+      "batch": 32,
+      "seconds": 0.09760543300012614,
+      "us_per_vector": 1.525084890626971,
+      "vectors": 64000,
+      "vectors_per_s": 655701.2046646756
+    },
+    {
+      "batch": 256,
+      "seconds": 0.1051408559999345,
+      "us_per_vector": 1.3690215624991473,
+      "vectors": 76800,
+      "vectors_per_s": 730448.6849531437
+    },
+    {
+      "batch": 1024,
+      "seconds": 0.11795372899996437,
+      "us_per_vector": 1.4398648559565963,
+      "vectors": 81920,
+      "vectors_per_s": 694509.6241936085
+    }
+  ]
+}
