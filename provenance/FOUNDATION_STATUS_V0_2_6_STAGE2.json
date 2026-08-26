@@ -1,0 +1,23 @@
+{
+  "branch": "feat/bioos-v0.2-build-with-gremlin",
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "gremlin_evaluation": "SUPPORTED_BY_DECLARED_TESTS",
+  "gremlin_hypothesis_id": "gremlin:hypothesis:sha256:55a6ccb3482e46027f2ed78c9de1eb36aa46ecab87605c6a83df81c680ff9b67",
+  "implemented": [
+    "bounded exact-rational candidate lattice",
+    "resolution-aware sinus/cos least-squares fit",
+    "phase and amplitude evidence",
+    "score and ambiguity gates",
+    "H0..H35 rational-fit descriptor",
+    "fail-closed static/ambiguous window handling"
+  ],
+  "live_window": "128 frames / 1 unique state / FREQUENCY_UNRESOLVED",
+  "main_modified": false,
+  "new_pnv_opcodes": 0,
+  "parent_head": "2bfb5c1c24d1a77d66fb7878d84ef39d8e8073bc",
+  "reference_conformance": "20/20 PASS",
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_6_STAGE2",
+  "status": "PASS_STAGE2",
+  "t36_synthetic_reference": "36/36 PASS"
+}

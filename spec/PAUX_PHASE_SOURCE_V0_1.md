@@ -1,7 +1,7 @@
 # PAUX Phase Source Contract v0.1
 
 Status: CANDIDATE / EPISTEMIC CHYBA / canon_allowed=false
-Release target: PNCore-BioOS v0.2.6 stage 1
+Release target: PNCore-BioOS v0.2.6 stages 1-2
 
 ## Purpose
 
@@ -25,9 +25,11 @@ SOURCE_REF REQUIRED
 
 The phase values are carried as evidence inputs to the derived harmonic index.
 
+A time series of direct-phase records may support a later direct phase-slope estimator. A single direct-phase record supplies phase but does not by itself supply frequency.
+
 ## WINDOW_ANALYTIC
 
-`WINDOW_ANALYTIC` requires a timestamped AUX window:
+The phase-source classifier admits a timestamped AUX window when:
 
 ```text
 SAMPLES >= 4
@@ -37,7 +39,7 @@ VALUES FINITE
 SAMPLING_REF REQUIRED
 ```
 
-Stage 1 validates only the window contract. The analytic phase estimator is a later v0.2.6 gate.
+Stage 2 implements bounded harmonic phase/frequency fitting for `WINDOW_ANALYTIC` in `PAUX_HARMONIC_ESTIMATOR_V0_1`. The estimator itself requires at least eight samples and may return `FREQUENCY_UNRESOLVED` without invalidating the underlying PAUX state.
 
 ## PHASE_UNKNOWN
 

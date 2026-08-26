@@ -1,0 +1,139 @@
+{
+  "base_head": "2bfb5c1c24d1a77d66fb7878d84ef39d8e8073bc",
+  "boundaries": {
+    "authority_class": "DERIVED_INDEX",
+    "capability_authority": "PNCAP",
+    "effect_boundary": "AUX",
+    "object_id_authority": "PNV_STATE_OBJECT",
+    "paux_c_harmonic_base": "PENDING_STAGE4",
+    "paux_r_orbital_reconstruction": "PENDING_STAGE5",
+    "resonance_graph": "PENDING_STAGE3",
+    "resonant_recall": "PENDING_STAGE6"
+  },
+  "branch": "feat/bioos-v0.2-build-with-gremlin",
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "gremlin": {
+    "comparison_sha256": "6b3e808db99e39e944ac6eaf3fb10917daced3990275d4e4ed5dfcbb03f7e166",
+    "evaluation": "SUPPORTED_BY_DECLARED_TESTS",
+    "hypothesis_id": "gremlin:hypothesis:sha256:55a6ccb3482e46027f2ed78c9de1eb36aa46ecab87605c6a83df81c680ff9b67",
+    "structurally_isomorphic": true
+  },
+  "host_reference_harness": {
+    "sha256": "717b989a4d4a8f905d6e2695c1d17d405ac51bdc9b8da3fafc1ab40276168bf8",
+    "target_tree_persisted": false
+  },
+  "live_tether_at_validation": "ACTIVE",
+  "live_window_fixture": {
+    "classification": "NATURAL_SYSTEM_STATE / ENDOGENOUS_RUNTIME_DYNAMICS",
+    "duration_s": 1.339090793,
+    "frames": 128,
+    "path": "/dev/shm/ciel_noema/aux_phi",
+    "reason": "ZERO_VARIANCE",
+    "result": "FREQUENCY_UNRESOLVED",
+    "state_sha256": "af6d6caff68e67136da088ec27ebdfa3857c27bf6c19c356c73209a786eb9469",
+    "unique_states": 1
+  },
+  "new_pnv_opcodes": 0,
+  "reference": {
+    "defaults": {
+      "f0": "783/100 Hz",
+      "max_q": 16,
+      "min_margin": 0.05,
+      "min_samples": 8,
+      "min_score": 0.85,
+      "nyquist_guard": 0.48,
+      "ratio_max": "4/1",
+      "ratio_min": "1/4"
+    },
+    "schema": "PAUX_HARMONIC_ESTIMATOR_REFERENCE_V0_1",
+    "status": "PASS",
+    "tests": [
+      {
+        "name": "exact_ratio_1",
+        "pass": true
+      },
+      {
+        "name": "phase_1",
+        "pass": true
+      },
+      {
+        "name": "exact_ratio_3/2",
+        "pass": true
+      },
+      {
+        "name": "phase_3/2",
+        "pass": true
+      },
+      {
+        "name": "exact_ratio_2/3",
+        "pass": true
+      },
+      {
+        "name": "phase_2/3",
+        "pass": true
+      },
+      {
+        "name": "exact_ratio_2",
+        "pass": true
+      },
+      {
+        "name": "phase_2",
+        "pass": true
+      },
+      {
+        "name": "exact_ratio_1/2",
+        "pass": true
+      },
+      {
+        "name": "phase_1/2",
+        "pass": true
+      },
+      {
+        "name": "exact_ratio_5/4",
+        "pass": true
+      },
+      {
+        "name": "phase_5/4",
+        "pass": true
+      },
+      {
+        "name": "noisy_3_2",
+        "pass": true
+      },
+      {
+        "name": "irregular_5_4",
+        "pass": true
+      },
+      {
+        "name": "t36_36_of_36",
+        "pass": true
+      },
+      {
+        "name": "static_unresolved",
+        "pass": true
+      },
+      {
+        "name": "two_tone_ambiguous_unresolved",
+        "pass": true
+      },
+      {
+        "name": "short_reject",
+        "pass": true
+      },
+      {
+        "name": "nonmonotonic_reject",
+        "pass": true
+      },
+      {
+        "name": "nonfinite_reject",
+        "pass": true
+      }
+    ],
+    "tests_passed": 20,
+    "tests_total": 20
+  },
+  "repo": "AdrianLipa90/PNCore-BioOS",
+  "schema": "PAUX_HARMONIC_ESTIMATOR_CONFORMANCE_V0_1",
+  "status": "PASS_STAGE2_REFERENCE_CONFORMANCE"
+}
