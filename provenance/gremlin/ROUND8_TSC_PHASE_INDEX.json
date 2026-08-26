@@ -1,0 +1,36 @@
+{
+  "APIC_PERIODIC": {
+    "check": "PASS",
+    "comparison_sha256": "1875df4b26a5b3fbdd29241d75507d91feabc726961b54288b936fd84ccbbc13",
+    "match": false,
+    "receipt_sha256": "6f70bce491430c542363371bfb1e49860e36a89bed0858b5bc9676073deda8e6"
+  },
+  "TSC_DDA": {
+    "check": "PASS",
+    "comparison_sha256": "6fcfd69333cb8224ebffaa2ea83ad7fa6f70262aa229553e9908b4a46efa00c2",
+    "match": false,
+    "receipt_sha256": "a664583661e3597c059a8da135967df3b2aa3bda7ba98daaf3240889695fead9"
+  },
+  "TSC_PHASE_INDEX": {
+    "check": "PASS",
+    "comparison_sha256": "123be6a2806813d779181243d1015476785f41dd42b3260d8d21c4135029791e",
+    "match": true,
+    "receipt_sha256": "e021f3167a2f882ff5a0ebedc7cbd9374567c371b296eb934566d349954ffcf5"
+  },
+  "hypothesis": {
+    "critic": {
+      "inspection": {
+        "critic_sha256": "5c7649023e451554c17618d8ad8dc6cb5b6d1c400b3e7d3f8af85214a0aca5d9",
+        "current_generation": 20,
+        "issues": [],
+        "schema": "GREMLIN_CRITIC_V0_3",
+        "verdict": "PASS"
+      },
+      "status": "CRITIC_COMPLETE"
+    },
+    "critic_receipt": "2e4e70164fa886b2a6d9dccde69e4885633febb357ed8a1b383638f249c00852",
+    "evaluation": "SUPPORTED_BY_DECLARED_TESTS",
+    "evaluation_receipt": "54f045aab4afa5d798e653161518cca98daec8ffccbded0505b221741494df90",
+    "receipt_sha256": "c8a1256bba3e15ba5eb4a812ccdab7467d18f45ad4a0396c96ba83cc2dbc1118"
+  }
+}

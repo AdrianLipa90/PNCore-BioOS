@@ -1,0 +1,18 @@
+{
+  "checks": 224576,
+  "deadline_checks_per_case": 128,
+  "exact_783_period_span_test": true,
+  "host_cpuid15": {
+    "crystal_hz": 0,
+    "den": 0,
+    "num": 0
+  },
+  "host_hw_probe": 0,
+  "host_hw_source": 0,
+  "monotonic_stress_steps": 200000,
+  "next_checks_per_case": 64,
+  "note": "Host probe fail-closed is acceptable when CPUID.15 exact tuple is absent.",
+  "random_ratio_cases": 128,
+  "schema": "PN_CLOCK_HOST_CONFORMANCE_V0_1",
+  "status": "PASS"
+}

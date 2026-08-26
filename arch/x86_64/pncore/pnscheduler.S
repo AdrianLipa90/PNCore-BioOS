@@ -31,3 +31,33 @@ pn_sched_admit_band:
 .Ladmit_none:
     xorl %eax, %eax
     ret
+
+.global pn_sched_jitter_demote
+.type pn_sched_jitter_demote, @function
+
+# uint32_t pn_sched_jitter_demote(state*, abs_jitter, threshold)
+# state layout: +0 current_band u32, +4 consecutive_over u32, +8 last_abs_jitter u64
+# Three consecutive threshold violations demote one band. No automatic promotion.
+pn_sched_jitter_demote:
+    movq %rsi, 8(%rdi)
+    cmpq %rdx, %rsi
+    jbe .Ljitter_clear
+    movl 4(%rdi), %eax
+    incl %eax
+    movl %eax, 4(%rdi)
+    cmpl $3, %eax
+    jb .Ljitter_return
+    movl $0, 4(%rdi)
+    movl 0(%rdi), %eax
+    cmpl $7, %eax
+    jae .Ljitter_return
+    incl %eax
+    movl %eax, 0(%rdi)
+    ret
+.Ljitter_clear:
+    movl $0, 4(%rdi)
+.Ljitter_return:
+    movl 0(%rdi), %eax
+    ret
+
+.section .note.GNU-stack,"",@progbits

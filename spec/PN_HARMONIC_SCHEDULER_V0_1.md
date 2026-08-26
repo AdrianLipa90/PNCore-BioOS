@@ -87,3 +87,13 @@ B0 service work is independently bounded and occurs before/alongside band select
 ## Evidence boundary
 
 The current v0.1 implementation proves only deterministic classification and host-build integration. Timer interrupt delivery and measured real-time jitter remain separate runtime gates.
+
+## Jitter demotion
+
+A task may be moved only toward a slower admission class by the bounded physical policy. Three consecutive `abs(J) > J_max` observations demote one class; any observation at or below the threshold clears the consecutive-violation counter. Automatic promotion to a faster class is denied.
+
+```text
+3 x over-threshold -> B_k -> B_(k+1)
+under-threshold     -> consecutive_over = 0
+auto-promotion     -> DENY
+```

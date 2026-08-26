@@ -1,0 +1,45 @@
+{
+  "base_frequency_rational": "783/100 Hz",
+  "candidate_only": true,
+  "canon_allowed": false,
+  "clock_policy": "TSC_DEADLINE_EXACT_OR_QUIET",
+  "clock_state_targets": {
+    "evidence": "0x00005700",
+    "hardware": "0x00005680",
+    "test": "0x00005600"
+  },
+  "clock_symbols": {
+    "deadline_for_tick": "0x000f08aa",
+    "init_rational": "0x000f0754",
+    "next_after_tsc": "0x000f08ba",
+    "probe_exact": "0x000f07fb"
+  },
+  "elf_sha256": "05efdef86348e4dcaf76ee306e03ea5016192eee0153e9edd5f8bd994b90323d",
+  "final_elf_relocations": 0,
+  "host_conformance": {
+    "checks": 224576,
+    "deadline_checks_per_case": 128,
+    "exact_783_period_span_test": true,
+    "host_cpuid15": {
+      "crystal_hz": 0,
+      "den": 0,
+      "num": 0
+    },
+    "host_hw_probe": 0,
+    "host_hw_source": 0,
+    "monotonic_stress_steps": 200000,
+    "next_checks_per_case": 64,
+    "note": "Host probe fail-closed is acceptable when CPUID.15 exact tuple is absent.",
+    "random_ratio_cases": 128,
+    "schema": "PN_CLOCK_HOST_CONFORMANCE_V0_1",
+    "status": "PASS"
+  },
+  "physical_execution_tested": false,
+  "pnr_realization_id": "pnr:realization:sha256:4f8a2c3aceb2c6ebd5f438e113e3851c653cf54f9d6d37009b726b2f59033d5e",
+  "receipt_sha256": "0aa2dabf28ecb764c465acee2e69432c849add99a722cc8942e3735d98f6e466",
+  "rom_sha256": "31d7c0a336708a7e14f31057c84fa2e9c439b1aed4f824b60df4977dc186f76e",
+  "rom_size_bytes": 65536,
+  "runtime_execution_tested": false,
+  "schema": "PN_CLOCK_TSC_DEADLINE_BUILD_RECEIPT_V0_1",
+  "status": "PASS_CANDIDATE"
+}

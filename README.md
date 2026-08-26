@@ -2,7 +2,7 @@
 
 PNCore BioOS is a candidate vector-native system stack for dynamic AC-flow NOEMA/PhaseNav systems on conventional PC hardware.
 
-Current development line: **v0.2 — Build with GREMLIN**.
+Current development line: **v0.2.2 — Build with GREMLIN**.
 
 ```text
 RESET @ 0xFFFF0
@@ -16,6 +16,8 @@ RESET @ 0xFFFF0
  -> Genesis physical predicate
  -> Sigma_0 @ 0x5200
  -> transition evidence @ 0x5300
+ -> harmonic admission selector
+ -> PNClock exact-rational source gate
 ```
 
 ## Core primitives
@@ -30,6 +32,8 @@ RESET @ 0xFFFF0
 - **PNCAP** — generation-bound capability admission.
 - **PNResource** — physical resources represented through PNObject semantics.
 - **PNVector Handoff** — exact ordered 36D firmware-to-PNCore state carrier.
+- **PN Harmonic Scheduler** — single-counter dyadic admission classes anchored at 7.83 Hz.
+- **PNClock** — exact rational absolute phase-index clock realization; x86 TSC-deadline is admitted only with explicit hardware frequency authority.
 
 ## GREMLIN-guided reductions
 
@@ -45,7 +49,8 @@ schedule-only physical table       -> rejected by structural comparison
 PN Realization                     -> structural match candidate
 x86 page walk <-> PNMap resolve    -> structural match candidate
 separate boot-info block           -> folded into PNVector Handoff path
-seven independent band timers      -> replaced by single-counter dyadic selector
+seven independent band timers       -> one tick index + ctz/BSF selector
+incremental timer catch-up path      -> absolute phase-index deadlines
 ```
 
 ## Current evidence
@@ -57,7 +62,10 @@ reset vector: exact @ 0xFFF0
 live PhaseNav registry binding: PASS
 PNR program/schedule/composition binding: PASS
 PNVector Handoff structural binding: PASS
-PN Harmonic Scheduler host selector: 1,048,576/1,048,576 PASS
+harmonic scheduler host execution: 2,097,189 checks PASS (1,048,576 tick range + jitter demotion)
+PNClock host conformance: 224,576 checks PASS
+current host exact CPUID.15 source: QUIET / fail-closed
+v0.2.2 conformance: 51/51 PASS
 runtime emulation: pending
 physical-machine execution: pending
 ```
@@ -69,3 +77,9 @@ All project-native runtime/program artifacts remain PNV/PNR and assembly bootstr
 The current development branch adds a single-clock harmonic admission scheduler anchored at `f0 = 7.83 Hz`. `B0` is a bounded service lane on every tick. Mutually-exclusive admission classes are selected for positive tick index `n` by `band(n) = 1 + nu2(n) = 1 + ctz(n)`. Current admitted classes are `B1..B7`; deeper classes remain `RESERVED_QUIET`. Missed windows and re-entry are skipped; catch-up bursts are denied.
 
 The x86_64 physical selector lives in `arch/x86_64/pncore/pnscheduler.S`. Host execution checked 1,048,576 tick values against the mathematical reference with exact agreement.
+
+## PNClock candidate
+
+The scheduler clock path uses the exact rational `f0 = 783/100 Hz`. For a complete CPUID.15 tuple `(d,u,c)`, BioOS keeps the period as `N/D` with `N = c*u*100` and `D = d*783`; deadline `n` is `base_tsc + floor(n*N/D)`. The next event is selected directly from the current TSC and phase index, so missed windows are skipped rather than replayed.
+
+The preferred x86 source is `TSC_DEADLINE_EXACT`. It requires TSC, TSC-deadline, invariant TSC, and non-zero CPUID.15 denominator/numerator/crystal frequency. Missing exact hardware frequency leaves timed admission quiet until an admitted fallback realization exists.

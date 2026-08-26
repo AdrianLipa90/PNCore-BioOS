@@ -23,4 +23,8 @@ pnr_genesis_composition_digest:
     .long 0x00005300               # transition evidence target
     .long 0x00005500               # harmonic scheduler evidence target
     .long pn_sched_classify_tick   # physical dyadic selector
-    .long 144                      # complete PNR header bytes
+    .long pn_sched_jitter_demote    # bounded slower-band demotion policy
+    .long 0x00005700               # PN Clock evidence target
+    .long pn_clock_probe_tsc_deadline_exact # exact hardware clock probe
+    .long pn_clock_deadline_for_tick       # absolute phase-index mapper
+    .long 160                      # complete PNR header bytes

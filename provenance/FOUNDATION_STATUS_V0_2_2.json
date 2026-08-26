@@ -1,0 +1,20 @@
+{
+  "auto_promotion": false,
+  "branch": "feat/bioos-v0.2-build-with-gremlin",
+  "canon_allowed": false,
+  "clock_host_exact_source_admitted": false,
+  "clock_realization": "TSC_DEADLINE_EXACT_OR_QUIET_CANDIDATE",
+  "clock_receipt_sha256": "0aa2dabf28ecb764c465acee2e69432c849add99a722cc8942e3735d98f6e466",
+  "conformance_receipt_sha256": "c3ff31efa23964aa47c14502229fdce8267146638ba554ed4ca07c94a9b556d0",
+  "epistemic_operator": "CHYBA",
+  "harmonic_scheduler": "ACTIVE_CANDIDATE",
+  "jitter_demotion": "3_CONSECUTIVE_OVER_THRESHOLD_TO_SLOWER_BAND",
+  "physical_execution_tested": false,
+  "pnr_realization_id": "pnr:realization:sha256:4f8a2c3aceb2c6ebd5f438e113e3851c653cf54f9d6d37009b726b2f59033d5e",
+  "pnstore_physical_commit_tested": false,
+  "receipt_sha256": "18e76dc7df533a5b59f6ae4703bd52c0d693225cc384bdf2960927198add2617",
+  "rom_sha256": "31d7c0a336708a7e14f31057c84fa2e9c439b1aed4f824b60df4977dc186f76e",
+  "runtime_execution_tested": false,
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_2",
+  "status": "PASS_CANDIDATE_FOUNDATION"
+}

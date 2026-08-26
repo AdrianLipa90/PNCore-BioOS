@@ -1,0 +1,246 @@
+{
+  "check_count": 51,
+  "checks": [
+    {
+      "detail": 65536,
+      "name": "rom_size_65536",
+      "pass": true
+    },
+    {
+      "detail": "ea000000f0",
+      "name": "reset_vector_exact",
+      "pass": true
+    },
+    {
+      "name": "zero_relocations",
+      "pass": true
+    },
+    {
+      "detail": "000f0156",
+      "name": "symbol_pncore_entry",
+      "pass": true
+    },
+    {
+      "detail": "000f06ff",
+      "name": "symbol_pn_sched_classify_tick",
+      "pass": true
+    },
+    {
+      "detail": "000f0721",
+      "name": "symbol_pn_sched_jitter_demote",
+      "pass": true
+    },
+    {
+      "detail": "000f0754",
+      "name": "symbol_pn_clock_init_rational",
+      "pass": true
+    },
+    {
+      "detail": "000f07fb",
+      "name": "symbol_pn_clock_probe_tsc_deadline_exact",
+      "pass": true
+    },
+    {
+      "detail": "000f08aa",
+      "name": "symbol_pn_clock_deadline_for_tick",
+      "pass": true
+    },
+    {
+      "detail": "000f08ba",
+      "name": "symbol_pn_clock_next_after_tsc",
+      "pass": true
+    },
+    {
+      "detail": "000f09a0",
+      "name": "symbol_pnr_genesis_header",
+      "pass": true
+    },
+    {
+      "detail": "000f0a40",
+      "name": "symbol_pnvh_template",
+      "pass": true
+    },
+    {
+      "detail": "000ffff0",
+      "name": "symbol_reset_vector",
+      "pass": true
+    },
+    {
+      "name": "target_python_zero",
+      "pass": true
+    },
+    {
+      "name": "tether_active",
+      "pass": true
+    },
+    {
+      "detail": 288,
+      "name": "t36_phi",
+      "pass": true
+    },
+    {
+      "detail": 288,
+      "name": "t36_aux_phi",
+      "pass": true
+    },
+    {
+      "detail": 288,
+      "name": "t36_aux_feedback_phi",
+      "pass": true
+    },
+    {
+      "name": "live_operator_COMPOSITION",
+      "pass": true
+    },
+    {
+      "name": "live_operator_CONDITION",
+      "pass": true
+    },
+    {
+      "name": "live_operator_IDENTITY",
+      "pass": true
+    },
+    {
+      "name": "live_operator_ORDER",
+      "pass": true
+    },
+    {
+      "name": "live_operator_RETURN",
+      "pass": true
+    },
+    {
+      "name": "live_operator_SOURCE",
+      "pass": true
+    },
+    {
+      "name": "live_operator_TRANSFORM",
+      "pass": true
+    },
+    {
+      "name": "clock_host_pass",
+      "pass": true
+    },
+    {
+      "name": "clock_224576_checks",
+      "pass": true
+    },
+    {
+      "name": "clock_fail_closed_cpuid15_empty",
+      "pass": true
+    },
+    {
+      "name": "scheduler_host_pass",
+      "pass": true
+    },
+    {
+      "name": "scheduler_tick_range",
+      "pass": true
+    },
+    {
+      "name": "scheduler_jitter_policy_3",
+      "pass": true
+    },
+    {
+      "name": "scheduler_no_auto_promotion",
+      "pass": true
+    },
+    {
+      "name": "pnr_identity_exact",
+      "pass": true
+    },
+    {
+      "detail": "ROM_SHA256 31d7c0a336708a7e14f31057c84fa2e9c439b1aed4f824b60df4977dc186f76e",
+      "name": "pnr_a2c941ef",
+      "pass": true
+    },
+    {
+      "detail": "PNSCHED_JITTER_DEMOTE 0x000f0721",
+      "name": "pnr_7f991c74",
+      "pass": true
+    },
+    {
+      "detail": "PNCLOCK_PROBE 0x000f07fb",
+      "name": "pnr_c2a406b0",
+      "pass": true
+    },
+    {
+      "detail": "PNCLOCK_DEADLINE_MAPPER 0x000f08aa",
+      "name": "pnr_0bedfab6",
+      "pass": true
+    },
+    {
+      "name": "gremlin_tsc_phase_match",
+      "pass": true
+    },
+    {
+      "name": "gremlin_periodic_nonmatch",
+      "pass": true
+    },
+    {
+      "name": "gremlin_dda_nonmatch",
+      "pass": true
+    },
+    {
+      "name": "gremlin_critic_pass",
+      "pass": true
+    },
+    {
+      "detail": "cmpl $3, %eax",
+      "name": "contract_0ce7adf663",
+      "pass": true
+    },
+    {
+      "detail": "cmpl $7, %eax",
+      "name": "contract_9b25186d87",
+      "pass": true
+    },
+    {
+      "detail": "btl $24, %ecx",
+      "name": "contract_3167b9934c",
+      "pass": true
+    },
+    {
+      "detail": "btl $8, %edx",
+      "name": "contract_e177f02286",
+      "pass": true
+    },
+    {
+      "detail": "imulq $783",
+      "name": "contract_e6b50a9cc2",
+      "pass": true
+    },
+    {
+      "detail": "pn_clock_next_after_tsc",
+      "name": "contract_2691e70bec",
+      "pass": true
+    },
+    {
+      "detail": "JITTER_DEMOTION_CONSECUTIVE 3",
+      "name": "contract_9952f253f8",
+      "pass": true
+    },
+    {
+      "detail": "AUTO_PROMOTION DENY",
+      "name": "contract_0d2fe435b2",
+      "pass": true
+    },
+    {
+      "detail": "CATCH_UP DENY",
+      "name": "contract_baaae88ff2",
+      "pass": true
+    },
+    {
+      "detail": "ABSOLUTE_PHASE_INDEX TRUE",
+      "name": "contract_10ce6a6feb",
+      "pass": true
+    }
+  ],
+  "elf_sha256": "05efdef86348e4dcaf76ee306e03ea5016192eee0153e9edd5f8bd994b90323d",
+  "live_registry_sha256": "29767957ae775b1968bbb4c531728cc153137c88e819b135227dff73e3cca7ec",
+  "pass_count": 51,
+  "pnr_realization_id": "pnr:realization:sha256:4f8a2c3aceb2c6ebd5f438e113e3851c653cf54f9d6d37009b726b2f59033d5e",
+  "receipt_sha256": "c3ff31efa23964aa47c14502229fdce8267146638ba554ed4ca07c94a9b556d0",
+  "rom_sha256": "31d7c0a336708a7e14f31057c84fa2e9c439b1aed4f824b60df4977dc186f76e",
+  "schema": "PNCORE_BIOOS_V0_2_2_CONFORMANCE",
+  "status": "PASS"
+}

@@ -1,0 +1,9 @@
+{
+  "auto_promotion": false,
+  "checks": 2097189,
+  "jitter_demote_consecutive": 3,
+  "max_band": 7,
+  "schema": "PN_HARMONIC_SCHEDULER_HOST_V0_2",
+  "status": "PASS",
+  "tick_range": 1048576
+}
