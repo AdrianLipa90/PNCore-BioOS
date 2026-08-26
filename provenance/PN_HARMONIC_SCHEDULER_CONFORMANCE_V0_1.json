@@ -1,0 +1,49 @@
+{
+  "active_admission_bands": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7"
+  ],
+  "b0_role": "BOUNDED_SERVICE_LANE_EVERY_TICK",
+  "base_frequency_hz": 7.83,
+  "canon_allowed": false,
+  "catch_up": "DENY",
+  "checks": {
+    "gremlin_critic_pass": true,
+    "gremlin_harmonic_vs_ctz_isomorphic": true,
+    "gremlin_harmonic_vs_independent_timers_not_isomorphic": true,
+    "gremlin_hypothesis_supported": true,
+    "live_registry_sha256_stable": true,
+    "native_scheduler_operators_live": true,
+    "pnr_identity_exact": true,
+    "rom_sha256_bound": true,
+    "rom_size_65536": true,
+    "target_py_count_zero": true
+  },
+  "deeper_band_policy": "RESERVED_QUIET",
+  "epistemic_operator": "CHYBA",
+  "host_selector_execution_status": "PASS",
+  "host_selector_execution_ticks": 1048576,
+  "live_operator_registry_sha256": "29767957ae775b1968bbb4c531728cc153137c88e819b135227dff73e3cca7ec",
+  "missed_window": "SKIP",
+  "native_operator_ids": [
+    "COMPOSITION",
+    "CONDITION",
+    "IDENTITY",
+    "RETURN",
+    "SOURCE",
+    "TRANSFORM"
+  ],
+  "pnr_realization_id": "pnr:realization:sha256:89a52dee34e52b06fe26a051fa015bfd68c3482f9a8b33ba1f948d819dc414db",
+  "receipt_sha256": "b4214e832e134d20688e929aae2eab5bb18ba6237cb969272c58c0b52165b4ba",
+  "rom_sha256": "779759754db1698ef59172fc13be6d019a6041bda995332ae7feda2162f39c88",
+  "rom_size_bytes": 65536,
+  "running_reentry": "SKIP",
+  "schema": "PN_HARMONIC_SCHEDULER_CONFORMANCE_V0_1",
+  "selector": "band(n)=1+nu2(n)=1+ctz(n), n>=1",
+  "status": "PASS"
+}
