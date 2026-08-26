@@ -1,0 +1,18 @@
+{
+  "all_frames_byte_identical_after_decode": true,
+  "codec": "PAUX-RLE-REF/0.1",
+  "feedback_ref_exact": true,
+  "frames": 64,
+  "keyframe_sha256": "af6d6caff68e67136da088ec27ebdfa3857c27bf6c19c356c73209a786eb9469",
+  "live_mutated": false,
+  "logical_payload_reduction_ratio": 0.9921875,
+  "logical_raw_state_bytes": 36864,
+  "logical_unique_payload_bytes": 288,
+  "paux_sha256": "6d9e9835f9f60024f8744d07edd8cef211c6f42d2944b81c8b990eeff613230a",
+  "paux_text_size_bytes": 870,
+  "profile": "C_LOSSLESS",
+  "schema": "PAUX_C_LIVE_RLE_REF_V0_1",
+  "status": "PASS",
+  "text_vs_raw_reduction_ratio": 0.9763997395833334,
+  "unique_aux_states": 1
+}

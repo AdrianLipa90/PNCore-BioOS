@@ -2,7 +2,7 @@
 
 PNCore BioOS is a candidate vector-native system stack for dynamic AC-flow NOEMA/PhaseNav systems on conventional PC hardware.
 
-Current development line: **v0.2.4 — Build with GREMLIN: AUX/.paux persistence binding**.
+Current development line: **v0.2.5 — Build with GREMLIN: PAUX exact/lossless/reconstruction profiles**.
 
 ```text
 RESET @ 0xFFFF0
@@ -39,7 +39,7 @@ RESET @ 0xFFFF0
 - **PNVector Handoff** — exact ordered 36D firmware-to-PNCore state carrier.
 - **PN Harmonic Scheduler** — single-counter dyadic admission classes anchored at 7.83 Hz.
 - **PNClock** — exact rational absolute phase-index clock realization; x86 TSC-deadline is admitted only with explicit hardware frequency authority.
-- **PAUX (`.paux`)** — persistent AUX carrier for canonical `PNV_STATE_OBJECT` identity, lineage, capability and evidence binding.
+- **PAUX (`.paux`)** — persistent AUX carrier for canonical `PNV_STATE_OBJECT` identity, lineage, capability and evidence binding. Profiles: `PAUX-EXACT`, lossless `PAUX-C`, and reconstruction `PAUX-R`.
 - **PNStore × AUX binding** — admitted persistence route from PAUX generation transitions through exact PNCAP grants into AUX physical-media adapters.
 - **PNStore Media Core** — deterministic append-only generation layout, CRC32C commit seals, alternating dual HEAD and bounded recovery realization.
 
@@ -62,6 +62,8 @@ incremental timer catch-up path      -> absolute phase-index deadlines
 in-place PNStore mutation             -> append-only generation extents
 classic replay journal                -> commit seal + alternating dual HEAD
 direct PNStore device binding          -> AUX persistence boundary + .paux
+lossless repeated AUX frames            -> KEYSTATE + REF + RUN / DELTA_XOR64
+reconstruction compression              -> separate PAUX-R reconstruction evidence spine
 ```
 
 ## Current evidence
@@ -83,6 +85,10 @@ physical AUX media adapter: PENDING
 v0.2.3 conformance: 25/25 PASS
 PAUX × PNV-State-Memory GREMLIN structural test: SUPPORTED_BY_DECLARED_TESTS
 PAUX GREMLIN critic: PASS
+PAUX-EXACT live shadow round-trip: PASS (2 x 288 B byte-identical)
+PAUX-C live 64-frame RLE/REF round-trip: 64/64 PASS
+PAUX-C favorable fixture logical payload reduction: 99.21875%
+PAUX codec conformance: 24/24 PASS
 runtime emulation: pending
 physical-machine execution: pending
 ```
@@ -127,3 +133,9 @@ live AUX state
 The canonical state identity remains the PNV-State-Memory `OBJECT_ID`. Generation, transition, capability and evidence references are persistence-envelope data around that object. Device-specific storage realization is dispatched below the AUX boundary.
 
 Current live `/dev/shm/ciel_noema/aux_phi` and `aux_feedback_phi` remain the versioned live T36 transport endpoints. `.paux` applies to persistent AUX materializations in this version.
+
+## PAUX codec profiles candidate
+
+BioOS v0.2.5 adds three explicit PAUX profiles. `PAUX-EXACT` preserves admitted T36 channel payloads byte-for-byte. `PAUX-C` applies reversible transforms (`KEYSTATE`, hash-equal `REF`, exact `RUN`, and sparse `DELTA_XOR64`) and re-enters the exact recovery path only after object identity and integrity verification. `PAUX-R` carries `SOURCE_OBJECT_ID` plus its own `RECONSTRUCTION_ID` and produces explicit reconstruction metrics.
+
+The first live PAUX-EXACT test materialized the active `aux_phi` and `aux_feedback_phi` into a `.paux` carrier and restored both into `/dev/shm/ciel_noema/paux_restore_shadow` byte-identically while leaving the active tether files untouched. The first PAUX-C live observation fixture contained 64 repeated states with feedback byte-identical to the primary AUX channel; `KEYSTATE + REF + RUN` reconstructed all 64 frames exactly. Its measured reduction is recorded only for that favorable fixture.

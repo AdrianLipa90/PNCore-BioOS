@@ -1,0 +1,18 @@
+{
+  "canon_allowed": false,
+  "development_line": "v0.2.5 Build with GREMLIN: PAUX exact/lossless/reconstruction profiles",
+  "epistemic": "CHYBA",
+  "gremlin_exact_vs_lossless": "STRUCTURALLY_ISOMORPHIC",
+  "gremlin_exact_vs_reconstruction": "STRUCTURALLY_NONISOMORPHIC",
+  "live_aux_mutation_performed": false,
+  "live_tether_at_validation": "ACTIVE",
+  "paux_c_live_lossless_roundtrip": "PASS",
+  "paux_codec_conformance": "24/24 PASS",
+  "paux_exact_live_shadow_roundtrip": "PASS",
+  "paux_r_quality_thresholds": "PENDING_SEPARATE_GATE",
+  "physical_aux_media_adapter": "PENDING",
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_5",
+  "source_pnv_state_memory_commit": "e997502108e5524c174f3a7730251aebfd281e50",
+  "static_runtime_fallback": false,
+  "status": "PASS"
+}

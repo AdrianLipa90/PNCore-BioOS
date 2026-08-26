@@ -1,0 +1,45 @@
+{
+  "boundaries": {
+    "live_restore_mutation": "NOT_PERFORMED_SHADOW_ONLY",
+    "paux_r_quality_thresholds": "PENDING_SEPARATE_GATE",
+    "physical_media_adapter": "PENDING"
+  },
+  "checks": {
+    "exact_finite_t36": true,
+    "exact_integrity_recomputed": true,
+    "exact_object_id_recomputed": true,
+    "exact_profile_present": true,
+    "exact_shadow_aux_byte_identical": true,
+    "exact_shadow_feedback_byte_identical": true,
+    "exact_source_aux_288": true,
+    "exact_source_feedback_288": true,
+    "gremlin_exact_vs_c_isomorphic": true,
+    "gremlin_exact_vs_r_nonisomorphic": true,
+    "gremlin_lossless_hypothesis_supported": true,
+    "live_aux_endpoint_rename_false": true,
+    "live_surface_not_mutated": true,
+    "live_tether_active": true,
+    "lossless_profile_present": true,
+    "new_pnv_opcodes_zero": true,
+    "paux_c_64_frame_decode_exact": true,
+    "paux_c_delta_xor64_declared": true,
+    "paux_c_key_state": true,
+    "paux_c_ref": true,
+    "paux_c_run": true,
+    "paux_extension_bound": true,
+    "paux_r_reconstruction_id_required": true,
+    "reconstruction_profile_present": true
+  },
+  "checks_passed": 24,
+  "checks_total": 24,
+  "measured_live_fixture": {
+    "frames": 64,
+    "logical_payload_reduction_ratio": 0.9921875,
+    "logical_raw_state_bytes": 36864,
+    "logical_unique_payload_bytes": 288,
+    "text_paux_size_bytes": 870,
+    "text_vs_raw_reduction_ratio": 0.9763997395833334
+  },
+  "schema": "PAUX_CODEC_CONFORMANCE_V0_1",
+  "status": "PASS"
+}

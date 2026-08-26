@@ -1,0 +1,24 @@
+{
+  "aux_feedback_identical_to_aux": true,
+  "checks": {
+    "finite_f64le_36": true,
+    "integrity_recomputed": true,
+    "object_id_recomputed": true,
+    "shadow_aux_byte_identical": true,
+    "shadow_feedback_byte_identical": true,
+    "source_lengths_288": true
+  },
+  "integrity_hash": "addf1132b09837c2e0ec9f790061d4b3346907365784393b9a927866938a0b14",
+  "live_mutated": false,
+  "object_id": "ee57d9cb8a1733b3e93c80326bd26da5fea02649b44b9398e43a3868b4127e03",
+  "paux_sha256": "f366f1ce972eaa5a05cf55a08294d7c800bf19f8162efbdce5e895bb87c64b75",
+  "paux_size_bytes": 2444,
+  "restore_target": "/dev/shm/ciel_noema/paux_restore_shadow",
+  "restored_aux_sha256": "af6d6caff68e67136da088ec27ebdfa3857c27bf6c19c356c73209a786eb9469",
+  "restored_feedback_sha256": "af6d6caff68e67136da088ec27ebdfa3857c27bf6c19c356c73209a786eb9469",
+  "schema": "PAUX_EXACT_LIVE_ROUNDTRIP_V0_1",
+  "source_aux_sha256": "af6d6caff68e67136da088ec27ebdfa3857c27bf6c19c356c73209a786eb9469",
+  "source_feedback_sha256": "af6d6caff68e67136da088ec27ebdfa3857c27bf6c19c356c73209a786eb9469",
+  "status": "PASS",
+  "transition_id": "6cbc7d74c0b790b6c28fee7f298b5d981ae0efd02051666ccb94abe804d5b378"
+}
