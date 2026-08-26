@@ -1,0 +1,18 @@
+{
+  "candidate_only": true,
+  "canon_allowed": false,
+  "flags": {"phase_binding": true, "test_binding_only": true, "vector_present": true},
+  "handoff_sha256": "42877687ea3a86244db5abba64323e16abf3f59fdc32cb2abd1fae8896853bd1",
+  "header_bytes": 128,
+  "magic": "PNVH36",
+  "operator_registry_sha256": "29767957ae775b1968bbb4c531728cc153137c88e819b135227dff73e3cca7ec",
+  "scalar": "float64_le",
+  "schema": "PNVECTOR_HANDOFF_TEST_BINDING_RECEIPT_V0_2",
+  "source_context_sha256": "1b5b549d9acd31f8343cba88f8d4451b40c83cec775e457e4528a9eb99f320fc",
+  "status": "PASS",
+  "tether_status": "ACTIVE",
+  "total_bytes": 416,
+  "vector_dim": 36,
+  "vector_sha256": "1696737780aa668ad8ff5d304aa892f696fa0f72a03405f48fb00b076c3d5665",
+  "version": "0.1"
+}

@@ -1,0 +1,19 @@
+{
+  "addresses": {"cr3":"0x00007000","pncore_entry":"0x000f0156","pnmap_evidence":"0x00005400","pnr_header":"0x000f0440","pnrom_entry":"0x000f0000","pnvector_ram":"0x00005000","pnvector_template":"0x000f04d0","reset_vector":"0x000ffff0","sigma0":"0x00005200","transition_evidence":"0x00005300"},
+  "candidate_only": true,
+  "canon_allowed": false,
+  "elf_sha256": "a33c9349995985cdbb7fa4f6eea757353c9b8d24d093a68238cb63e8ad3330c4",
+  "epistemic_operator": "CHYBA",
+  "final_elf_relocations": 0,
+  "host_toolchain": {"as":"GNU assembler (GNU Binutils for Debian) 2.44","ld":"GNU ld (GNU Binutils for Debian) 2.44","objcopy":"GNU objcopy (GNU Binutils for Debian) 2.44"},
+  "initial_build_issue": {"class":"BFD_RELOC_X86_64_32S_IN_ELF32","resolution":"symbol memory operands lowered through zero-extended 32-bit absolute symbol addresses","status":"FIXED"},
+  "physical_execution_tested": false,
+  "pnr_realization_id": "pnr:realization:sha256:27080f397037c30ad006f1a748c260f7a735412391e31bd3474e14014bd4784e",
+  "pnvector_handoff_sha256": "42877687ea3a86244db5abba64323e16abf3f59fdc32cb2abd1fae8896853bd1",
+  "qemu_execution_tested": false,
+  "receipt_sha256": "7cf25550282e8c90d8a00f9cbc5fbca8702ad526876d99040fa5178b2f86a09e",
+  "rom_sha256": "2ab9893588ccab859a767f401679048e1ebe80d985a25cf5af295335fb174860",
+  "rom_size_bytes": 65536,
+  "schema": "PNROM_PNCORE_PNR_BUILD_RECEIPT_V0_2",
+  "status": "PASS"
+}

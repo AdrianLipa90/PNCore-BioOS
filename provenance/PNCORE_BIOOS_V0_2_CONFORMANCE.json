@@ -1,0 +1,15 @@
+{
+  "schema":"PNCORE_BIOOS_V0_2_CONFORMANCE",
+  "status":"PASS",
+  "pass_count":35,
+  "check_count":35,
+  "rom_sha256":"2ab9893588ccab859a767f401679048e1ebe80d985a25cf5af295335fb174860",
+  "elf_sha256":"a33c9349995985cdbb7fa4f6eea757353c9b8d24d093a68238cb63e8ad3330c4",
+  "live_registry_sha256":"29767957ae775b1968bbb4c531728cc153137c88e819b135227dff73e3cca7ec",
+  "pnr_realization_id":"pnr:realization:sha256:27080f397037c30ad006f1a748c260f7a735412391e31bd3474e14014bd4784e",
+  "pnvector_handoff_sha256":"42877687ea3a86244db5abba64323e16abf3f59fdc32cb2abd1fae8896853bd1",
+  "receipt_sha256":"c21ce24d68a246edb0fb4c810c301935c79037b8909d64c7d5da596601f5dc5f",
+  "runtime_execution_tested":false,
+  "physical_execution_tested":false,
+  "key_checks":{"rom_size_65536":true,"reset_vector_exact":true,"pnr_program_digest":true,"pnr_schedule_digest":true,"pnr_composition_digest":true,"pnvh_embedded_exact":true,"final_elf_zero_relocations":true,"pnr_text_identity":true,"native_operator_live_registry":true,"target_python_zero":true,"gremlin_pnrealization_match":true,"gremlin_parser_nonmatch":true,"gremlin_schedule_nonmatch":true,"gremlin_critic_pass":true}
+}
