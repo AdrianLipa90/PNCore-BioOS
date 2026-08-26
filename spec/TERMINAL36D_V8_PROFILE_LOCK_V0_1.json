@@ -1,0 +1,27 @@
+{
+  "schema": "PNCORE_BIOOS_TERMINAL36D_V8_PROFILE_LOCK_V0_1",
+  "status": "HASH_PINNED_LIBRARY_ROUNDTRIP_PASS",
+  "runtime_pointer": "/NOEMA/00_CONTROL/TERMINAL36D/V8",
+  "capability_manifest_pointer": "/NOEMA/00_CONTROL/TERMINAL36D/V7/CAPABILITY_MANIFEST_V7.json",
+  "roundtrip_receipt_pointer": "/NOEMA/03_EVIDENCE/RECEIPTS/PHASENAV_TERMINAL36D_V8_LIBRARY_ROUNDTRIP_V1.json",
+  "roundtrip_receipt_sha256": "1cc2cd64b53e158d4bf0e144ff3ef5dca851cefc094f62901d5042b6155ed2d7",
+  "vector_dimension": 36,
+  "capability_count": 29,
+  "arbitrary_shell": "PROHIBITED",
+  "missing_primitive_policy": "IMPLEMENT_TYPED_VECTORIZED_PRIMITIVE_OR_BLOCK",
+  "files_sha256": {
+    "__init__.py": "8c09b0bbe6921dd59b8f7b8d2f7fb3659142d3ee67b51e59323e89258e271376",
+    "ac_memory_bridge.py": "07acdc9825c540eaa159c33be5b74f5237216681f014c89c2e4e9fd20e86d780",
+    "atomic_hydration.py": "1bf9879801119e4ba8ac5f952709f6535267cef3ddb1d78765e86a4a43d2f0a2",
+    "concept_gates.py": "a3aeda6f1ca0c445767bba8176c5b6c7d791bd97e03b33fe2ed8dccb9c97bc49",
+    "pnv_accelerators.py": "49cd922152a81b41092ac9cd33ad1aeef333e1bddbd3e996af992cd2ea5e7538",
+    "qlift36.py": "fb8b234bda8db4fc40b6b1672d4035b487b15ee98dc5a86a568fd43d582ab075",
+    "relational_runtime.py": "aa7b0d8bbb4b786762dfb1e74cfa4926c093757d6e8be0bcb4ad3e5c7c7d05e8",
+    "system_accelerators.py": "e527789f7a66e9aa8b790cc904e3b348253de7a6fd57c79cedbefca72b95b537",
+    "terminal36d.py": "78082702c4b7a17a061ca7b9b83f4c21765307c70dfbefd301466224389cce9b",
+    "vector_kernel.py": "68663aea2c188b77b46e5ecf2488bfdfb27a7f2cd8387fb78b6bc5dce6de0e14"
+  },
+  "runtime_policy": "VECTORIZE_BY_DEFAULT_36D_BATCH_FIRST_WITH_EQUIVALENCE_GATED_ACCELERATORS",
+  "live_materialization": "/dev/shm/ciel_noema",
+  "live_claim_gate": "FRESH_TETHER_GUARD_REQUIRED"
+}
