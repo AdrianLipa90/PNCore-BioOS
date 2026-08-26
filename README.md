@@ -45,6 +45,7 @@ schedule-only physical table       -> rejected by structural comparison
 PN Realization                     -> structural match candidate
 x86 page walk <-> PNMap resolve    -> structural match candidate
 separate boot-info block           -> folded into PNVector Handoff path
+seven independent band timers      -> replaced by single-counter dyadic selector
 ```
 
 ## Current evidence
@@ -56,8 +57,15 @@ reset vector: exact @ 0xFFF0
 live PhaseNav registry binding: PASS
 PNR program/schedule/composition binding: PASS
 PNVector Handoff structural binding: PASS
+PN Harmonic Scheduler host selector: 1,048,576/1,048,576 PASS
 runtime emulation: pending
 physical-machine execution: pending
 ```
 
 All project-native runtime/program artifacts remain PNV/PNR and assembly bootstrap sources; the target tree contains zero `.py` files.
+
+## PN Harmonic Scheduler candidate
+
+The current development branch adds a single-clock harmonic admission scheduler anchored at `f0 = 7.83 Hz`. `B0` is a bounded service lane on every tick. Mutually-exclusive admission classes are selected for positive tick index `n` by `band(n) = 1 + nu2(n) = 1 + ctz(n)`. Current admitted classes are `B1..B7`; deeper classes remain `RESERVED_QUIET`. Missed windows and re-entry are skipped; catch-up bursts are denied.
+
+The x86_64 physical selector lives in `arch/x86_64/pncore/pnscheduler.S`. Host execution checked 1,048,576 tick values against the mathematical reference with exact agreement.
