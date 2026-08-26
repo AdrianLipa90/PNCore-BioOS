@@ -1,0 +1,4 @@
+PNCore-BioOS_v0.1_Gremlin_PNROM_candidate.zip
+e54e202156c016e3084634501d8063fcecccbafa4439df92f01b7f4d95a7e7cf
+
+The exact local package contains reproducible build outputs that are intentionally excluded from the Git source tree.

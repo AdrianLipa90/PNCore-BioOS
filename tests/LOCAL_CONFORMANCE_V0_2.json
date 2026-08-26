@@ -1,0 +1,9 @@
+{
+  "schema": "PNCORE_BIOOS_LOCAL_CONFORMANCE_V0_2",
+  "status": "PASS",
+  "contract_witness_count": 8,
+  "target_source_py_count": 0,
+  "passed": 41,
+  "total": 41,
+  "canonical_program_units_separately_validated": 1
+}

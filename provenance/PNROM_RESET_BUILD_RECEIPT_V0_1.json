@@ -1,0 +1,26 @@
+{
+  "artifact": "build/x86_64/pnrom.bin",
+  "canon_allowed": false,
+  "checks": {
+    "contains_marker_PNROM": true,
+    "debug_port_e9": true,
+    "entry_cli": true,
+    "halt_loop": true,
+    "reset_padding_11_nops": true,
+    "reset_vector_offset": true,
+    "rom_size_65536": true
+  },
+  "entry_linear": "0xF0000",
+  "epistemic_operator": "CHYBA",
+  "hardware_flash_authorized": false,
+  "physical_execution_tested": false,
+  "qemu_execution_tested": false,
+  "receipt_sha256": "e01e22a3c43ad2e4ced4852361923284dde7060a92dacb1c3d7a77c218b807b2",
+  "reset_vector_bytes": "ea000000f09090909090909090909090",
+  "reset_vector_linear": "0xFFFF0",
+  "reset_vector_offset": "0xFFF0",
+  "schema": "BIOOS_PNROM_RESET_BUILD_RECEIPT_V0_1",
+  "sha256": "b42eb72b77c78a85beebbdc93b4559f85906512c616dd216ac965dab0b7650aa",
+  "size_bytes": 65536,
+  "status": "PASS"
+}

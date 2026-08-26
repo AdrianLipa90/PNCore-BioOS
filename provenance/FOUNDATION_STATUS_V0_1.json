@@ -1,0 +1,59 @@
+{
+  "architecture_components": [
+    "Genesis v0.24 candidate program unit",
+    "PN Transition Spine",
+    "PNCAP generation-bound capabilities",
+    "PNCore boot",
+    "PNFS relational view",
+    "PNMap unified relational mapping",
+    "PNObject Generation Cell",
+    "PNROM x86 reset realization",
+    "PNResource physical resource binding",
+    "PNStore"
+  ],
+  "authority_boundary": {
+    "github_main_mutated": false,
+    "official_pncs_v0_23_admission_executed": false,
+    "official_pncs_v0_24_build_native_program_unit_executed": false,
+    "physical_x86_64_boot_executed": false
+  },
+  "canon_allowed": false,
+  "canonical_program_units": 1,
+  "checks": {
+    "genesis_program_unit_exact_spec": {"passed": 22, "status": "PASS", "total": 22},
+    "gremlin_resource_model": {
+      "critic_verdict": "PASS",
+      "hypothesis_verdict": "SUPPORTED_BY_DECLARED_TESTS",
+      "layered_isomorphic": false,
+      "unified_isomorphic": true
+    },
+    "live_operator_binding": {
+      "receipt_sha256": "e40d6c369f9b587cd135a0dffab9df86296eafbd3175beef160b3fc0e4847fc9",
+      "registry_sha256": "29767957ae775b1968bbb4c531728cc153137c88e819b135227dff73e3cca7ec",
+      "status": "PASS"
+    },
+    "local_contract_conformance": {"passed": 31, "status": "PASS", "total": 31},
+    "pnrom_reset_realization": {
+      "status": "PASS",
+      "rom_sha256": "b42eb72b77c78a85beebbdc93b4559f85906512c616dd216ac965dab0b7650aa",
+      "size_bytes": 65536,
+      "receipt_sha256": "e01e22a3c43ad2e4ced4852361923284dde7060a92dacb1c3d7a77c218b807b2",
+      "qemu_execution_tested": false,
+      "physical_execution_tested": false
+    }
+  },
+  "epistemic_operator": "CHYBA",
+  "genesis": {
+    "canonical_pnv_sha256": "8ac0f0f227d177c9d3df56085b10fe0f6dd1807312b46135a5acefdad783a37c",
+    "composition_id": "pncs:composition:sha256:8ff83ea05b1c4e574bb524c321528fa831e881ef349dd3051654c754dea8194a",
+    "definition_id": "pncs:def:sha256:34aaf875eb7b3a6eb72479ce45d2f40c9525f6eac2aac1035ab7b37a9e5dd370",
+    "program_id": "pncs:program:sha256:4dd5960aad4ade9029859147c90db5b2f4fc83353407786e66e6476279ca8974"
+  },
+  "native_contract_witnesses": 8,
+  "next_gate": "Execute exact PNCS v0.23 admission + v0.24 build, then test RESET -> PNROM entry in an emulator and continue PNROM -> PNCore.",
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_1",
+  "status": "PASS_CANDIDATE_FOUNDATION",
+  "status_receipt_sha256": "fec2df7817837c3e6b00a1e292629e99cac642853abdec28bd612171c1994dca",
+  "target_source_python_files": 0,
+  "repository_origin": "AdrianLipa90/PNCore-BioOS"
+}

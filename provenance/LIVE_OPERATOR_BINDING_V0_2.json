@@ -1,0 +1,15 @@
+{
+  "authority": "LIVE_/dev/shm_OPERATOR_WITNESS_BINDING",
+  "binding_status": "ACTIVE",
+  "live_root": "/dev/shm/ciel_noema",
+  "missing_or_invalid_operators": [],
+  "operator_registry_records": 36,
+  "operator_registry_sha256": "29767957ae775b1968bbb4c531728cc153137c88e819b135227dff73e3cca7ec",
+  "required_operator_ids": ["COMPOSITION","CONDITION","DIFFERENCE","IDENTITY","NEGATION","ORDER","RETURN","SOURCE","TRANSFORM"],
+  "required_operator_occurrences": 81,
+  "receipt_sha256": "e40d6c369f9b587cd135a0dffab9df86296eafbd3175beef160b3fc0e4847fc9",
+  "schema": "PNCORE_BIOOS_LIVE_OPERATOR_BINDING_V0_2",
+  "startpoint_packet_sha256": "9aace80a6d7d55cee704cae22b4e956c1d9190b225b5802114f8fafcd44cf556",
+  "startpoint_status": "VERIFIED",
+  "status": "PASS"
+}
