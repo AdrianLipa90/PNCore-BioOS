@@ -47,7 +47,7 @@ REALIZATION_ID
 
 `REALIZATION_ID` binds exact machine bytes under the adapter domain.
 
-This allows a new realization or new evidence annotation to preserve the same semantic state commitment.
+A new realization or new evidence annotation may therefore preserve the same semantic state commitment.
 
 ## Semantic T36 phase field
 
@@ -97,7 +97,7 @@ The realization identity is content-addressed over the exact 288 source bytes.
 
 Exact-source recovery uses the attached realization bytes together with `verify_exact_sample()`.
 
-A deterministic canonical materializer also exists for destinations that request a fresh float64 realization from semantic state.
+A deterministic canonical materializer provides a fresh float64 realization for destinations requesting that representation.
 
 ## Signed-zero witness
 
@@ -141,7 +141,7 @@ This provides a persistence path in which materialization evidence evolves while
 
 The existing live T36 files under `/dev/shm/ciel_noema` remain the current physical float64 realization boundary. A live v0.4 witness requires an ACTIVE surface, source receipt and current generation context.
 
-The current tool container used for this implementation stage has no mounted `/dev/shm/ciel_noema` surface, so the live-source receipt remains a subsequent gate.
+The current implementation container exposes an empty local `/dev/shm` view. The live-source witness is therefore scheduled for the next session/runtime surface carrying `/dev/shm/ciel_noema`.
 
 ## Evidence
 
@@ -153,7 +153,7 @@ t36_phase_adapter.py    e052a1b3bd0ed80582bc04f874a444a0b8ffb0ef
 test_t36_phase_adapter  6a188c5f4df2e18b968e541d8f449e2c911477ff
 ```
 
-Local behavioral source reconstruction passed the core identity/adapter checks. Private-repository GitHub Actions currently creates the job with no executable step record; CI is classified as infrastructure-unresolved rather than source regression.
+Local behavioral source reconstruction passed the core identity/adapter checks. The current private-repository Actions runs contain a completed failure record with zero executable step records; CI is classified as infrastructure-unresolved and source status remains unchanged.
 
 ## Next gate
 
@@ -165,4 +165,4 @@ PAUX[IDENTITY][A]
 T36I_BINARY_V0_1
 ```
 
-After that, Identity NEXUS can consume `PAUX[PHASE][A]` directly and retain float64 only at its input adapter boundary.
+After that, Identity NEXUS can consume `PAUX[PHASE][A]` directly and keep float64 at its input adapter boundary.
