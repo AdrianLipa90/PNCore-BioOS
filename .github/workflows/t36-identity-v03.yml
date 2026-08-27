@@ -1,0 +1,128 @@
+name: T36 Identity v0.3
+
+on:
+  push:
+    branches:
+      - feat/bioos-v0.3-t36-identity-genesis
+  pull_request:
+    paths:
+      - 'arch/x86_64/pncore/t36_identity*.S'
+      - 'arch/x86_64/pncore/pnr_t36_identity_extension.S'
+      - 'arch/x86_64/pnrom/**'
+      - 'tools/t36_identity*.py'
+      - 'tools/pnrom_code_binding_v01.py'
+      - 'tools/pnr_t36_binding_v01.py'
+      - 'tests/test_t36_identity_v01.py'
+      - '.github/workflows/t36-identity-v03.yml'
+
+jobs:
+  t36-identity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run numerical and record tests
+        run: python tests/test_t36_identity_v01.py
+
+      - name: Create deterministic synthetic PNVH and genesis anchor
+        run: |
+          mkdir -p build/x86_64 provenance
+          python - <<'PY'
+          import hashlib, struct
+          basis = bytes(range(32))
+          vector = struct.pack('<36d', *[0.01 * i for i in range(36)])
+          vector_sha = hashlib.sha256(vector).digest()
+          source = hashlib.sha256(b'T36-CI-SYNTHETIC-SOURCE/v0.1').digest()
+          header = bytearray(128)
+          header[0:4] = b'PNVH'
+          header[4:8] = b'36\x00\x00'
+          header[8:10] = (1).to_bytes(2, 'little')
+          header[10:12] = (0).to_bytes(2, 'little')
+          header[12:16] = (128).to_bytes(4, 'little')
+          header[16:20] = (416).to_bytes(4, 'little')
+          header[20:22] = (36).to_bytes(2, 'little')
+          header[22:24] = (8).to_bytes(2, 'little')
+          header[24:28] = (0x01020304).to_bytes(4, 'little')
+          header[28:32] = (0x7).to_bytes(4, 'little')
+          header[32:64] = basis
+          header[64:96] = vector_sha
+          header[96:128] = source
+          raw = bytes(header) + vector
+          assert len(raw) == 416
+          open('build/x86_64/pnvector_handoff_test.bin', 'wb').write(raw)
+          open('build/x86_64/t36_ci_genesis_anchor.bin', 'wb').write(hashlib.sha256(b'T36-CI-GENESIS/v0.1').digest())
+          PY
+
+      - name: Assemble non-template ROM objects
+        run: |
+          as --32 -o build/pnrom_reset.o arch/x86_64/pnrom/pnrom_reset.S
+          as --32 -o build/pnrom_longmode.o arch/x86_64/pnrom/pnrom_longmode.S
+          as --32 -o build/pncore_entry.o arch/x86_64/pncore/pncore_entry.S
+          as --32 -o build/t36_identity.o arch/x86_64/pncore/t36_identity.S
+          as --32 -o build/t36_identity_boot_entry.o arch/x86_64/pncore/t36_identity_boot_entry.S
+          as --32 -o build/pnscheduler.o arch/x86_64/pncore/pnscheduler.S
+          as --32 -o build/pnclock.o arch/x86_64/pncore/pnclock.S
+          as --32 -o build/pnstore_media.o arch/x86_64/pncore/pnstore_media.S
+          as --32 -o build/pnr_genesis.o arch/x86_64/pncore/pnr_genesis.S
+          as --32 -o build/pnr_t36_identity_extension.o arch/x86_64/pncore/pnr_t36_identity_extension.S
+
+      - name: Derive exact non-circular build bindings
+        run: |
+          python tools/pnrom_code_binding_v01.py \
+            --input RESET=build/pnrom_reset.o \
+            --input LONGMODE=build/pnrom_longmode.o \
+            --input PNCORE=build/pncore_entry.o \
+            --input T36_IDENTITY=build/t36_identity.o \
+            --input T36_BOOT=build/t36_identity_boot_entry.o \
+            --input SCHEDULER=build/pnscheduler.o \
+            --input CLOCK=build/pnclock.o \
+            --input PNSTORE=build/pnstore_media.o \
+            --input PNR1=build/pnr_genesis.o \
+            --input T36X=build/pnr_t36_identity_extension.o \
+            --input LINKER=arch/x86_64/pnrom/pnrom.ld \
+            --out-binding build/x86_64/pnrom_code_binding.bin \
+            --receipt provenance/PNROM_CODE_BINDING_CI_RECEIPT_V0_1.json
+          python tools/pnr_t36_binding_v01.py \
+            --pnr-genesis-object build/pnr_genesis.o \
+            --t36-extension-object build/pnr_t36_identity_extension.o \
+            --out-binding build/x86_64/pnr_t36_binding.bin \
+            --receipt provenance/PNR_T36_BINDING_CI_RECEIPT_V0_1.json
+
+      - name: Build exact T36 identity record
+        run: |
+          python tools/t36_identity_builder_v01.py \
+            --pnvh build/x86_64/pnvector_handoff_test.bin \
+            --genesis-anchor-file build/x86_64/t36_ci_genesis_anchor.bin \
+            --pnrom-code-binding-file build/x86_64/pnrom_code_binding.bin \
+            --pnr-binding-file build/x86_64/pnr_t36_binding.bin \
+            --program-binding-hex 4dd5960aad4ade9029859147c90db5b2f4fc83353407786e66e6476279ca8974 \
+            --scheduler-binding-hex bd6e79f11468a3d5e244b8df4ada6e3b7494187caa971cad0a26ea16cad38c34 \
+            --out build/x86_64/t36_identity_test.bin \
+            --receipt provenance/T36_IDENTITY_CI_BUILD_RECEIPT_V0_1.json
+          test "$(stat -c %s build/x86_64/t36_identity_test.bin)" = "256"
+
+      - name: Assemble templates and link full synthetic v0.3 ROM
+        run: |
+          as --32 -o build/pnvh_template.o arch/x86_64/pncore/pnvh_template.S
+          as --32 -o build/t36_identity_template.o arch/x86_64/pncore/t36_identity_template.S
+          ld -m elf_i386 -T arch/x86_64/pnrom/pnrom.ld \
+            -o build/pnrom_v0_3.elf \
+            build/pnrom_reset.o build/pnrom_longmode.o build/pncore_entry.o \
+            build/t36_identity.o build/t36_identity_boot_entry.o \
+            build/pnscheduler.o build/pnclock.o build/pnstore_media.o \
+            build/pnr_genesis.o build/pnr_t36_identity_extension.o \
+            build/pnvh_template.o build/t36_identity_template.o
+          objcopy -O binary --gap-fill 0xff build/pnrom_v0_3.elf build/pnrom_v0_3.bin
+          test "$(stat -c %s build/pnrom_v0_3.bin)" = "65536"
+
+      - name: Upload build receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: t36-identity-v03-receipts
+          path: |
+            provenance/PNROM_CODE_BINDING_CI_RECEIPT_V0_1.json
+            provenance/PNR_T36_BINDING_CI_RECEIPT_V0_1.json
+            provenance/T36_IDENTITY_CI_BUILD_RECEIPT_V0_1.json
