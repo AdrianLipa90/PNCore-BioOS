@@ -29,6 +29,13 @@ def _hex32(value: str, name: str) -> bytes:
     return raw
 
 
+def _file32(path: Path, name: str) -> bytes:
+    raw = path.read_bytes()
+    if len(raw) != 32:
+        raise ValueError(f"{name} file must contain exactly 32 bytes")
+    return raw
+
+
 def _load_pnvh(path: Path) -> tuple[bytes, bytes, bytes, bytes]:
     raw = path.read_bytes()
     if len(raw) != PNVH_BYTES:
@@ -121,8 +128,14 @@ def main() -> int:
     p = argparse.ArgumentParser(description="Build exact T36 identity record from admitted PNVH and provisioning bindings")
     p.add_argument("--pnvh", required=True, type=Path)
     p.add_argument("--genesis-anchor-file", required=True, type=Path)
-    p.add_argument("--pnrom-code-binding-hex", required=True)
-    p.add_argument("--pnr-binding-hex", required=True)
+
+    rom = p.add_mutually_exclusive_group(required=True)
+    rom.add_argument("--pnrom-code-binding-hex")
+    rom.add_argument("--pnrom-code-binding-file", type=Path)
+    pnr = p.add_mutually_exclusive_group(required=True)
+    pnr.add_argument("--pnr-binding-hex")
+    pnr.add_argument("--pnr-binding-file", type=Path)
+
     p.add_argument("--program-binding-hex", required=True)
     p.add_argument("--scheduler-binding-hex", required=True)
     p.add_argument("--flags", default="0x7")
@@ -132,11 +145,22 @@ def main() -> int:
     p.add_argument("--receipt", type=Path)
     args = p.parse_args()
 
+    rom_binding = (
+        _file32(args.pnrom_code_binding_file, "pnrom_code_binding")
+        if args.pnrom_code_binding_file
+        else _hex32(args.pnrom_code_binding_hex, "pnrom_code_binding")
+    )
+    pnr_binding = (
+        _file32(args.pnr_binding_file, "pnr_binding")
+        if args.pnr_binding_file
+        else _hex32(args.pnr_binding_hex, "pnr_binding")
+    )
+
     record, receipt = build_record(
         pnvh_path=args.pnvh,
         genesis_anchor_path=args.genesis_anchor_file,
-        pnrom_code_binding=_hex32(args.pnrom_code_binding_hex, "pnrom_code_binding"),
-        pnr_binding=_hex32(args.pnr_binding_hex, "pnr_binding"),
+        pnrom_code_binding=rom_binding,
+        pnr_binding=pnr_binding,
         program_binding=_hex32(args.program_binding_hex, "program_binding"),
         scheduler_binding=_hex32(args.scheduler_binding_hex, "scheduler_binding"),
         flags=int(args.flags, 0),
