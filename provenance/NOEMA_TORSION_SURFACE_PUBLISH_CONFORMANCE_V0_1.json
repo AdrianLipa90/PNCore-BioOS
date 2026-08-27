@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "A_epoch2": true,
+    "B_epoch1": true,
+    "deny_incomplete": true,
+    "deny_stale": true,
+    "deny_without_writer": true,
+    "head_A": true,
+    "head_B": true,
+    "head_unchanged_after_writer_denial": true,
+    "initial_A": true,
+    "publish_A": true,
+    "publish_B": true,
+    "reader_head_consistent": true
+  },
+  "checks_passed": 12,
+  "checks_total": 12,
+  "fixture_class": "SYNTHETIC_REFERENCE",
+  "live_permission_workaround": "DENIED",
+  "live_publish_status": "PUBLISH_BLOCKED_OWNER_GATE",
+  "schema": "NOEMA_TORSION_SURFACE_PUBLISH_REFERENCE_V0_1",
+  "status": "PASS"
+}

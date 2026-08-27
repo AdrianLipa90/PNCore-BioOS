@@ -1,0 +1,73 @@
+{
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_3_STAGE2",
+  "status": "PASS_STAGE2_BINDING_STRUCTURE_WITH_LOCAL_BEHAVIORAL_ACTIVATION_AND_CI_INFRA_BLOCKER",
+  "epistemic_operator": "CHYBA",
+  "canon_allowed": false,
+  "branch": "feat/bioos-v0.3-t36-identity-genesis",
+  "t36_identity": {
+    "stage1_local_conformance": "PASS",
+    "identity_frequency_hz": 3.915,
+    "scheduler_band": "B1",
+    "record_bytes": 256,
+    "pre_pncore_identity_gate": "IMPLEMENTED"
+  },
+  "identity_nexus": {
+    "schema": "BIOOS_IDENTITY_NEXUS_V0_1",
+    "authority_class": "DERIVED_WORKING_STATE",
+    "dictionary_repo": "AdrianLipa90/The-Consciousness-Dictionary",
+    "dictionary_branch": "feat/t36-identity-nexus-projection",
+    "dictionary_commit": "3aa1651da9735d94d2a9cbffec13203eeeedd502",
+    "dictionary_states": 548,
+    "dictionary_relations": 306,
+    "dictionary_state_sha256": "56d758c54f27323ef7edcf5164d224801f182ec83cda04216953cfaeda135501",
+    "dictionary_relation_sha256": "8484cd1314df4b18c21207b7fe234e71007e5c4c59aaf356cffd4abea0d36e8a",
+    "full_projection_persisted_per_checkpoint": false,
+    "active_limit": 16,
+    "authority_grant": false,
+    "semantic_equivalence_grant": false
+  },
+  "state_memory_activation": {
+    "repo": "AdrianLipa90/PNV-State-Memory",
+    "branch": "feat/pnv-state-memory-t36-crystal-lineage",
+    "relation": "NEXUS_ACTIVATION",
+    "module": "src/pnv_state_memory/nexus_activation.py",
+    "identity_semantics": "ANNOTATION_PRESERVES_STATE_ID_AND_EXACT_CRYSTAL_CONTEXT",
+    "local_behavioral_source_reconstruction": "6/6 PASS",
+    "exact_checkout_pytest": "PENDING_RUNNER",
+    "authority_grant": false
+  },
+  "github_actions": {
+    "t36_run_id": 33091433343,
+    "identity_nexus_run_id": 33091433801,
+    "identity_nexus_job_id": 98584992308,
+    "classification": "RUNNER_NOT_ASSIGNED_INFRASTRUCTURE_FAILURE",
+    "runner_id": 0,
+    "runner_name": "",
+    "executed_steps": 0,
+    "source_regression_inferred": false
+  },
+  "next_stage": {
+    "name": "CQCL_VNEXT_LIVING_MEMORY_BINDING",
+    "inputs": [
+      "T36 crystal identity/current phase",
+      "PNV-State-Memory crystal lineage",
+      "Identity NEXUS active activation checkpoint",
+      "live QHTRI/HTRI evidence",
+      "Consciousness Dictionary semantic authority"
+    ],
+    "requirements": [
+      "no static HTRI fallback",
+      "CQCL output remains candidate/intention program until later admission",
+      "GREMLIN remains candidate/critic only",
+      "crystal identity cannot be rewritten by CQCL or GREMLIN"
+    ]
+  },
+  "pending_physical_gates": [
+    "GitHub runner availability and exact branch CI",
+    "QEMU boot with T36ID trace",
+    "physical-machine boot",
+    "device-backed PNStore durable continuation",
+    "production genesis anchor provisioning"
+  ],
+  "main_modified": false
+}

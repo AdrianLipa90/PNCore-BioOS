@@ -1,0 +1,12 @@
+{
+  "compiled_seconds_per_call": 0.0002874774200002624,
+  "equivalent_edges": true,
+  "full_pair_count": 630,
+  "naive_seconds_per_call": 0.002305109891661535,
+  "precompiled_candidate_count": 105,
+  "recompile_trigger": "omega_sha256_change",
+  "schema": "NOEMA_TORSION_LIVE_OBSERVER_OPTIMIZATION_V0_1",
+  "speedup": 8.018403294628952,
+  "status": "PASS",
+  "window_ticks": 40
+}

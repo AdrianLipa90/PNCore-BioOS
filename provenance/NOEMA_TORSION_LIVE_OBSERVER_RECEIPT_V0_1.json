@@ -1,0 +1,57 @@
+{
+  "active_node_count": 36,
+  "authority": {
+    "capability": "PNCAP",
+    "effect": "AUX",
+    "object_id": "PNV_STATE_OBJECT"
+  },
+  "aux_effect": "NONE",
+  "candidate_pair_count": 105,
+  "coupling_policy": "DEGREE_MAX_KAPPA_V0_1",
+  "edge_count": 1,
+  "edges": [
+    {
+      "K": 0.009193150006360484,
+      "R": 0.9826105851260605,
+      "chunk_R": [
+        0.9881003116905706,
+        0.9946445903240855,
+        0.9997433127028502,
+        0.9850214168314001
+      ],
+      "detuning_rel": 0.0008498587093749804,
+      "g": 0.009033286506901522,
+      "i": 4,
+      "j": 22,
+      "m": 14,
+      "n": 13,
+      "tau_ij": -2.3646503789428595
+    }
+  ],
+  "kappa": 0.009193150006360484,
+  "max_node_load": 0.009033286506901522,
+  "max_node_load_over_kappa": 0.9826105851260606,
+  "pncap_effect": "NONE",
+  "publication": {
+    "attempted": true,
+    "existing_permissions": {
+      "active_head": "0o644",
+      "orchestration_status.json": "0o644",
+      "surface_A.json": "0o644",
+      "surface_B.json": "0o644"
+    },
+    "existing_surface_hashes": {
+      "active_head": "06f961b802bc46ee168555f066d28f4f0e9afdf3f88174c1ee6f9de004fc30a0",
+      "orchestration_status.json": "4b0cea23bd0e5277e62926bb8b12ef7d84cdc5b61812603aaf247241c7ecb627",
+      "surface_A.json": "fe052c51376c65213f7bfb7a81df65c4312229680b2bdf1f6677dfd3a55db1b2",
+      "surface_B.json": "fe052c51376c65213f7bfb7a81df65c4312229680b2bdf1f6677dfd3a55db1b2"
+    },
+    "result": "PERMISSION_DENIED_FAIL_CLOSED",
+    "surface_files_mutated": false
+  },
+  "schema": "NOEMA_TORSION_LIVE_OBSERVER_RECEIPT_V0_1",
+  "source_ownership": "READ_ONLY_QHTRI",
+  "status": "PASS_OBSERVER_DERIVATION_PUBLISH_BLOCKED_OWNER_GATE",
+  "tick_end": 55377,
+  "tick_start": 55338
+}

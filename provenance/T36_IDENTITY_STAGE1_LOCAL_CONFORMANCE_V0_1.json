@@ -1,0 +1,51 @@
+{
+  "schema": "T36_IDENTITY_STAGE1_LOCAL_CONFORMANCE_V0_1",
+  "status": "PASS_LOCAL_BEHAVIORAL_AND_ASSEMBLY_CI_PENDING",
+  "epistemic_operator": "CHYBA",
+  "canon_allowed": false,
+  "branch": "feat/bioos-v0.3-t36-identity-genesis",
+  "numeric_unit": {
+    "result": "8/8-equivalent PASS",
+    "four_pi_to_b1": true,
+    "identity_record_bytes": 256,
+    "torsion_worst_ratio": "944:945",
+    "torsion_required_substeps_per_t0": 10474
+  },
+  "host_builder_fixture": {
+    "source": "existing local PNVH conformance fixture",
+    "pnvh_sha256": "3ed4c01aaeb725fe445411b3807b4461c95c35fa7ca84910e771f36d08ab9152",
+    "generated_record_sha256": "268549cf003ffda11cf9dce5356682043b80d384fad5802ad4fd702d091cddd3",
+    "record_bytes": 256,
+    "synthetic_genesis_anchor": true,
+    "raw_genesis_anchor_recorded": false,
+    "codec_roundtrip": "PASS"
+  },
+  "local_assembly": {
+    "assembler": "GNU as --32",
+    "t36_identity": "PASS",
+    "t36_identity_boot_entry": "PASS",
+    "t36_identity_template": "PASS",
+    "pnrom_longmode": "PASS",
+    "note": "Local sources were reconstructed from branch code for immediate behavioral/syntax validation; exact branch-byte CI is tracked separately."
+  },
+  "cross_repo_state_memory": {
+    "repo": "AdrianLipa90/PNV-State-Memory",
+    "branch": "feat/pnv-state-memory-t36-crystal-lineage",
+    "combined_local_tests": "23/23 PASS",
+    "paux_crystal_context_roundtrip": "PASS"
+  },
+  "github_actions": {
+    "workflow": ".github/workflows/t36-identity-v03.yml",
+    "purpose": "exact branch-byte numeric tests, synthetic PNVH provisioning, full code-object assembly, non-circular bindings, exact T36 record build, full 64KiB ROM link",
+    "run_observed_at_receipt_creation": false,
+    "status": "PENDING"
+  },
+  "pending": [
+    "exact branch GitHub Actions run",
+    "QEMU boot T36ID trace",
+    "physical boot",
+    "device-backed PNStore identity continuation",
+    "production genesis-anchor provisioning"
+  ],
+  "main_modified": false
+}

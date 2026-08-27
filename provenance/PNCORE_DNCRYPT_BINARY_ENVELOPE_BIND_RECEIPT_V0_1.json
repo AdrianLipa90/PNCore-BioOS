@@ -1,0 +1,39 @@
+{
+  "binding": {
+    "binary_envelope_id_distinct": true,
+    "canonical_envelope_roundtrip_required": true,
+    "canonical_pnv_object_id_mutated": false,
+    "expected_aad_exact_match_required": true,
+    "paux_verify_after_decrypt": true,
+    "pnv_verify_after_decrypt": true,
+    "receipt_verify_required": true
+  },
+  "bioos_branch": "feat/bioos-v0.2.9-convergence",
+  "canon_allowed": false,
+  "dncrypt_source": {
+    "branch": "feat/dncrypt-v0.4-binary-envelope",
+    "codec_id": "dncrypt.binary-envelope/v0.1",
+    "head_at_binding": "88439967b97d4d607ab2c7d30211f91e1fe87a72",
+    "repository": "AdrianLipa90/DNCrypt",
+    "source_ci": "PENDING_NO_RUN_REPORTED"
+  },
+  "epistemic": "CHYBA",
+  "frozen_crypto": {
+    "mutated": false,
+    "protocol_id": "dncrypt.frozen-protocol/v0.2",
+    "version": "DNCrypt/v0.2"
+  },
+  "pnstore": {
+    "binary_capacity_benchmark_pass": false,
+    "payload_max_bytes": 3936
+  },
+  "promotion": {
+    "bioos_integration_test_pass": false,
+    "legacy_crypto_regression_pass": false,
+    "main_modified": false,
+    "source_tests_pass": false
+  },
+  "receipt_sha256": "dc7c4e9ae38c21f6d2a218bd9154ff8eb641d51bbc364b06f4cfa451b99793c6",
+  "schema": "PNCORE_DNCRYPT_BINARY_ENVELOPE_BIND_RECEIPT_V0_1",
+  "status": "PASS_BINDING_STRUCTURE_SOURCE_CI_PENDING"
+}

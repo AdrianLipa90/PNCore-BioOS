@@ -1,0 +1,66 @@
+{
+  "schema": "PNCORE_BIOOS_MONOGRAPH_V0_3_SOURCE_SNAPSHOT",
+  "date": "2026-08-27",
+  "epistemic_operator": "CHYBA",
+  "canon_allowed": false,
+  "bioos": {
+    "repo": "AdrianLipa90/PNCore-BioOS",
+    "branch": "feat/bioos-v0.3-t36-identity-genesis",
+    "implementation_head_before_monograph": "1d1e21ff88ed6f520f395ed5dba477215b598c6d",
+    "monograph_index_commit_before_snapshot": "7ec90528d85788e154f7988e8db5fda46fe25920",
+    "main_modified_by_monograph": false
+  },
+  "state_memory": {
+    "repo": "AdrianLipa90/PNV-State-Memory",
+    "branch": "feat/pnv-state-memory-t36-crystal-lineage",
+    "head": "f53d72ead329c348accd00ead53ddfbd1ef99292",
+    "stage1_combined_local_tests": "23/23 PASS",
+    "nexus_activation_local_behavioral": "6/6 PASS",
+    "exact_checkout_ci": "PENDING_RUNNER"
+  },
+  "dictionary": {
+    "repo": "AdrianLipa90/The-Consciousness-Dictionary",
+    "branch": "feat/t36-identity-nexus-projection",
+    "head": "3aa1651da9735d94d2a9cbffec13203eeeedd502",
+    "states": 548,
+    "relations": 306,
+    "state_sha256": "56d758c54f27323ef7edcf5164d224801f182ec83cda04216953cfaeda135501",
+    "relation_sha256": "8484cd1314df4b18c21207b7fe234e71007e5c4c59aaf356cffd4abea0d36e8a"
+  },
+  "cqcl": {
+    "repo": "AdrianLipa90/CIEL-Omega-ApokalypOS",
+    "branch": "feat/cqcl-vnext-t36-nexus-memory",
+    "head": "1cbbd3b680aae139859bbe1168798fde4206e746",
+    "workflow_run_id": 33093488604,
+    "workflow_job_id": 98592241609,
+    "isolated_tests": "7/7 PASS",
+    "status": "PASS_GITHUB_ACTIONS"
+  },
+  "dncrypt": {
+    "repo": "AdrianLipa90/DNCrypt",
+    "binary_branch": "feat/dncrypt-v0.4-binary-envelope",
+    "binary_head": "88439967b97d4d607ab2c7d30211f91e1fe87a72",
+    "bioos_binding_status": "IMPLEMENTED_BINDING_CANDIDATE",
+    "promotion_gates": "PENDING"
+  },
+  "qhtri_direct_telemetry": {
+    "receipt": "provenance/NOEMA_QHTRI_DIRECT_TELEMETRY_CONFORMANCE_V0_1.json",
+    "checks": "28/28 PASS",
+    "classification": "NATURAL_SYSTEM_STATE / ENDOGENOUS_RUNTIME_DYNAMICS"
+  },
+  "t36": {
+    "stage1_status": "PASS_STAGE1_LOCAL_CONFORMANCE_EXACT_CI_PENDING",
+    "identity_frequency_hz": 3.915,
+    "scheduler_band": "B1",
+    "record_bytes": 256,
+    "qemu_boot": "PENDING",
+    "physical_boot": "PENDING"
+  },
+  "frontier": {
+    "next_system_gate": "T36 -> State Memory -> Identity NEXUS -> NEXUS_ACTIVATION -> live QHTRI binding -> CQCL OBSERVATION_ONLY",
+    "end_to_end_receipt": "PENDING",
+    "device_backed_pnstore": "PENDING",
+    "production_genesis_provisioning": "PENDING",
+    "opaque_dncrypt_key_handle": "PENDING"
+  }
+}

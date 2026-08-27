@@ -1,0 +1,35 @@
+name: NEXUS Hypercrystal v0.4
+
+on:
+  push:
+    branches:
+      - feat/bioos-v0.4-analog-native-state
+    paths:
+      - 'spec/NEXUS_HYPERCRYSTAL_V0_1.md'
+      - 'tools/hypercrystal_state_v01.py'
+      - 'tests/test_hypercrystal_state_v01.py'
+      - '.github/workflows/hypercrystal-v04.yml'
+  workflow_dispatch:
+
+jobs:
+  hypercrystal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout BioOS v0.4
+        uses: actions/checkout@v4
+        with:
+          path: bioos
+      - name: Checkout PNV-State-Memory analog-native branch
+        uses: actions/checkout@v4
+        with:
+          repository: AdrianLipa90/PNV-State-Memory
+          ref: feat/pnv-state-memory-analog-native
+          path: state-memory
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run NEXUS Hypercrystal semantic tests
+        working-directory: bioos
+        env:
+          PYTHONPATH: ${{ github.workspace }}/bioos:${{ github.workspace }}/state-memory/src
+        run: python tests/test_hypercrystal_state_v01.py

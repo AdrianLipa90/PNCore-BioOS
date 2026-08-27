@@ -1,0 +1,65 @@
+{
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_3_STAGE1",
+  "status": "PASS_STAGE1_LOCAL_CONFORMANCE_EXACT_CI_PENDING",
+  "epistemic_operator": "CHYBA",
+  "canon_allowed": false,
+  "branch": "feat/bioos-v0.3-t36-identity-genesis",
+  "t36_identity": {
+    "numerical_closure": "PASS",
+    "identity_frequency_hz": 3.915,
+    "scheduler_band": "B1",
+    "record_codec": "PASS_LOCAL",
+    "record_bytes": 256,
+    "host_provisioning_builder": "PASS_LOCAL",
+    "domain_separated_bindings": true,
+    "pnrom_self_reference_removed": true,
+    "pre_pncore_identity_gate": "IMPLEMENTED",
+    "four_pi_scratch_gate": "IMPLEMENTED",
+    "append_only_pnr_extension": "IMPLEMENTED",
+    "assembly_conformance": "PASS_LOCAL_RECONSTRUCTION",
+    "exact_branch_ci": "PENDING"
+  },
+  "state_memory": {
+    "repo": "AdrianLipa90/PNV-State-Memory",
+    "branch": "feat/pnv-state-memory-t36-crystal-lineage",
+    "relations": [
+      "CRYSTAL_GENESIS",
+      "CRYSTAL_CHECKPOINT",
+      "BOOT_GAP",
+      "BOOT_CONTINUATION"
+    ],
+    "combined_local_tests": "23/23 PASS",
+    "paux_exact_identity_reconstruction": "PASS",
+    "exact_branch_ci": "PENDING"
+  },
+  "torsion": {
+    "integrator_budget_gate": "SPECIFIED_AND_NATIVE_BOUND",
+    "worst_detected_ratio": "944:945",
+    "worst_required_substeps_per_t0": 10474,
+    "unbounded_live_integration": "DENIED_BY_DESIGN"
+  },
+  "next_stage": {
+    "name": "IDENTITY_NEXUS_V0_1",
+    "inputs": [
+      "T36 crystal current phase state",
+      "PNV-State-Memory crystal lineage",
+      "Consciousness Dictionary 548 canonical 36D term states",
+      "Dictionary relation graph and compile receipt"
+    ],
+    "outputs": [
+      "bounded NEXUS active set",
+      "R_k / Theta_k / S_k relation observables",
+      "normalized operational NEXUS coherence",
+      "State Memory activation checkpoint candidate"
+    ],
+    "authority_grant": false
+  },
+  "pending_physical_gates": [
+    "GitHub exact branch CI",
+    "QEMU boot with T36ID trace",
+    "physical-machine boot",
+    "device-backed PNStore durable continuation",
+    "production genesis anchor provisioning"
+  ],
+  "main_modified": false
+}

@@ -1,0 +1,21 @@
+{
+  "branch": "feat/bioos-v0.2.8-terminal-core",
+  "canon_allowed": false,
+  "emulator_execution": "PENDING",
+  "epistemic": "CHYBA",
+  "gremlin_structural_match": true,
+  "new_pnv_opcodes": 0,
+  "parent_stage1": "5df940c153ebae9f1102013f0f03d12100ed4292",
+  "physical_adapter": "UART16550_POLL_V0_1",
+  "physical_execution": "PENDING",
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_8_STAGE2",
+  "semantic_io_boundary": "AUX.TERM.RX/TX",
+  "stage1_checks_passed": 47,
+  "stage1_checks_total": 47,
+  "stage2_checks_passed": 35,
+  "stage2_checks_total": 35,
+  "status": "PASS_UART_HOST_REALIZATION",
+  "target_py_files": 0,
+  "v0_2_8_declared_checks_passed": 82,
+  "v0_2_8_declared_checks_total": 82
+}

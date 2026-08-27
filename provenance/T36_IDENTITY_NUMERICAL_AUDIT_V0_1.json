@@ -1,0 +1,99 @@
+{
+  "schema": "T36_IDENTITY_NUMERICAL_AUDIT_V0_1",
+  "status": "PASS_NUMERICAL_CLOSURE_WITH_TORSION_BUDGET_BLOCKER",
+  "epistemic_operator": "CHYBA",
+  "canon_allowed": false,
+  "clock": {
+    "f0_hz": 7.83,
+    "f0_rational": "783/100",
+    "t0_s": 0.1277139208173691,
+    "t0_rational_s": "100/783",
+    "omega0_rad_s": 49.19734095521616
+  },
+  "spinor_identity": {
+    "projective_period": "2*pi",
+    "lifted_identity_period": "4*pi",
+    "identity_ticks": 2,
+    "identity_period_s": 0.2554278416347382,
+    "identity_frequency_hz": 3.915,
+    "identity_frequency_rational": "783/200",
+    "scheduler_band_match": "B1",
+    "closure": "EXACT_UNDER_DECLARED_RATIONAL_CLOCK"
+  },
+  "t36": {
+    "vector_dim": 36,
+    "scalar": "float64-le",
+    "vector_payload_bytes": 288,
+    "pnvh_total_bytes": 416,
+    "identity_record_bytes": 256,
+    "spinor_sheet_storage_bytes": 0,
+    "spinor_sheet_derivation": "phase_index & 1"
+  },
+  "consciousness_dictionary_binding": {
+    "source_repo": "AdrianLipa90/The-Consciousness-Dictionary",
+    "source_branch": "main",
+    "term_count": 548,
+    "declared_relation_count": 306,
+    "term_state_vector_dim": 36,
+    "term_state_float64_bytes": 157824,
+    "declared_relation_delta_float64_bytes": 88128,
+    "combined_geometry_kernel_bytes": 245952,
+    "combined_geometry_kernel_kib": 240.1875,
+    "full_term_scan_per_identity_second": 2145.42,
+    "scalar_phase_comparisons_per_identity_second": 77235.12,
+    "embedding_required": false,
+    "binding_mode": "EXISTING_CANONICAL_PHASE_NAV_TERM_VECTOR"
+  },
+  "kappa": {
+    "formula": "ln(2)/(24*pi)",
+    "value": 0.009193150006360484
+  },
+  "nexus": {
+    "historical_raw_product_scale_risk": true,
+    "example_r_0_98_product_548": 1.555569715360813e-05,
+    "operational_candidate": "NORMALIZED_INFORMATIONAL_ACTION_GEOMETRIC_MEAN",
+    "formula": "C_NEXUS=exp(-S_bar/kappa)",
+    "authority_grant": false
+  },
+  "torsion_budget": {
+    "stage2_reduced_ratio_candidate_count_before_nyquist": 301,
+    "declared_ratio_box": {
+      "q_min": 1,
+      "q_max": 16,
+      "ratio_min": 0.25,
+      "ratio_max": 4.0
+    },
+    "worst_composed_pair_found": {
+      "ratio_a": "59/15",
+      "ratio_b": "63/16",
+      "reduced_edge_ratio": "944/945",
+      "m2_plus_n2": 1784161,
+      "single_edge_l_bound_at_kappa_r1": 16402.059708498127,
+      "dt_safe_s": 1.219359053402161e-05,
+      "required_substeps_per_t0": 10474
+    },
+    "complete_36_node_1_to_1_bound": {
+      "edge_count": 630,
+      "node_degree": 35,
+      "l_bound": 0.3309534002289774,
+      "dt_safe_s": 0.6043146855769592,
+      "fits_one_t0": true
+    },
+    "verdict": "HIGH_RATIONAL_ORDER_REQUIRES_EXPLICIT_BUDGET_GATE"
+  },
+  "persistence": {
+    "every_tick_commit": false,
+    "checkpoint_only": true,
+    "test_media_generation_capacity": 15,
+    "exhaustion_if_committed_every_b0_s": 1.9157088122605366,
+    "exhaustion_if_committed_every_identity_cycle_s": 3.831417624521073
+  },
+  "execution_validation": {
+    "python_recalculation_in_design_session": "PASS",
+    "repository_test_added": true,
+    "ci_run": "NOT_RUN_IN_THIS_UPDATE",
+    "qemu_boot": "PENDING",
+    "physical_boot": "PENDING",
+    "state_memory_recovery": "PENDING"
+  }
+}

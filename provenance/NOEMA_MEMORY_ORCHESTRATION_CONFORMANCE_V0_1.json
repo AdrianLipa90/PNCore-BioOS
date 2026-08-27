@@ -1,0 +1,34 @@
+{
+  "authority_chain": [
+    "RECALL_CANDIDATE",
+    "MEMORY_EPOCH_MATCH",
+    "LINEAGE_MATCH",
+    "PNCAP",
+    "SCHEDULER",
+    "AUX"
+  ],
+  "checks": {
+    "admission_chain_order": true,
+    "arbitrary_rank_weight_cannot_bypass_pncap": true,
+    "aux_unavailable_no_effect": true,
+    "best_candidate_ranked_first": true,
+    "candidate_has_no_authority_field": true,
+    "empty_component_excluded": true,
+    "full_gate_admits_aux": true,
+    "full_gate_effect_exact": true,
+    "generation_flip_invalidates_candidate": true,
+    "high_energy_excluded": true,
+    "lineage_mismatch_excluded": true,
+    "low_coherence_excluded": true,
+    "no_candidate_is_quiet": true,
+    "pncap_deny_has_no_aux_effect": true,
+    "resonance_does_not_grant_capability": true,
+    "scheduler_quiet_no_effect": true,
+    "stale_epoch_rejected": true,
+    "tie_break_stable_id": true
+  },
+  "checks_passed": 18,
+  "checks_total": 18,
+  "schema": "NOEMA_MEMORY_ORCHESTRATION_REFERENCE_V0_1",
+  "status": "PASS"
+}

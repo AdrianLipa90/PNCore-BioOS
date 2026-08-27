@@ -1,0 +1,53 @@
+{
+  "checks": {
+    "deterministic_E180": true,
+    "deterministic_E45": true,
+    "deterministic_E90": true,
+    "isolated_node_zero_load": true,
+    "kappa_formula": true,
+    "load_bound_E180": true,
+    "load_bound_E45": true,
+    "load_bound_E90": true,
+    "mixed_mn_potential_nonincreasing": true,
+    "mixed_mn_reduces_energy": true,
+    "one_to_one_converges": true,
+    "relabel_invariant": true,
+    "topology_change_recompiles_policy": true
+  },
+  "checks_passed": 13,
+  "checks_total": 13,
+  "density_sweep": {
+    "180": {
+      "L_bound": 1.305930915882008,
+      "max_load": 0.008733897167831354,
+      "max_load_over_kappa": 0.9500440177511097,
+      "mean_load": 0.007597427796185143
+    },
+    "45": {
+      "L_bound": 1.0666678562890692,
+      "max_load": 0.008896907405452261,
+      "max_load_over_kappa": 0.9677757242399764,
+      "mean_load": 0.005362469425111764
+    },
+    "90": {
+      "L_bound": 1.084321175472236,
+      "max_load": 0.008753739121359322,
+      "max_load_over_kappa": 0.9522023588544573,
+      "mean_load": 0.0066692305985258694
+    }
+  },
+  "formula": "K_ij = kappa / max(1, degree_i, degree_j)",
+  "kappa": 0.009193150006360484,
+  "mixed_mn_final_energy_ratio": 0.406511147494267,
+  "one_to_one_final_energy_ratio": 2.955348218840903e-07,
+  "policy_selected": "DEGREE_MAX_KAPPA",
+  "schema": "NOEMA_TORSION_COUPLING_POLICY_REFERENCE_V0_1",
+  "selection_reason": [
+    "symmetric",
+    "deterministic",
+    "no free scale parameter beyond canonical kappa",
+    "per-node raw coupling load <= kappa for R<=1",
+    "compatible with canonical sparse edge representation"
+  ],
+  "status": "PASS"
+}

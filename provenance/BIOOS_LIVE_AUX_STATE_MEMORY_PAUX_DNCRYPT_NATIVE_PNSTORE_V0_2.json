@@ -1,0 +1,64 @@
+{
+  "authority_effects": {
+    "canonical_state_memory_root_mutated": false,
+    "live_aux_mutated": false,
+    "main_modified": false,
+    "test_root": "/dev/shm/ciel_noema/session/e2e_pnv_state_memory"
+  },
+  "blocked_full_runtime": {
+    "ac_aux_status_present": false,
+    "pncs_fast_admission_present": false
+  },
+  "dncrypt": {
+    "aad_bytes": 1374,
+    "binary_envelope_bytes": 2672,
+    "binary_envelope_id": "dncrypt:binary-envelope:sha256:8ff41b129e24f4c7f10ffae3e14c5e1102e2f072ca50c1c04ef0ff5856a4ea00",
+    "extent_utilization": 0.6788617886178862,
+    "fits_single_pnstore_extent": true
+  },
+  "live_source": {
+    "aux_heartbeat_age_s": 0.111411669,
+    "aux_seq": 43456,
+    "bytes": 288,
+    "path": "/dev/shm/ciel_noema/aux_phi",
+    "sha256": "af6d6caff68e67136da088ec27ebdfa3857c27bf6c19c356c73209a786eb9469",
+    "tether_heartbeat_age_s": 0.171130918,
+    "tether_seq": 61376
+  },
+  "paux": {
+    "dim": 36,
+    "dtype": "float64-le",
+    "plaintext_bytes": 288,
+    "profile": "PAUX-EXACT"
+  },
+  "pnstore": {
+    "assembly_git_blob": "e1df76a6adcda3e98234d23da76cec93ebff9f9c",
+    "extent_valid": true,
+    "generation": 1,
+    "payload_byte_identical": true,
+    "payload_limit": 3936,
+    "recovered_generation": 1
+  },
+  "pnv": {
+    "epoch": 0,
+    "integrity_hash": "ab0026a492de827524a11a1f9c640559884820d2add42ab93160981790498da6",
+    "lineage_hash": "6705f52bd8f9eac836701a7c2d3561f7419c78c4c3aa457b83f41859aeb8a450",
+    "object_id": "a9a5e06a19ecf7972bf1136ae200559e5a2fef42fff4a2fae4fff141d71f6302",
+    "receipt_hash": "1d9052f0a5c22c321f70588d2776bca05f51a78e5e5f20e061e1c1e5e239cd1d",
+    "state_id": "0f8bbf7d0c6bac69db7e99fcacf881499a6b6fdeb7518d6f29da5a9ac362c98b"
+  },
+  "receipt_sha256": "448afa320a21b779588955fc0c7e64feee1ff3955fbfe39dbabd29b55bd11eb2",
+  "schema": "BIOOS_LIVE_AUX_STATE_MEMORY_PAUX_DNCRYPT_NATIVE_PNSTORE_V0_2",
+  "status": "PASS_LIVE_SOURCE_COMPACT_E2E",
+  "tests": {
+    "authenticated_aad_exact": true,
+    "dncrypt_receipt_and_aead": true,
+    "live_aux_fresh": true,
+    "logical_state_memory_commit": true,
+    "native_pnstore_roundtrip": true,
+    "paux_exact_byte_roundtrip": true,
+    "pnv_integrity_reconstructed_exact": true,
+    "pnv_object_reconstructed_exact": true,
+    "receipt_binding_preserved": true
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "active_head": "A",
+  "active_node_count": 0,
+  "authority": {
+    "capability": "PNCAP",
+    "effect": "AUX",
+    "object_id": "PNV_STATE_OBJECT"
+  },
+  "coupling_policy": "DEGREE_MAX_KAPPA_V0_1",
+  "edge_count": 0,
+  "frequency_status": "FREQUENCY_UNRESOLVED",
+  "live_mutation_of_aux": false,
+  "live_root": "/dev/shm/ciel_noema/torsion_memory",
+  "memory_epoch": 0,
+  "omega_materialized": false,
+  "orchestration_sha256": "4b0cea23bd0e5277e62926bb8b12ef7d84cdc5b61812603aaf247241c7ecb627",
+  "phase_source_mode": "PHASE_UNKNOWN",
+  "schema": "NOEMA_TORSION_MEMORY_LIVE_SURFACE_RECEIPT_V0_1",
+  "status": "PASS_QUIET_LIVE_SURFACE",
+  "surface_sha256": "fe052c51376c65213f7bfb7a81df65c4312229680b2bdf1f6677dfd3a55db1b2",
+  "surface_status": "QUIET_UPSTREAM_UNRESOLVED",
+  "tau_materialized": false,
+  "tether_failures": [],
+  "tether_status": "ACTIVE",
+  "theta_materialized": false
+}

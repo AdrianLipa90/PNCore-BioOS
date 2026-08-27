@@ -1,0 +1,52 @@
+{
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_3_STAGE0",
+  "status": "PASS_NUMERICAL_AND_BINARY_DESIGN_STAGE0",
+  "epistemic_operator": "CHYBA",
+  "canon_allowed": false,
+  "branch": "feat/bioos-v0.3-t36-identity-genesis",
+  "base_branch": "feat/bioos-v0.2.9-convergence",
+  "main_modified": false,
+  "implemented": {
+    "t36_identity_spec": true,
+    "native_t36_identity_program": true,
+    "exact_256_byte_reference_codec": true,
+    "spinor_4pi_period_doubling_contract": true,
+    "b1_identity_cadence_binding": true,
+    "torsion_integrator_budget_spec": true,
+    "native_torsion_budget_program": true,
+    "numerical_audit_receipt": true,
+    "repository_conformance_tests_added": true,
+    "implementation_plan": true
+  },
+  "numeric_closure": {
+    "f0_hz": 7.83,
+    "identity_frequency_hz": 3.915,
+    "scheduler_band": "B1",
+    "vector_dim": 36,
+    "identity_record_bytes": 256,
+    "dictionary_terms": 548,
+    "dictionary_relations": 306,
+    "dictionary_geometry_kernel_bytes": 245952,
+    "torsion_worst_edge_ratio": "944/945",
+    "torsion_worst_required_substeps_per_t0": 10474
+  },
+  "validation": {
+    "independent_design_session_numeric_recalculation": "PASS",
+    "repository_test_execution": "PENDING_CI_OR_LOCAL_REPLAY",
+    "x86_64_physical_record_realization": "PENDING",
+    "qemu_boot": "PENDING",
+    "state_memory_identity_recovery": "PENDING",
+    "paux_exact_encoded_size": "PENDING",
+    "physical_machine_boot": "PENDING"
+  },
+  "next_gates": [
+    "run tests/test_t36_identity_v01.py against exact branch bytes",
+    "implement arch/x86_64/pncore/t36_identity.S",
+    "bind PNStore recovery before cold-genesis decision",
+    "bind T36 identity fields into PNV-State-Memory on a separate feature branch",
+    "measure exact PAUX/DNCrypt/PNStore encoded size",
+    "implement Identity NEXUS over current Consciousness Dictionary compiled 36D states",
+    "replace legacy CQCL static HTRI ingestion with live generation-bound input",
+    "run QEMU reboot continuity conformance"
+  ]
+}
