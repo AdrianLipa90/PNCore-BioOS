@@ -43,21 +43,21 @@ EXACT_SAMPLE
     while the semantic object retains the declared observation model.
 
 LOSSLESS_TRANSFORM
-    representation differs but exact semantic/sample recovery is required.
+    representation differs while exact semantic/sample recovery is required.
 
 RECONSTRUCTION
     decoded state is a separately identified reconstruction with explicit metrics.
 ```
 
-A reconstruction never inherits exact-source identity merely because it is similar.
+A reconstruction receives its own reconstruction identity while preserving an exact source reference.
 
 ## Adapter identity rule
 
 ```text
-SEMANTIC_ID != REALIZATION_ID
+SEMANTIC_ID PRECEDES REALIZATION_ID
 ```
 
-Changing realization without changing semantic state must preserve `SEMANTIC_ID` and produce a new or reused `REALIZATION_ID` according to the target format's content identity.
+A realization change with unchanged semantic state preserves `SEMANTIC_ID`. `REALIZATION_ID` follows the content identity rules of the selected target format.
 
 ## Initial v0.4 adapter registry
 
@@ -92,7 +92,7 @@ TERMINAL36D_V8
 
 ## Authority
 
-Adapters do not gain semantic, capability or effect authority from serialization.
+Authority remains assigned to the canonical owners:
 
 ```text
 semantic identity -> State Memory / source semantic object
@@ -101,9 +101,11 @@ effect             -> AUX
 persistent current -> PNStore admitted generation
 ```
 
+Adapter evidence records realization fidelity and provenance.
+
 ## Decode admission
 
-A decoded representation becomes admitted semantic state only after:
+A decoded representation becomes admitted semantic state after:
 
 ```text
 representation integrity
@@ -116,7 +118,7 @@ representation integrity
 
 ## Encode admission
 
-Encoding a semantic state for a destination requires an explicit destination/profile choice. The destination selects representation; representation never selects semantic meaning.
+Encoding a semantic state for a destination requires an explicit destination/profile choice. Semantic meaning precedes representation selection.
 
 ```text
 STATE + DESTINATION + POLICY
@@ -127,4 +129,4 @@ STATE + DESTINATION + POLICY
 
 ## Migration rule
 
-v0.4 is additive. Existing v0.3 binary contracts remain frozen references. Migration proceeds by wrapping them with adapters and proving equivalence before any native consumer stops reading the legacy representation directly.
+v0.4 is additive. Existing v0.3 binary contracts remain frozen references. Migration wraps them with adapters, establishes equivalence, and then moves native consumers to the semantic-state API while the reference adapters remain available for compatibility and physical I/O.
