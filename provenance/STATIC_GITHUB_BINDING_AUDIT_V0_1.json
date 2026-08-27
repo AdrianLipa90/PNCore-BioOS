@@ -1,0 +1,51 @@
+{
+  "authority_chain": {
+    "composition_id": "pncs:composition:sha256:8ff83ea05b1c4e574bb524c321528fa831e881ef349dd3051654c754dea8194a",
+    "current_rom_sha256": "13b2e261d5a4de6749f3d72e58d9d4634bc08c74ef6d65a1574e1a58ac36844c",
+    "operator_schedule_sha256": "bd6e79f11468a3d5e244b8df4ada6e3b7494187caa971cad0a26ea16cad38c34",
+    "pnr_path": "realizations/x86_64/GENESIS_X86_64_V0_1.pnr",
+    "pnr_realization_id": "pnr:realization:sha256:dc5c68c7ccb1c30a946db7630001708d5e5482be85b88014abf2ea5ba7cbeb5b",
+    "program_id": "pncs:program:sha256:4dd5960aad4ade9029859147c90db5b2f4fc83353407786e66e6476279ca8974",
+    "program_unit_path": "native/program_units/GENESIS_PROGRAM_UNIT_V0_24.pnv",
+    "rom_size_bytes": 65536
+  },
+  "branch": "feat/bioos-convergence-v0.1",
+  "branch_modified": true,
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "execution": {
+    "environment_blocker": "qemu-system-x86_64 not installed in this execution environment",
+    "physical_machine_execution_tested": false,
+    "qemu_execution_tested": false
+  },
+  "historical_receipt_note": {
+    "classification": "HISTORICAL_PRE_PNSTORE_CURRENT_IMAGE",
+    "current_authority_for_rom": "provenance/PNSTORE_MEDIA_BUILD_RECEIPT_V0_1.json",
+    "historical_pnr_realization_id": "pnr:realization:sha256:89a52dee34e52b06fe26a051fa015bfd68c3482f9a8b33ba1f948d819dc414db",
+    "historical_rom_sha256": "779759754db1698ef59172fc13be6d019a6041bda995332ae7feda2162f39c88",
+    "path": "provenance/PNROM_PNCORE_PNR_BUILD_RECEIPT_V0_2.json"
+  },
+  "main_modified": false,
+  "raw_genesis": {
+    "canonical_program_unit_operator_count": 9,
+    "classification": "DIVERGENT_LEGACY_OR_DESIGN_CANDIDATE",
+    "exact_schedule_equal": false,
+    "operator_count": 11,
+    "path": "native/GENESIS_V0_1.pnv",
+    "used_as_pnr_authority": false
+  },
+  "receipt_sha256": "a3c40d990b3a4bf062ffcce94fc98ea44869965c58f780734db5522ae47d8c87",
+  "schema": "PNCORE_STATIC_GITHUB_BINDING_AUDIT_V0_1",
+  "status": "PASS_STATIC_CROSS_SOURCE_BINDING_EXECUTION_PENDING",
+  "verified_relations": [
+    "PNR SOURCE_PROGRAM_ID == canonical PROGRAM_ID",
+    "PNR SOURCE_COMPOSITION_ID == canonical COMPOSITION_ID",
+    "PNR SOURCE_OPERATOR_SCHEDULE_SHA256 == canonical OPERATOR_SCHEDULE_SHA256",
+    "pnr_genesis.S program digest bytes == PROGRAM_ID digest",
+    "pnr_genesis.S schedule digest bytes == OPERATOR_SCHEDULE_SHA256",
+    "pncore_entry.S expected program digest bytes == PROGRAM_ID digest",
+    "pncore_entry.S expected schedule digest bytes == OPERATOR_SCHEDULE_SHA256",
+    "current PNR ROM_SHA256 == PNSTORE_MEDIA_BUILD_RECEIPT_V0_1 rom_sha256",
+    "current PNR REALIZATION_ID == PNSTORE_MEDIA_BUILD_RECEIPT_V0_1 pnr_realization_id"
+  ]
+}
