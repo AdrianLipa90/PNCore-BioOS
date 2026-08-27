@@ -1,0 +1,36 @@
+{
+  "benchmark_parent": {
+    "bioos_direct_hash_median_us": 1.16939588,
+    "bioos_full_execute_median_us": 38.880157,
+    "receipt_sha256": "71660810c8685402271fa49afdf346e13c6529111ba2f7694df4f3f1454840ba",
+    "schema": "BIOOS_LINUX_HEAD_TO_HEAD_V0_1"
+  },
+  "binding": {
+    "authority_file_change_invalidates_token": true,
+    "automatic_refresh": false,
+    "external_effects": false,
+    "full_admission_required": true,
+    "heartbeat_pid_check_per_dispatch": true,
+    "hot_guard_before_after": true,
+    "static_fallback": false
+  },
+  "bioos_branch": "feat/bioos-v0.2.9-convergence",
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "pncs_source": {
+    "branch": "feat/pncs-v0.30-resident-hotpath",
+    "contract": "PNCS_RESIDENT_HOTPATH_V0_30",
+    "head_at_binding": "5e132141c503081f53791b73d9c9e24263891f4f",
+    "repository": "AdrianLipa90/PhaseNav-Natural-Coding-System",
+    "source_ci": "PENDING_NO_RUN_REPORTED"
+  },
+  "promotion": {
+    "live_same_generation_benchmark_pass": false,
+    "main_modified": false,
+    "source_tests_pass": false,
+    "v25_regression_pass": false
+  },
+  "receipt_sha256": "f931db04f484e8f536a10b0cc3350ce89ba93d47bc6e49c917450911f6ef7180",
+  "schema": "PNCORE_PNCS_RESIDENT_HOTPATH_BIND_RECEIPT_V0_1",
+  "status": "PASS_BINDING_STRUCTURE_SOURCE_CI_PENDING"
+}
