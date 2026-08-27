@@ -50,7 +50,7 @@
   },
   "nexus": {
     "historical_raw_product_scale_risk": true,
-    "example_r_0_98_product_548": 1.5660086268437685e-05,
+    "example_r_0_98_product_548": 1.555569715360813e-05,
     "operational_candidate": "NORMALIZED_INFORMATIONAL_ACTION_GEOMETRIC_MEAN",
     "formula": "C_NEXUS=exp(-S_bar/kappa)",
     "authority_grant": false
@@ -76,7 +76,7 @@
       "edge_count": 630,
       "node_degree": 35,
       "l_bound": 0.3309534002289774,
-      "dt_safe_s": 0.604314468080058,
+      "dt_safe_s": 0.6043146855769592,
       "fits_one_t0": true
     },
     "verdict": "HIGH_RATIONAL_ORDER_REQUIRES_EXPLICIT_BUDGET_GATE"
@@ -85,7 +85,7 @@
     "every_tick_commit": false,
     "checkpoint_only": true,
     "test_media_generation_capacity": 15,
-    "exhaustion_if_committed_every_b0_s": 1.9157088122605364,
+    "exhaustion_if_committed_every_b0_s": 1.9157088122605366,
     "exhaustion_if_committed_every_identity_cycle_s": 3.831417624521073
   },
   "execution_validation": {
