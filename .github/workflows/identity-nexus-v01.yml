@@ -1,0 +1,81 @@
+name: Identity NEXUS v0.1
+
+on:
+  push:
+    branches:
+      - feat/bioos-v0.3-t36-identity-genesis
+  pull_request:
+    paths:
+      - 'spec/IDENTITY_NEXUS_V0_1.md'
+      - 'native/IDENTITY_NEXUS_V0_1.pnv'
+      - 'tools/identity_nexus_v01.py'
+      - 'tools/identity_nexus_dictionary_runner_v01.py'
+      - 'tests/test_identity_nexus_v01.py'
+      - '.github/workflows/identity-nexus-v01.yml'
+
+jobs:
+  nexus:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout BioOS
+        uses: actions/checkout@v4
+        with:
+          path: bioos
+      - name: Checkout pinned Consciousness Dictionary projection branch
+        uses: actions/checkout@v4
+        with:
+          repository: AdrianLipa90/The-Consciousness-Dictionary
+          ref: 3aa1651da9735d94d2a9cbffec13203eeeedd502
+          path: dictionary
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run pure NEXUS conformance
+        working-directory: bioos
+        run: python tests/test_identity_nexus_v01.py
+      - name: Build deterministic PAUX and crystal context fixture
+        run: |
+          mkdir -p fixture
+          python - <<'PY'
+          import json, math, struct
+          phase=[((i*0.173)+0.07)%(2*math.pi) for i in range(36)]
+          open('fixture/paux.bin','wb').write(struct.pack('<36d',*phase))
+          context={
+            'schema':'PNV-T36-CRYSTAL-CONTEXT/0.1',
+            'crystal_id':'11'*32,
+            'configuration_sha256':'22'*32,
+            'genesis_anchor_commitment':'33'*32,
+            'boot_epoch':4,
+            'phase_index':18,
+            'spinor_sheet':0,
+          }
+          open('fixture/context.json','w').write(json.dumps(context,sort_keys=True))
+          PY
+      - name: Reproduce Dictionary compile receipt and project all 548 terms
+        working-directory: bioos
+        run: |
+          python tools/identity_nexus_dictionary_runner_v01.py \
+            --dictionary-repo ../dictionary \
+            --paux-exact ../fixture/paux.bin \
+            --crystal-context ../fixture/context.json \
+            --out ../fixture/nexus.json \
+            --receipt ../fixture/nexus_receipt.json
+          python - <<'PY'
+          import json
+          n=json.load(open('../fixture/nexus.json'))
+          r=json.load(open('../fixture/nexus_receipt.json'))
+          assert n['term_count']==548
+          assert len(n['active_terms'])==16
+          assert n['authority_grant'] is False
+          assert n['semantic_equivalence_grant'] is False
+          assert 0.0 <= n['nexus_coherence'] <= 1.0
+          assert r['states']==548 and r['relations']==306
+          assert r['status']=='PASS_DICTIONARY_REPRODUCTION_AND_PROJECTION'
+          PY
+      - name: Upload NEXUS witness
+        uses: actions/upload-artifact@v4
+        with:
+          name: identity-nexus-v01-witness
+          path: |
+            fixture/nexus.json
+            fixture/nexus_receipt.json
