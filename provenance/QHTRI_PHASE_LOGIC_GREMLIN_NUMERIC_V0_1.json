@@ -1,0 +1,47 @@
+{
+  "schema": "BIOOS_QHTRI_PHASE_LOGIC_GREMLIN_NUMERIC_V0_1",
+  "status": "PASS_NUMERIC_REFERENCE",
+  "epistemic": "CHYBA",
+  "canon_allowed": false,
+  "gremlin_source": "AdrianLipa90/GREMLIN:feat/gremlin-qhtri-m0-m11-isomorphism-scan",
+  "phase_encoding": {
+    "true": 0,
+    "false": "pi"
+  },
+  "coherence_truth": "(1+cos(delta))/2 = cos^2(delta/2)",
+  "checks": {
+    "boolean_boundary_NOT": "PASS",
+    "boolean_boundary_XOR": "PASS",
+    "boolean_boundary_XNOR": "PASS",
+    "boolean_boundary_AND": "PASS",
+    "boolean_boundary_OR": "PASS",
+    "not_equals_pi_translation": "PASS",
+    "xnor_equals_1_to_1_lock_coherence": "PASS",
+    "xor_equals_1_to_1_antilock_coherence": "PASS",
+    "equatorial_cp1_overlap_squared_equals_coherence_truth": "PASS_ANALYTIC_UNDER_DECLARED_ENCODING",
+    "whole_lane_t36_shape": "IMPLEMENTED_TEST"
+  },
+  "continuous_reference_samples": [
+    {
+      "delta": "0.7",
+      "coherence_truth": "0.8824210936422441"
+    },
+    {
+      "theta_a": "0.2",
+      "theta_b": "1.1",
+      "xor": "0.18919501586466791"
+    }
+  ],
+  "implementation": {
+    "python_reference": "tools/qhtri_phase_logic_v01.py",
+    "native_contract": "native/QHTRI_PHASE_LOGIC_V0_1.pnv",
+    "tests": "tests/test_qhtri_phase_logic_v01.py",
+    "factorization_spec": "spec/QHTRI_M0_M11_GREMLIN_FACTORIZATION_V0_1.md"
+  },
+  "limits": {
+    "live_qhtri_runtime_witness": false,
+    "live_gremlin_runtime_witness": false,
+    "github_actions_runner": "INFRA_UNRESOLVED_STEPS_NULL"
+  },
+  "next_gate": "LIVE_DEV_SHM_GREMLIN_QHTRI_WITNESS"
+}
