@@ -7,6 +7,7 @@
 .set PN_SIGMA0,        0x5200
 .set PN_EVIDENCE,      0x5300
 .set PN_MAP_EVIDENCE,  0x5400
+.set PN_T36_IDENTITY,  0x5900
 .set PN_PML4,          0x7000
 .set PN_PDPT,          0x8000
 .set PN_PD,            0x9000
@@ -119,15 +120,24 @@ pnrom_long64:
     OUTC '4'
     OUTC 0x0a
 
-    # Single firmware->PNCore state carrier: PNVector Handoff.
+    # Firmware -> PNCore state carriers.
+    # PNVH remains the exact 36D bootstrap state carrier.
     movl $pnvh_template, %esi
     movl $PN_PNVH, %edi
     movl $416, %ecx
     cld
     rep movsb
 
-    # Physical handoff into the identity-bound PNCore entry.
-    jmp pncore_entry
+    # T36 identity is a separately provisioned exact 256-byte identity/configuration
+    # record. It does not duplicate the 288-byte PNVH phase vector.
+    movl $t36_identity_template, %esi
+    movl $PN_T36_IDENTITY, %edi
+    movl $256, %ecx
+    cld
+    rep movsb
+
+    # Identity admission executes before the existing PNCore transition spine.
+    jmp t36_identity_boot_entry
 
 .align 8
 gdt:
