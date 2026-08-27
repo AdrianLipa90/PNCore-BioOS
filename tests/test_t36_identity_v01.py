@@ -7,6 +7,8 @@ from tools.t36_identity_record_v01 import (
     T36IdentityRecord,
     derive_configuration_sha256,
     derive_crystal_id,
+    derive_genesis_anchor_commitment,
+    derive_origin_binding_sha256,
 )
 
 
@@ -28,17 +30,22 @@ class T36IdentityV01Tests(unittest.TestCase):
         self.assertAlmostEqual(abs(s2 - s0), 0.0, places=12)
 
     def test_identity_record_exact_256_byte_roundtrip(self):
-        seed = bytes(range(32))
-        crystal_id = derive_crystal_id(seed)
-        cfg = derive_configuration_sha256(*(bytes([i]) * 32 for i in range(1, 8)))
+        anchor = bytes(range(32))
+        crystal_id = derive_crystal_id(anchor)
+        commitment = derive_genesis_anchor_commitment(anchor)
+        pnv, basis, source, rom, pnr, program, scheduler = (
+            bytes([i]) * 32 for i in range(1, 8)
+        )
+        origin = derive_origin_binding_sha256(crystal_id, pnv, source, basis, pnr)
+        cfg = derive_configuration_sha256(pnv, basis, source, rom, pnr, program, scheduler)
         record = T36IdentityRecord(
             flags=0x7,
             crystal_id=crystal_id,
-            genesis_anchor_commitment=seed,
-            origin_binding_sha256=b"o" * 32,
-            pnvector_payload_sha256=b"p" * 32,
-            source_context_sha256=b"s" * 32,
-            basis_binding=b"b" * 32,
+            genesis_anchor_commitment=commitment,
+            origin_binding_sha256=origin,
+            pnvector_payload_sha256=pnv,
+            source_context_sha256=source,
+            basis_binding=basis,
             configuration_sha256=cfg,
             phase_index=11,
             boot_epoch=3,
@@ -48,6 +55,16 @@ class T36IdentityV01Tests(unittest.TestCase):
         restored = T36IdentityRecord.unpack(raw)
         self.assertEqual(restored, record)
         self.assertEqual(restored.spinor_sheet, 1)
+
+    def test_domain_separated_bindings_change_independently(self):
+        anchor = b"a" * 32
+        crystal = derive_crystal_id(anchor)
+        commitment = derive_genesis_anchor_commitment(anchor)
+        self.assertNotEqual(crystal, commitment)
+        parts = [bytes([i]) * 32 for i in range(1, 8)]
+        cfg = derive_configuration_sha256(*parts)
+        origin = derive_origin_binding_sha256(crystal, parts[0], parts[2], parts[1], parts[4])
+        self.assertNotEqual(cfg, origin)
 
     def test_configuration_change_does_not_change_crystal_id(self):
         anchor = b"a" * 32
