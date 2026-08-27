@@ -16,7 +16,7 @@ PAUX[FUNCTION][REPRESENTATION]
 ## Representation axis
 
 ```text
-A      analog-native semantic state / no forced binary carrier
+A      analog-native semantic state
 EXACT  exact sampled realization
 C      compressed lossless realization
 R      reconstruction realization
@@ -40,7 +40,7 @@ DEVICE_STATE
 TRANSPORT
 ```
 
-The registry is extensible through versioned function contracts. Adding a function does not add a PNV opcode.
+The registry is extensible through versioned function contracts. Function extensions leave the PNV opcode registry unchanged.
 
 ## Examples
 
@@ -86,10 +86,10 @@ SEMANTIC_STATE
 Examples:
 
 ```text
-live RAM/QHTRI        -> A
-exact interchange     -> EXACT
-lossless persistence  -> C
-bounded reconstruction-> R
+live RAM/QHTRI         -> A
+exact interchange      -> EXACT
+lossless persistence   -> C
+bounded reconstruction -> R
 ```
 
 ## Identity rule
@@ -101,11 +101,11 @@ SOURCE_SEMANTIC_ID constant
 REALIZATION_ID     profile-specific
 ```
 
-For `R`, the reconstruction receives its own reconstruction identity and source reference.
+For `R`, the reconstruction receives its own reconstruction identity and exact source reference.
 
 ## Native computation
 
-Where possible, State Memory, NEXUS, CQCL, GREMLIN and QHTRI should operate on `A` semantic state. A binary/quantized adapter is introduced only when crossing a concrete implementation boundary.
+State Memory, NEXUS, CQCL, GREMLIN and QHTRI progressively move to `A` semantic state APIs. Binary/quantized adapters serve concrete implementation and I/O boundaries.
 
 ## Existing v0.3 migration
 
@@ -117,15 +117,15 @@ old PAUX-C     -> PAUX[*][C]
 old PAUX-R     -> PAUX[*][R]
 ```
 
-No existing evidence is invalidated. v0.4 adds the previously implicit `A` layer and explicit function classification.
+Existing evidence remains retained. v0.4 adds the previously implicit `A` layer and explicit function classification.
 
 ## First promotion gates
 
 ```text
-PHASE[A] <-> PHASE[EXACT] semantic identity invariance
+PHASE[A] <-> PHASE[EXACT] semantic identity/sample invariance evidence
 IDENTITY[A] <-> IDENTITY[EXACT] T36I equivalence
 MEMORY[A] -> MEMORY[C] -> MEMORY[A] exact recovery
 MEMORY[A] -> MEMORY[R] reconstruction evidence
-SEMANTIC[A] NEXUS activation without JSON dependency
-INTENT[A] CQCL without legacy state-file dependency
+SEMANTIC[A] NEXUS activation through semantic-state API
+INTENT[A] CQCL through living-state API
 ```
