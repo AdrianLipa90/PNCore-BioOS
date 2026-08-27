@@ -1,0 +1,50 @@
+{
+  "schema": "PNCORE_DNCRYPT_INTEGRATION_AUDIT_V0_1",
+  "status": "PASS_STATIC_COMPATIBILITY_CANDIDATE",
+  "epistemic": "CHYBA",
+  "canon_allowed": false,
+  "branch": "feat/bioos-v0.2.9-convergence",
+  "source_repository": "AdrianLipa90/DNCrypt",
+  "source_commit": "20f53a9b297b6208d74841aee7c3bb4b8b17ce2a",
+  "source_native_program": "native/programs/DNCRYPT_NATIVE_PNCS_V0_3.pnv",
+  "source_native_program_blob_sha": "99df240db1db020dea24b51b160de90bce727eb2",
+  "source_status": "IMPLEMENTATION_CONFORMANCE_PROTOTYPE",
+  "frozen_crypto_anchor": {
+    "aead": "ChaCha20-Poly1305",
+    "master_key_bits": 256,
+    "per_message_salt_bits": 256,
+    "per_message_nonce_bits": 96,
+    "kdf": "HKDF-SHA3-512"
+  },
+  "native_compatibility": {
+    "pncs_native_program_present": true,
+    "surface36_present": true,
+    "genome36_present": true,
+    "message_receipts_present": true,
+    "new_bioos_pnv_opcodes_required": 0,
+    "new_pncap_operation_required": false
+  },
+  "identity_policy": {
+    "canonical_object_id_mutated": false,
+    "ciphertext_envelope_has_distinct_identity": true,
+    "bioos_object_identity_bound_as_aad": true
+  },
+  "candidate_boundaries": [
+    "PAUX/PNStore at-rest envelope",
+    "Terminal36D external/off-box transport"
+  ],
+  "initially_excluded_boundary": "/dev/shm/ciel_noema local hot path",
+  "recovery_order": [
+    "DNCrypt envelope/AEAD verify",
+    "decrypt",
+    "PAUX profile identity/integrity verify",
+    "PNV_STATE_OBJECT identity/integrity verify"
+  ],
+  "open_gates": [
+    "opaque key-handle provisioning and storage contract",
+    "end-to-end PNStore encrypted persistence benchmark",
+    "Terminal36D encrypted transport benchmark",
+    "independent DNCrypt cryptanalytic evaluation"
+  ],
+  "main_modified": false
+}

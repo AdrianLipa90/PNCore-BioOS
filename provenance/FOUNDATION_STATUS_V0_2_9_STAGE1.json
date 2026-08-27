@@ -1,0 +1,36 @@
+{
+  "schema": "PNCORE_BIOOS_FOUNDATION_STATUS_V0_2_9_STAGE1",
+  "status": "PASS_CONVERGENCE_STAGE1_WITH_EXPLICIT_BLOCKERS",
+  "epistemic_operator": "CHYBA",
+  "canon_allowed": false,
+  "branch": "feat/bioos-v0.2.9-convergence",
+  "base_frontier": {
+    "branch": "feat/bioos-v0.2.8-terminal-core",
+    "commit": "b58b4374ebbc419035da84bd0ad19d1e7d2938ef"
+  },
+  "convergence": {
+    "static_pnr_binding": "PASS",
+    "pnvector_builder_conformance": "6/6 PASS",
+    "historical_pnvector_exact_fixture": "BLOCKED_EXACT_FIXTURE_MISSING",
+    "qemu_boot": "PENDING_ENVIRONMENT",
+    "physical_machine_boot": "PENDING"
+  },
+  "dncrypt": {
+    "source_repo": "AdrianLipa90/DNCrypt",
+    "source_commit": "20f53a9b297b6208d74841aee7c3bb4b8b17ce2a",
+    "native_program_blob": "99df240db1db020dea24b51b160de90bce727eb2",
+    "static_compatibility": "PASS_CANDIDATE",
+    "integration_authority": "OPTIONAL_CANDIDATE_ONLY",
+    "canonical_object_id_mutation": false,
+    "independent_cryptanalysis": "PENDING"
+  },
+  "main_modified": false,
+  "next_gates": [
+    "recover exact historical PNVH fixture or create a newly admitted reproducible PNVH generation",
+    "QEMU boot current exact ROM",
+    "device-backed PNStore durable barrier",
+    "DNCrypt opaque key-handle contract",
+    "encrypted PAUX/PNStore end-to-end benchmark",
+    "encrypted Terminal36D off-box transport benchmark"
+  ]
+}

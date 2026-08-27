@@ -1,0 +1,35 @@
+{
+  "schema": "PNVECTOR_HANDOFF_REPRODUCIBILITY_AUDIT_V0_1",
+  "status": "BLOCKED_EXACT_FIXTURE_MISSING",
+  "epistemic": "CHYBA",
+  "canon_allowed": false,
+  "branch": "feat/bioos-v0.2.9-convergence",
+  "current_template": "arch/x86_64/pncore/pnvh_template.S",
+  "required_build_input": "build/x86_64/pnvector_handoff_test.bin",
+  "historical_first_pnvector_commit": "2d1e515f8e2fdc9fd064c4485dfa93f7102f845a",
+  "historical_handoff_receipt": "provenance/PNVECTOR_HANDOFF_TEST_BINDING_RECEIPT_V0_2.json",
+  "historical_handoff_sha256": "42877687ea3a86244db5abba64323e16abf3f59fdc32cb2abd1fae8896853bd1",
+  "historical_vector_sha256": "1696737780aa668ad8ff5d304aa892f696fa0f72a03405f48fb00b076c3d5665",
+  "historical_source_context_sha256": "1b5b549d9acd31f8343cba88f8d4451b40c83cec775e457e4528a9eb99f320fc",
+  "checks": {
+    "template_requires_incbin": true,
+    "receipt_contains_handoff_hash": true,
+    "receipt_contains_vector_hash": true,
+    "current_git_tree_contains_exact_416_byte_input": false,
+    "first_pnvector_commit_tree_contains_exact_416_byte_input": false,
+    "repo_contains_exact_288_byte_historical_vector_payload": false,
+    "repo_contains_exact_32_byte_historical_basis_binding": false,
+    "deterministic_builder_added": true,
+    "synthesized_replacement_used": false,
+    "clean_checkout_exact_rom_rebuild_possible": false
+  },
+  "recovery_requirement": [
+    "recover exact historical 288-byte vector payload whose SHA-256 is the recorded vector hash",
+    "recover exact historical 32-byte basis binding",
+    "materialize the 416-byte handoff with the deterministic builder",
+    "require handoff SHA-256 equality with the recorded historical handoff hash",
+    "only then rerun the PNROM build and require ROM SHA-256 equality"
+  ],
+  "builder": "tools/pnvector_handoff_builder_v01.py",
+  "main_modified": false
+}
