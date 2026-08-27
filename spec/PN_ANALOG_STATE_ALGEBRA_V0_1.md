@@ -14,22 +14,22 @@ SYSTEM MEANING / RELATIONAL STATE
         -> canonical semantic normal form
         -> object identity / lineage
         -> realization adapter chosen by destination
-        -> bytes / words / packets only at the physical boundary
+        -> bytes / words / packets at the physical boundary
 ```
 
 ## Fundamental invariants
 
 ```text
-OBJECT_IDENTITY != PATH
-OBJECT_IDENTITY != ADDRESS
-OBJECT_IDENTITY != ENCODING
-OBJECT_IDENTITY != REALIZATION_FORMAT
-STATE_SEMANTICS  != IEEE754_LAYOUT
-STATE_SEMANTICS  != PNSTORE_EXTENT
-STATE_SEMANTICS  != DNCRYPT_ENVELOPE
+IDENTITY PRECEDES PATH
+IDENTITY PRECEDES ADDRESS
+IDENTITY PRECEDES ENCODING
+IDENTITY PRECEDES REALIZATION_FORMAT
+STATE_SEMANTICS PRECEDE IEEE754_LAYOUT
+STATE_SEMANTICS PRECEDE PNSTORE_EXTENT
+STATE_SEMANTICS PRECEDE DNCRYPT_ENVELOPE
 ```
 
-Existing v0.3 formats remain valid reference realizations. They are demoted from native ontology to adapters; no v0.3 bytes are deleted by this contract.
+Existing v0.3 formats remain preserved as valid reference realizations and become explicit adapters under the v0.4 hierarchy.
 
 ## Native state object
 
@@ -48,7 +48,7 @@ PN_ANALOG_STATE = (
 )
 ```
 
-The state may contain continuous observables, but its canonical identity is formed from a deterministic semantic normal form rather than an arbitrary floating-point byte image.
+Continuous observables participate through a deterministic semantic normal form that owns canonical identity independently of machine realization.
 
 ## Canonical value classes
 
@@ -90,7 +90,7 @@ A realization adapter may evaluate them numerically at a declared precision.
 
 ### PERIODIC_PHASE
 
-A phase is a value on a declared periodic domain, not a raw float:
+A phase is represented on a declared periodic domain:
 
 ```text
 PHASE(
@@ -143,11 +143,11 @@ Identity requires a deterministic normal form. PASA v0.1 canonicalization theref
 6. deterministic relation ordering
 7. explicit units
 8. explicit uncertainty/provenance for measured values
-9. no implicit host precision
-10. no path/address fields inside semantic identity
+9. explicit host precision where numerical evaluation occurs
+10. path/address metadata separated from semantic identity fields
 ```
 
-The normal form may be serialized for hashing, transport or persistence, but that serialization is an identity procedure rather than the native state model itself.
+The normal form may be serialized for hashing, transport or persistence. Serialization serves the identity mechanism while the semantic graph remains the native state model.
 
 ## Identity derivation
 
@@ -160,7 +160,7 @@ SEMANTIC_COMMITMENT = HASH256(
 )
 ```
 
-The selected hash function and canonical serialization are versioned identity mechanisms. Changing an adapter without changing the semantic normal form must leave the semantic commitment unchanged.
+The selected hash function and canonical serialization are versioned identity mechanisms. Adapter changes preserve the semantic commitment whenever the semantic normal form is unchanged.
 
 ## T36 realization
 
@@ -177,7 +177,7 @@ T36_PHASE_FIELD = {
 }
 ```
 
-The current `36 x float64-le = 288 bytes` surface becomes one adapter:
+The current `36 x float64-le = 288 bytes` surface is classified as one realization adapter:
 
 ```text
 T36_PHASE_FIELD
@@ -185,11 +185,9 @@ T36_PHASE_FIELD
  -> 288 bytes
 ```
 
-It is no longer the definition of the T36 state.
-
 ## T36 Identity realization
 
-`T36_IDENTITY_CRYSTAL` remains the semantic identity state. The current exact 256-byte `T36I` record becomes:
+`T36_IDENTITY_CRYSTAL` remains the semantic identity state. The current exact 256-byte `T36I` record is classified as:
 
 ```text
 T36_IDENTITY_CRYSTAL
@@ -212,13 +210,13 @@ PN_ANALOG_STATE
  -> physical device adapter
 ```
 
-PNStore byte geometry does not define State Memory semantics.
+State Memory semantics remain owned by the analog-relational object and lineage; PNStore owns the exact persistence realization.
 
 ## Runtime rule
 
-Native computation should consume semantic/relational state where an implementation exists. Binary decode/encode occurs at explicit adapter boundaries.
+Native computation consumes semantic/relational state wherever the v0.4 implementation provides that API. Binary decode/encode occurs at explicit adapter boundaries.
 
-No existing binary adapter is removed until semantic-equivalence tests prove that the analog-native path reproduces the same admitted state and receipts.
+Existing v0.3 binary adapters remain active until semantic-equivalence tests establish the analog-native path against the same admitted state and receipts.
 
 ## Promotion boundary
 
@@ -233,5 +231,5 @@ State Memory analog-object lineage
 PAUX functional codec registry
 PNStore adapter equivalence
 DNCrypt adapter equivalence
-NEXUS/CQCL consumption without binary-format dependency
+NEXUS/CQCL consumption through analog-native APIs
 ```
