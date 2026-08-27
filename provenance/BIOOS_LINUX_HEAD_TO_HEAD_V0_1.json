@@ -1,0 +1,142 @@
+{
+  "affinity_main": [
+    0
+  ],
+  "canon_allowed": false,
+  "claim_boundary": "same-host latency benchmark; BioOS is current Python host runtime, Linux controls include native C/OpenSSL; not bare-metal BioOS or universal Linux performance",
+  "compiler_command": "gcc -O3 -march=native -Wall -Wextra src/linux_native_bench.c -lcrypto",
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "epistemic": "MEASURED_HOST_REFERENCE",
+  "kernel": "6.18.35",
+  "native_ipc_worker_cpu": 1,
+  "notes": [
+    "tmpfs path uses pwrite+pread+SHA256 without fsync; it is not a durability benchmark",
+    "shared-mmap, pipe, and Unix-socket controls use a persistent worker process and SHA256 in native C/OpenSSL",
+    "fork-exec control launches /usr/bin/sha256sum for every operation",
+    "Terminal36D receipts are not persisted to disk in this benchmark",
+    "no timings are subtracted for loop overhead"
+  ],
+  "payload_bytes": 288,
+  "payload_sha256": "5643c75565a50bf65726c84ada2f5d78192774edc7cb9437d5725302d1409287",
+  "python": "3.13.5",
+  "receipt_sha256": "71660810c8685402271fa49afdf346e13c6529111ba2f7694df4f3f1454840ba",
+  "results": {
+    "bioos_direct_hash_batch": {
+      "max_us": 1.33652898,
+      "median_us": 1.16939588,
+      "min_us": 1.1084707200000001,
+      "ops_per_s_from_median": 855142.4005359075,
+      "p10_us": 1.115855928,
+      "p90_us": 1.311981948,
+      "ratio_vs_bioos_direct": 1.0,
+      "ratio_vs_bioos_full": 0.030076933074112844,
+      "trials": 7
+    },
+    "bioos_terminal36d_full_execute": {
+      "max_us": 40.298727299999996,
+      "median_us": 38.880157,
+      "min_us": 37.29625335,
+      "ops_per_s_from_median": 25720.06074975469,
+      "p10_us": 37.83619599,
+      "p90_us": 40.00981125,
+      "ratio_vs_bioos_direct": 33.24807079019297,
+      "ratio_vs_bioos_full": 1.0,
+      "trials": 7
+    },
+    "host_conventional_receipted_dispatch": {
+      "max_us": 6.0026839,
+      "median_us": 5.28566674,
+      "min_us": 5.169514739999999,
+      "ops_per_s_from_median": 189190.89098681996,
+      "p10_us": 5.192799239999999,
+      "p90_us": 5.811693304,
+      "ratio_vs_bioos_direct": 4.519997744476404,
+      "ratio_vs_bioos_full": 0.13594766965575783,
+      "trials": 7
+    },
+    "linux_fork_exec_sha256sum": {
+      "max_us": 2182.20662,
+      "median_us": 1981.0761839999998,
+      "min_us": 1910.33314,
+      "ops_per_s_from_median": 504.7761454488315,
+      "p10_us": 1931.568092,
+      "p90_us": 2147.6060904,
+      "ratio_vs_bioos_direct": 1694.102243630275,
+      "ratio_vs_bioos_full": 50.953399802372196,
+      "trials": 5
+    },
+    "linux_mmap_local_copy_hash": {
+      "max_us": 0.816091,
+      "median_us": 0.502773,
+      "min_us": 0.495813,
+      "ops_per_s_from_median": 1988969.1769446647,
+      "p10_us": 0.4962982,
+      "p90_us": 0.6921998,
+      "ratio_vs_bioos_direct": 0.42994251014463986,
+      "ratio_vs_bioos_full": 0.012931352103336416,
+      "trials": 5
+    },
+    "linux_native_c_sha256": {
+      "max_us": 2.379971,
+      "median_us": 0.508216,
+      "min_us": 0.45808699999999997,
+      "ops_per_s_from_median": 1967667.2910730871,
+      "p10_us": 0.47206899999999996,
+      "p90_us": 1.6324998000000002,
+      "ratio_vs_bioos_direct": 0.4345970502307568,
+      "ratio_vs_bioos_full": 0.01307134639399733,
+      "trials": 5
+    },
+    "linux_pipe_process_hash": {
+      "max_us": 31.668772,
+      "median_us": 26.514094,
+      "min_us": 24.578595,
+      "ops_per_s_from_median": 37715.789949300175,
+      "p10_us": 25.085341,
+      "p90_us": 30.4145764,
+      "ratio_vs_bioos_direct": 22.6733259911947,
+      "ratio_vs_bioos_full": 0.6819441084047063,
+      "trials": 5
+    },
+    "linux_shared_mmap_process_hash": {
+      "max_us": 42.176608,
+      "median_us": 37.462711999999996,
+      "min_us": 36.532036,
+      "ops_per_s_from_median": 26693.208970028652,
+      "p10_us": 36.763427199999995,
+      "p90_us": 41.3553196,
+      "ratio_vs_bioos_direct": 32.03595347026535,
+      "ratio_vs_bioos_full": 0.963543228490564,
+      "trials": 5
+    },
+    "linux_tmpfs_pwrite_pread_hash": {
+      "max_us": 1.1150660000000001,
+      "median_us": 0.964029,
+      "min_us": 0.923327,
+      "ops_per_s_from_median": 1037313.1928603807,
+      "p10_us": 0.9311965999999999,
+      "p90_us": 1.1006136,
+      "ratio_vs_bioos_direct": 0.8243820732462304,
+      "ratio_vs_bioos_full": 0.024794884444525263,
+      "trials": 5
+    },
+    "linux_unix_socket_process_hash": {
+      "max_us": 39.125689,
+      "median_us": 38.055400999999996,
+      "min_us": 35.994066,
+      "ops_per_s_from_median": 26277.478983863555,
+      "p10_us": 36.654389599999995,
+      "p90_us": 38.7380218,
+      "ratio_vs_bioos_direct": 32.54278696449657,
+      "ratio_vs_bioos_full": 0.9787872255762753,
+      "trials": 5
+    }
+  },
+  "schema": "BIOOS_LINUX_HEAD_TO_HEAD_V0_1",
+  "source_sha256": {
+    "concept_gates.py": "a3aeda6f1ca0c445767bba8176c5b6c7d791bd97e03b33fe2ed8dccb9c97bc49",
+    "terminal36d.py": "78082702c4b7a17a061ca7b9b83f4c21765307c70dfbefd301466224389cce9b",
+    "vector_kernel.py": "68663aea2c188b77b46e5ecf2488bfdfb27a7f2cd8387fb78b6bc5dce6de0e14"
+  },
+  "status": "PASS_HOST_REFERENCE"
+}
