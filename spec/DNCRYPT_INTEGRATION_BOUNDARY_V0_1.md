@@ -33,6 +33,7 @@ DNCrypt ciphertext + authenticated metadata -> ENVELOPE_ID
 verified PNV_STATE_OBJECT
  -> exact PAUX/plaintext representation
  -> PNCAP EXECUTE_PROGRAM admission for pinned DNCrypt program
+ -> construct exact BioOS user AAD
  -> DNCrypt AEAD envelope
  -> envelope identity + encryption receipt
  -> normal PNStore CREATE/COMMIT generation admission
@@ -42,7 +43,7 @@ verified PNV_STATE_OBJECT
  -> persistence receipt
 ```
 
-Authenticated associated data SHOULD bind at least:
+BioOS user AAD binds at least:
 
 ```text
 PNV_STATE_OBJECT.object_id
@@ -53,20 +54,41 @@ parent persistence/evolution receipt identity
 destination/domain context
 ```
 
-DNCrypt already authenticates genome generation, 36D surface commitment, tick, parent receipt and caller AAD. BioOS supplies its object/persistence identities through caller AAD rather than changing the DNCrypt frozen AEAD anchor.
+DNCrypt already authenticates genome generation, 36D surface commitment, tick, parent receipt and caller `user_aad`. BioOS supplies its object/persistence identities through `user_aad` rather than changing the DNCrypt frozen AEAD anchor.
+
+## Authenticated-AAD equality gate
+
+DNCrypt v0.2/v0.3 serializes the caller AAD inside its authenticated envelope. Its current `decrypt()` validates the envelope receipt, genome/generation, surface commitment/tick and AEAD tag, then decrypts using the authenticated AAD stored in the envelope.
+
+Therefore BioOS must also verify that the authenticated caller AAD is the exact AAD expected for the requested BioOS object/context. Authentication alone proves that the stored AAD was not altered; it does not prove that a caller requested the same BioOS binding.
+
+Required pre-decrypt gate:
+
+```text
+parse DNCrypt envelope
+ -> verify DNCrypt receipt
+ -> decode authenticated aad_b64
+ -> parse DNCrypt AAD metadata
+ -> extract authenticated user_aad
+ -> exact byte equality with expected BioOS AAD
+ -> only then allow decrypt
+```
+
+Mismatch is fail-closed even when the DNCrypt receipt and ChaCha20-Poly1305 tag are otherwise valid.
 
 ## Recovery route
 
 ```text
 PNStore envelope bytes
  -> DNCrypt envelope/receipt verification
+ -> authenticated user_aad exact-match gate
  -> ChaCha20-Poly1305 authentication + decrypt
  -> PAUX profile verification/decode
  -> PNV_STATE_OBJECT identity + integrity verification
  -> admitted logical state
 ```
 
-Failure at any layer stops recovery. AEAD PASS does not replace PNV/PAUX integrity, and PNV identity does not replace AEAD authentication.
+Failure at any layer stops recovery. AEAD PASS does not replace BioOS AAD equality or PNV/PAUX integrity, and PNV identity does not replace AEAD authentication.
 
 ## Transport route
 
