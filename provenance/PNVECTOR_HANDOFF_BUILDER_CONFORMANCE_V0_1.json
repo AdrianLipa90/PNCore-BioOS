@@ -1,0 +1,26 @@
+{
+  "branch": "feat/bioos-convergence-v0.1",
+  "builder_blob_sha": "de331a4eb395b71b5e7554733a25df0b748d8aac",
+  "builder_path": "tools/pnvector_handoff_builder_v01.py",
+  "canon_allowed": false,
+  "coverage": [
+    "exact 416-byte geometry and embedded vector hash",
+    "embedded vector hash tamper rejected",
+    "payload tamper rejected",
+    "non-finite float64 rejected",
+    "wrong vector length rejected",
+    "wrong basis-binding length rejected"
+  ],
+  "epistemic": "CHYBA",
+  "historical_fixture_reason": "exact historical vector payload and basis-binding bytes are not present in Git",
+  "historical_fixture_reproduced": false,
+  "receipt_sha256": "e33299fd83c5ef745a43f46e2c3fcc24a58128bff7fd884459620eca2b60ee37",
+  "schema": "PNVECTOR_HANDOFF_BUILDER_CONFORMANCE_V0_1",
+  "status": "PASS",
+  "test_blob_sha": "8710fefd47e5b2db04c5e01a3636fbf88e1daa8d",
+  "test_path": "tests/test_pnvector_handoff_builder_v01.py",
+  "test_runner": "python -m unittest -v tests/test_pnvector_handoff_builder_v01.py",
+  "tests_failed": 0,
+  "tests_passed": 6,
+  "tests_total": 6
+}
