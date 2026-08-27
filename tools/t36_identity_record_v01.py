@@ -9,7 +9,10 @@ VERSION_MAJOR = 1
 VERSION_MINOR = 0
 RECORD_BYTES = 256
 VECTOR_DIM = 36
-DOMAIN = b"T36-ID/v0.1"
+ID_DOMAIN = b"T36-ID/v0.1"
+GENESIS_COMMIT_DOMAIN = b"T36-GENESIS-COMMIT/v0.1"
+ORIGIN_DOMAIN = b"T36-ORIGIN/v0.1"
+CONFIG_DOMAIN = b"T36-CONFIG/v0.1"
 
 # magic, major, minor, record_bytes, vector_dim, flags,
 # 7 x 32-byte bindings, phase_index, boot_epoch
@@ -26,14 +29,36 @@ def _require32(value: bytes, name: str) -> bytes:
 
 def derive_crystal_id(genesis_anchor: bytes) -> bytes:
     anchor = _require32(genesis_anchor, "genesis_anchor")
-    return hashlib.sha256(DOMAIN + anchor).digest()
+    return hashlib.sha256(ID_DOMAIN + anchor).digest()
+
+
+def derive_genesis_anchor_commitment(genesis_anchor: bytes) -> bytes:
+    anchor = _require32(genesis_anchor, "genesis_anchor")
+    return hashlib.sha256(GENESIS_COMMIT_DOMAIN + anchor).digest()
+
+
+def derive_origin_binding_sha256(
+    crystal_id: bytes,
+    pnvector_payload_sha256: bytes,
+    source_context_sha256: bytes,
+    basis_binding: bytes,
+    pnr_binding: bytes,
+) -> bytes:
+    parts = (
+        _require32(crystal_id, "crystal_id"),
+        _require32(pnvector_payload_sha256, "pnvector_payload_sha256"),
+        _require32(source_context_sha256, "source_context_sha256"),
+        _require32(basis_binding, "basis_binding"),
+        _require32(pnr_binding, "pnr_binding"),
+    )
+    return hashlib.sha256(ORIGIN_DOMAIN + b"".join(parts)).digest()
 
 
 def derive_configuration_sha256(
     pnvector_payload_sha256: bytes,
     basis_binding: bytes,
     source_context_sha256: bytes,
-    pnrom_binding: bytes,
+    pnrom_code_binding: bytes,
     pnr_binding: bytes,
     program_binding: bytes,
     scheduler_binding: bytes,
@@ -42,12 +67,12 @@ def derive_configuration_sha256(
         _require32(pnvector_payload_sha256, "pnvector_payload_sha256"),
         _require32(basis_binding, "basis_binding"),
         _require32(source_context_sha256, "source_context_sha256"),
-        _require32(pnrom_binding, "pnrom_binding"),
+        _require32(pnrom_code_binding, "pnrom_code_binding"),
         _require32(pnr_binding, "pnr_binding"),
         _require32(program_binding, "program_binding"),
         _require32(scheduler_binding, "scheduler_binding"),
     )
-    return hashlib.sha256(b"".join(parts)).digest()
+    return hashlib.sha256(CONFIG_DOMAIN + b"".join(parts)).digest()
 
 
 @dataclass(frozen=True, slots=True)
