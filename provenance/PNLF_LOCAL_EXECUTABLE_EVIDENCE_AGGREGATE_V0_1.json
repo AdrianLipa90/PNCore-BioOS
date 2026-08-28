@@ -1,0 +1,38 @@
+{
+  "epistemic_status": "LOCAL_EXECUTABLE_CANDIDATE",
+  "hardware_analog_validation": "PENDING",
+  "receipts": [
+    {
+      "name": "PNLF_ANALOG_ROBUSTNESS_RECEIPT_V0_2.json",
+      "schema": "PNLF_ANALOG_ROBUSTNESS_RECEIPT_V0_2",
+      "sha256": "cb9a22d09dcf7e37ed11a2e0b6eac8db33c606826c16056cb62292c4f6432773",
+      "status": "PASS",
+      "summary": {"passed": 9, "total": 9}
+    },
+    {
+      "name": "PNLF_BLOCK_FILE_E2E_RECEIPT_V0_4.json",
+      "schema": "PNLF_BLOCK_FILE_E2E_RECEIPT_V0_4",
+      "sha256": "a3ce8b582c092ef91dea9e1125fc102ff71b1bd91da927e3aa2419147e21c061",
+      "status": "PASS",
+      "summary": {"passed": 6, "total": 6}
+    },
+    {
+      "name": "PNLF_LIMINAL_STATE_TEST_RECEIPT_V0_1.json",
+      "schema": "PNLF_LIMINAL_STATE_TEST_RECEIPT_V0_1",
+      "sha256": "958646c5c4cd7597716b33003d7042ccd153501c19294ef1184eec9353c5a35d",
+      "status": "PASS",
+      "summary": {"passed": 10, "total": 10}
+    },
+    {
+      "name": "PNLF_TAU_SELF_CALIBRATION_RECEIPT_V0_3.json",
+      "schema": "PNLF_TAU_SELF_CALIBRATION_RECEIPT_V0_3",
+      "sha256": "d348fa949886989631ac02a8cf38fbd12a14c5b74861ec45bf20581dab274bd5",
+      "status": "PASS",
+      "summary": {"passed": 5, "total": 5}
+    }
+  ],
+  "schema": "PNLF_LOCAL_EXECUTABLE_EVIDENCE_AGGREGATE_V0_1",
+  "source_receipt_count": 4,
+  "status": "PASS",
+  "summary": {"passed": 30, "total": 30}
+}

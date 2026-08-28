@@ -1,0 +1,40 @@
+{
+  "byte_exact_closure": true,
+  "checkpoint_object_id": "90b026f9e9092720066bb6a08b030e972f9d16ac4b0b52bf3c0ea80cad4dd32e",
+  "container_id": "b3326338a09c993b0afd6e0a482b572ee4ca620e9fe51f1950f4aea69b4d3f98",
+  "content_commitment": "d4b17a5ef677ea6c1ba3a93c84294fa0e77404b08deca5ac7f1ce8c3fd7ee1ec",
+  "created_unix_ns": 1787910933013880738,
+  "decoded_sha256": "a3ce8b582c092ef91dea9e1125fc102ff71b1bd91da927e3aa2419147e21c061",
+  "epistemic_status": "LOCAL_EXECUTABLE_CANDIDATE",
+  "file_id": "0181521ae48409761ca2c2ba5bf4dec424653a4c78a917e9600d18bfc056934c",
+  "gates": {
+    "aggregate_frame_commitment_closure": "PASS",
+    "aggregate_witness_commitment_closure": "PASS",
+    "bioos_container_seal": "PASS",
+    "content_commitment_closure": "PASS",
+    "pncs_tau_frame_pack_unpack": "PASS",
+    "reopen_decode": "PASS",
+    "sha256_closure": "PASS",
+    "state_memory_checkpoint_roundtrip": "PASS",
+    "t36_witness_closure": "PASS"
+  },
+  "github_actions_note": "Repository Actions runner remains a separate pre-step infrastructure gate.",
+  "hardware_analog_validation": "PENDING",
+  "manifest_id": "3a2b3061b500cd944178c46f73bbec1b6d9e99e7812f56e4721388d986397775",
+  "pnh5_bytes": 15447,
+  "pnh5_file": "PNH5_FIRST_REAL_CONTAINER_V0_1.pnh5",
+  "schema": "PNH5_FIRST_REAL_CONTAINER_RECEIPT_V0_1",
+  "segment_commitment": "674f69fe3cbabd99682b78ea60ee762a3e7f5ebba5c998378c11ca664e89b1aa",
+  "source": "PNLF_BLOCK_FILE_E2E_RECEIPT_V0_4.json",
+  "source_bytes": 2477,
+  "source_sha256": "a3ce8b582c092ef91dea9e1125fc102ff71b1bd91da927e3aa2419147e21c061",
+  "status": "PASS",
+  "t36_witness_set_commitment": "beab7bda483471a68206a0d63a6ed8fae8e1fe2187a53ec4dd156968c9d46d19",
+  "tau_block_bytes": 64,
+  "tau_frame_count": 39,
+  "tau_frame_set_commitment": "d0e2d51a9bc404a868d2e861ae93dfa69cbfdca0399d28d042f32185b8023a94",
+  "tau_total": {
+    "p": 815148,
+    "q": 257
+  }
+}
