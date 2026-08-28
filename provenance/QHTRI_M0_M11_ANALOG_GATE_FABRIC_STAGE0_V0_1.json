@@ -1,0 +1,48 @@
+{
+  "schema": "BIOOS_QHTRI_M0_M11_ANALOG_GATE_FABRIC_STAGE0_V0_1",
+  "status": "IMPLEMENTED_SOURCE_CI_INFRA_UNRESOLVED",
+  "epistemic": "CHYBA",
+  "canon_allowed": false,
+  "branch": "feat/bioos-v0.5-qhtri-m0-m11-analog-gates",
+  "source_contracts": {
+    "m0_m11_control_binding_sha256": "e2b854a90146168b825cfd64ec697ed0261aa8cb781269624d3783080fee9077",
+    "m0_m11_cognition_binding_sha256": "3031b8fd8c47fe2a8a70705317885d5f4fc7c7be84c147ff8c6fcf71026c1791",
+    "m0_m11_resolver_sha256": "16adad19008ac0e59ed779d5d40f89e0b4b53409efbaedefb02502a536ce8590",
+    "whole_lane_routing_only": true,
+    "coordinate_position_mapping": false
+  },
+  "implementation": {
+    "spec": "spec/QHTRI_M0_M11_ANALOG_GATE_FABRIC_V0_1.md",
+    "native": "native/QHTRI_M0_M11_ANALOG_GATE_FABRIC_V0_1.pnv",
+    "host_reference": "tools/qhtri_m0_m11_gate_fabric_v01.py",
+    "tests": "tests/test_qhtri_m0_m11_gate_fabric_v01.py",
+    "test_cases_declared": 14
+  },
+  "operator_model": {
+    "state_space": "T^36",
+    "layer_count": 12,
+    "layer_mapping": "12_OPERATOR_FIELDS_OVER_SHARED_T36",
+    "q_htri_execution": "SUMMED_PHASE_VECTOR_FIELD",
+    "kappa": "ln(2)/(24*pi)",
+    "m5": "EXPLICIT_SALIENCE_MODULATION_ONLY",
+    "m8": "PROTECTED_IDENTITY_RESTORING_REFERENCE",
+    "m10": "ZERO_FORCE_APPEND_ONLY_RECEIPT_OBSERVER",
+    "m11": "UNCERTAINTY_NO_GO_CLOSURE_GATE"
+  },
+  "ci": {
+    "workflow": ".github/workflows/qhtri-m0-m11-analog-gates-v01.yml",
+    "run_id": 33106893170,
+    "conclusion": "failure",
+    "job": "analog-gates",
+    "steps": null,
+    "classification": "RUNNER_DID_NOT_EXECUTE_STEPS",
+    "code_failure_claimed": false
+  },
+  "next_gates": [
+    "EXACT_BRANCH_LOCAL_OR_FUNCTIONAL_RUNNER_CONFORMANCE",
+    "HYPERCRYSTAL_QHTRI_COMPONENT_BINDING",
+    "STATE_MEMORY_M0_M11_ANALOG_LINEAGE",
+    "LIVE_DEV_SHM_QHTRI_GATE_FABRIC_WITNESS",
+    "DIGITAL_GATE_ADAPTER_COMPATIBILITY"
+  ]
+}

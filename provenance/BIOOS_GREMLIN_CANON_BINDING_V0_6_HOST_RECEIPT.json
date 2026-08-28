@@ -1,0 +1,41 @@
+{
+  "schema": "BIOOS_GREMLIN_CANON_BINDING_HOST_RECEIPT_V0_6",
+  "status": "HOST_CONFORMANCE_PASS__GITHUB_ACTIONS_INFRA_BLOCKED_PRE_STEP",
+  "bioos_parent_v05": "9e7724a481a90845485854ad28a3866be0e2caf5",
+  "branch": "feat/bioos-v0.6-gremlin-canon-binding",
+  "tested_branch_head_before_receipt": "bcc051ca811978c8780124d74cad7d1f9daf4a76",
+  "source_blobs": {
+    "tools/bioos_gremlin_canon_binding_v06.py": "59f3ee09d28da2f7f25b804ba38606ef5c606969",
+    "tests/test_bioos_gremlin_canon_binding_v06.py": "e9256fa2876c38251709b860a7d0fe545efce8f4",
+    ".github/workflows/bioos-gremlin-canon-binding-v06.yml": "1f35a0431139fe6ee0a18e12e57d98b99a0a130f"
+  },
+  "external_canon_pin": {
+    "repository": "AdrianLipa90/GREMLIN",
+    "commit": "76a2d6b46e485723eeaa0a97badd2dae6b9b3b14",
+    "ledger_path": "spec/GREMLIN_NEUTRINO_CANON_LEDGER_V2_4.md",
+    "ledger_blob_sha": "13c058b095ff734512dab1de8455eb73eeb637e2"
+  },
+  "host_replay": {
+    "python_compile": "PASS",
+    "unittest": "PASS",
+    "tests_run": 6,
+    "failures": 0,
+    "errors": 0
+  },
+  "github_actions": {
+    "v06_run_id": 33134664381,
+    "v06_conclusion": "failure",
+    "v06_job_steps": [],
+    "v05_control_run_id": 33110575134,
+    "v05_control_conclusion": "failure",
+    "v05_control_job_steps": [],
+    "classification": "INFRASTRUCTURE_FAILURE_BEFORE_FIRST_JOB_STEP",
+    "code_failure_inferred": false
+  },
+  "authority": {
+    "canon_allowed": false,
+    "execution_admitted": false,
+    "production_runtime_write": false,
+    "merge_to_main_admitted": false
+  }
+}

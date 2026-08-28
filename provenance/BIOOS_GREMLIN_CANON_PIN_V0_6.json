@@ -1,0 +1,65 @@
+{
+  "schema": "BIOOS_GREMLIN_CANON_PIN_V0_6",
+  "source_authority": {
+    "repository": "AdrianLipa90/GREMLIN",
+    "canon_commit": "76a2d6b46e485723eeaa0a97badd2dae6b9b3b14",
+    "ledger_path": "spec/GREMLIN_NEUTRINO_CANON_LEDGER_V2_4.md",
+    "ledger_blob_sha": "13c058b095ff734512dab1de8455eb73eeb637e2",
+    "source_mode": "PINNED_READ_ONLY_CANON_SOURCE"
+  },
+  "canonical_claims": [
+    {
+      "claim_id": "C-Nu-1",
+      "status": "CANONICAL_CONDITIONAL",
+      "parent_commit": "4d16a924a21acc2404f4af2c7e5681946c58c6fc",
+      "open_debts": [
+        "NEUTRINO_FRAME_TO_H_I_SOURCE_BINDING"
+      ]
+    },
+    {
+      "claim_id": "C-Nu-2",
+      "status": "CANONICAL",
+      "parent_commit": "4d16a924a21acc2404f4af2c7e5681946c58c6fc",
+      "open_debts": []
+    },
+    {
+      "claim_id": "C-Nu-3",
+      "status": "CANONICAL_FIREWALL",
+      "parent_commit": "a9faf42bb7016c649eb8eb93cf5827bd89323684",
+      "open_debts": [
+        "NEUTRINO_SPECTRUM_CROSS_FRAMEWORK_HOLONOMY"
+      ]
+    }
+  ],
+  "bioos_binding": {
+    "parent_commit": "9e7724a481a90845485854ad28a3866be0e2caf5",
+    "binding_schema": "BIOOS_GREMLIN_CANON_BINDING_V0_6",
+    "m0_m11_binding": {
+      "C-Nu-1": [
+        "M3",
+        "M6",
+        "M9",
+        "M4",
+        "M10",
+        "M11"
+      ],
+      "C-Nu-2": [
+        "M6",
+        "M10",
+        "M11"
+      ],
+      "C-Nu-3": [
+        "M9",
+        "M11",
+        "M4",
+        "M10"
+      ]
+    }
+  },
+  "authority": {
+    "m10_append_only": true,
+    "m11_fail_closed": true,
+    "execution_authority_mode": "SEPARATE_RUNTIME_VALIDATION_REQUIRED"
+  },
+  "manifest_commitment": "58d435575368c6fedc794d5d620c2b1adeec71f37b369773ad340c0c854e2ea8"
+}

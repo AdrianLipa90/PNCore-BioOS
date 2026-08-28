@@ -1,0 +1,24 @@
+name: QHTRI M0-M11 Analog Gates v0.1
+
+on:
+  push:
+    branches:
+      - feat/bioos-v0.5-qhtri-m0-m11-analog-gates
+  pull_request:
+    paths:
+      - 'spec/QHTRI_M0_M11_ANALOG_GATE_FABRIC_V0_1.md'
+      - 'native/QHTRI_M0_M11_ANALOG_GATE_FABRIC_V0_1.pnv'
+      - 'tools/qhtri_m0_m11_gate_fabric_v01.py'
+      - 'tests/test_qhtri_m0_m11_gate_fabric_v01.py'
+      - '.github/workflows/qhtri-m0-m11-analog-gates-v01.yml'
+
+jobs:
+  analog-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run QHTRI M0-M11 analog gate conformance
+        run: python -m unittest -v tests.test_qhtri_m0_m11_gate_fabric_v01

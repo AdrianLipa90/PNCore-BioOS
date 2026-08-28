@@ -1,0 +1,34 @@
+name: Hypercrystal QHTRI M0-M11 Bind v0.1
+
+on:
+  push:
+    branches:
+      - feat/bioos-v0.5-qhtri-m0-m11-analog-gates
+  pull_request:
+    paths:
+      - 'tools/hypercrystal_qhtri_m0_m11_bind_v01.py'
+      - 'tests/test_hypercrystal_qhtri_m0_m11_bind_v01.py'
+      - '.github/workflows/hypercrystal-qhtri-m0-m11-bind-v01.yml'
+
+jobs:
+  hypercrystal-qhtri:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout BioOS
+        uses: actions/checkout@v4
+        with:
+          path: bioos
+      - name: Checkout State Memory analog QHTRI branch
+        uses: actions/checkout@v4
+        with:
+          repository: AdrianLipa90/PNV-State-Memory
+          ref: a8e6921ce3c12c0806d5ca1c45ab9e39327cb60c
+          path: state-memory
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run Hypercrystal QHTRI lineage tests
+        working-directory: bioos
+        env:
+          PYTHONPATH: .:../state-memory/src
+        run: python -m unittest -v tests.test_hypercrystal_qhtri_m0_m11_bind_v01

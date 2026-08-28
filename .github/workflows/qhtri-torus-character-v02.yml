@@ -1,0 +1,24 @@
+name: QHTRI Torus Character v0.2
+
+on:
+  push:
+    branches:
+      - feat/bioos-v0.5-qhtri-m0-m11-analog-gates
+  pull_request:
+    paths:
+      - 'spec/QHTRI_TORUS_CHARACTER_FIELD_V0_2.md'
+      - 'native/QHTRI_TORUS_CHARACTER_FIELD_V0_2.pnv'
+      - 'tools/qhtri_m0_m11_gate_ir_v02.py'
+      - 'tests/test_qhtri_m0_m11_gate_ir_v02.py'
+      - '.github/workflows/qhtri-torus-character-v02.yml'
+
+jobs:
+  torus-character:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run QHTRI torus-character conformance
+        run: python -m unittest -v tests.test_qhtri_m0_m11_gate_ir_v02
