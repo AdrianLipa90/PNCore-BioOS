@@ -8,7 +8,6 @@ from typing import Any, Mapping, Sequence
 
 CAPABILITY_SCHEMA = "BIOOS-NOEMA-QHTRI-SEMANTIC-AUTONOMY-CAPABILITY/0.1"
 EXECUTION_SCHEMA = "BIOOS-NOEMA-QHTRI-AUTONOMOUS-INTERNAL-EFFECT/0.1"
-DECISION_SCHEMA = "BIOOS-NOEMA-QHTRI-AUTONOMY-DECISION/0.1"
 FEEDBACK_SCHEMA = "BIOOS-NOEMA-QHTRI-FEEDBACK-CANDIDATE/0.1"
 
 L0 = "L0_OBSERVE_INTERPRET"
@@ -112,6 +111,12 @@ def _unique_texts(values: Sequence[str], name: str) -> tuple[str, ...]:
     return result
 
 
+def _strict_bool(value: Any, name: str) -> bool:
+    if not isinstance(value, bool):
+        raise SemanticAutonomyError(f"{name} must be boolean")
+    return value
+
+
 def build_semantic_autonomy_capability(
     *,
     capability_id: str,
@@ -132,8 +137,6 @@ def build_semantic_autonomy_capability(
     end = _nonnegative_int(expires_at_tick, "expires_at_tick")
     if end < start:
         raise SemanticAutonomyError("expires_at_tick must be >= valid_from_tick")
-    if not isinstance(allow_state_memory_append, bool) or not isinstance(allow_qhtri_boundary_write, bool):
-        raise SemanticAutonomyError("capability effect toggles must be boolean")
 
     body = {
         "schema": CAPABILITY_SCHEMA,
@@ -154,8 +157,8 @@ def build_semantic_autonomy_capability(
         "max_energy_proxy_per_effect": _nonnegative_finite(
             max_energy_proxy_per_effect, "max_energy_proxy_per_effect"
         ),
-        "allow_state_memory_append": allow_state_memory_append,
-        "allow_qhtri_boundary_write": allow_qhtri_boundary_write,
+        "allow_state_memory_append": _strict_bool(allow_state_memory_append, "allow_state_memory_append"),
+        "allow_qhtri_boundary_write": _strict_bool(allow_qhtri_boundary_write, "allow_qhtri_boundary_write"),
         "authority_expansion": False,
         "external_effect": False,
         "canon_write_authority": False,
@@ -182,10 +185,8 @@ def validate_semantic_autonomy_capability(capability: Mapping[str, Any]) -> None
     _positive_int(capability.get("max_internal_effects_per_epoch"), "max_internal_effects_per_epoch")
     _nonnegative_int(capability.get("max_memory_bytes_per_effect"), "max_memory_bytes_per_effect")
     _nonnegative_finite(capability.get("max_energy_proxy_per_effect"), "max_energy_proxy_per_effect")
-    if capability.get("allow_state_memory_append") not in (True, False):
-        raise SemanticAutonomyError("invalid State Memory append toggle")
-    if capability.get("allow_qhtri_boundary_write") not in (True, False):
-        raise SemanticAutonomyError("invalid QHTRI boundary write toggle")
+    _strict_bool(capability.get("allow_state_memory_append"), "allow_state_memory_append")
+    _strict_bool(capability.get("allow_qhtri_boundary_write"), "allow_qhtri_boundary_write")
     for forbidden in ("authority_expansion", "external_effect", "canon_write_authority", "identity_authority"):
         if capability.get(forbidden) is not False:
             raise SemanticAutonomyError(f"bounded capability crossed {forbidden} boundary")
@@ -253,6 +254,8 @@ def decide_semantic_action(
     op_class = _text(operator_class, "operator_class")
     memory = _nonnegative_int(estimated_memory_bytes, "estimated_memory_bytes")
     energy = _nonnegative_finite(estimated_energy_proxy, "estimated_energy_proxy")
+    append_requested = _strict_bool(state_memory_append, "state_memory_append")
+    boundary_requested = _strict_bool(qhtri_boundary_write, "qhtri_boundary_write")
 
     failures: list[str] = []
     if tick < capability["valid_from_tick"] or tick > capability["expires_at_tick"]:
@@ -267,9 +270,9 @@ def decide_semantic_action(
         failures.append("MEMORY_BUDGET")
     if energy > capability["max_energy_proxy_per_effect"]:
         failures.append("ENERGY_BUDGET")
-    if state_memory_append and capability["allow_state_memory_append"] is not True:
+    if append_requested and capability["allow_state_memory_append"] is not True:
         failures.append("STATE_MEMORY_SCOPE")
-    if qhtri_boundary_write and capability["allow_qhtri_boundary_write"] is not True:
+    if boundary_requested and capability["allow_qhtri_boundary_write"] is not True:
         failures.append("QHTRI_BOUNDARY_SCOPE")
 
     if failures:
@@ -284,9 +287,7 @@ def _validate_feedback_candidate(feedback: Mapping[str, Any]) -> None:
     _hex64(feedback.get("state_crystal_receipt_sha256"), "state_crystal_receipt_sha256")
     _hex64(feedback.get("hermitian_operator_commitment"), "hermitian_operator_commitment")
     _text(feedback.get("pncap_admission_token"), "pncap_admission_token")
-    target = _text(feedback.get("qhtri_target_ref"), "qhtri_target_ref")
-    if not target:
-        raise SemanticAutonomyError("feedback target is required")
+    _text(feedback.get("qhtri_target_ref"), "qhtri_target_ref")
     if feedback.get("effect_policy") != "OPERATOR_BINDABLE":
         raise SemanticAutonomyError("feedback candidate effect policy mismatch")
     if feedback.get("execution_admitted") is not False:
@@ -309,6 +310,7 @@ def build_autonomous_feedback_execution_receipt(
 ) -> dict[str, Any]:
     _validate_feedback_candidate(feedback_receipt)
     validate_semantic_autonomy_capability(capability)
+    append_requested = _strict_bool(state_memory_append, "state_memory_append")
 
     decision = decide_semantic_action(
         level=L1,
@@ -319,7 +321,7 @@ def build_autonomous_feedback_execution_receipt(
         operator_class=operator_class,
         estimated_memory_bytes=estimated_memory_bytes,
         estimated_energy_proxy=estimated_energy_proxy,
-        state_memory_append=state_memory_append,
+        state_memory_append=append_requested,
         qhtri_boundary_write=True,
     )
     if not decision.admitted:
@@ -329,6 +331,7 @@ def build_autonomous_feedback_execution_receipt(
         "schema": EXECUTION_SCHEMA,
         "autonomy_level": L1,
         "feedback_receipt_sha256": feedback_receipt["feedback_receipt_sha256"],
+        "feedback_pncap_admission_token": feedback_receipt["pncap_admission_token"],
         "capability_sha256": capability["capability_sha256"],
         "capability_id": capability["capability_id"],
         "capability_epoch": capability["capability_epoch"],
@@ -340,7 +343,7 @@ def build_autonomous_feedback_execution_receipt(
         "effect_index": _nonnegative_int(effect_index, "effect_index"),
         "estimated_memory_bytes": _nonnegative_int(estimated_memory_bytes, "estimated_memory_bytes"),
         "estimated_energy_proxy": _nonnegative_finite(estimated_energy_proxy, "estimated_energy_proxy"),
-        "state_memory_append": bool(state_memory_append),
+        "state_memory_append": append_requested,
         "qhtri_boundary_write": True,
         "internal_effect_admitted": True,
         "human_per_tick_authorization_required": False,
@@ -366,8 +369,16 @@ def validate_autonomous_feedback_execution_receipt(
         raise SemanticAutonomyError("autonomous execution schema/level mismatch")
     if receipt.get("feedback_receipt_sha256") != feedback_receipt["feedback_receipt_sha256"]:
         raise SemanticAutonomyError("autonomous execution feedback parent mismatch")
+    if receipt.get("feedback_pncap_admission_token") != feedback_receipt["pncap_admission_token"]:
+        raise SemanticAutonomyError("feedback PNCAP token mismatch")
     if receipt.get("capability_sha256") != capability["capability_sha256"]:
         raise SemanticAutonomyError("autonomous execution capability parent mismatch")
+    if receipt.get("capability_id") != capability["capability_id"]:
+        raise SemanticAutonomyError("capability id mismatch")
+    if receipt.get("capability_epoch") != capability["capability_epoch"]:
+        raise SemanticAutonomyError("capability epoch mismatch")
+    if receipt.get("pncap_capability_token") != capability["pncap_capability_token"]:
+        raise SemanticAutonomyError("capability PNCAP token mismatch")
     if receipt.get("hermitian_operator_commitment") != feedback_receipt["hermitian_operator_commitment"]:
         raise SemanticAutonomyError("operator commitment mismatch")
     if receipt.get("qhtri_target_ref") != feedback_receipt["qhtri_target_ref"]:
@@ -381,6 +392,9 @@ def validate_autonomous_feedback_execution_receipt(
             raise SemanticAutonomyError(f"autonomous execution crossed {forbidden} boundary")
     if receipt.get("runtime_write_scope") != "QHTRI_BOUNDARY_ONLY":
         raise SemanticAutonomyError("autonomous runtime write scope mismatch")
+    if receipt.get("qhtri_boundary_write") is not True:
+        raise SemanticAutonomyError("autonomous QHTRI boundary write marker missing")
+    append_requested = _strict_bool(receipt.get("state_memory_append"), "state_memory_append")
 
     decision = decide_semantic_action(
         level=L1,
@@ -391,9 +405,11 @@ def validate_autonomous_feedback_execution_receipt(
         operator_class=receipt.get("operator_class"),
         estimated_memory_bytes=receipt.get("estimated_memory_bytes"),
         estimated_energy_proxy=receipt.get("estimated_energy_proxy"),
-        state_memory_append=bool(receipt.get("state_memory_append")),
+        state_memory_append=append_requested,
         qhtri_boundary_write=True,
     )
     if not decision.admitted:
         raise SemanticAutonomyError("execution receipt is outside capability: " + ",".join(decision.reasons))
+    if receipt.get("decision_reasons") != list(decision.reasons):
+        raise SemanticAutonomyError("autonomy decision reasons mismatch")
     _verify_seal(receipt, "autonomous_execution_receipt_sha256")
