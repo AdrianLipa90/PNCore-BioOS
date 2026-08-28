@@ -1,0 +1,73 @@
+{
+  "schema": "BIOOS-NOEMA-QHTRI-SPINOR-LIFT-RUNTIME-PROVENANCE/0.2",
+  "branch": "feat/qhtri-spinor-runtime-v0.2",
+  "base_branch": "feat/semantic-autonomy-capability-v0.1",
+  "base_head": "91ab7ff1e761e49b6f6bbde42e77933d6d892272",
+  "generation": "V0_2_NEW_CANDIDATE",
+  "v0_1_exact_candidate_bytes_recovered": false,
+  "source_sha256": {
+    "ciel_geometry/noema_surface_mmap.py": "79d11a6b1f147173f6ccdd59187f1b9447f6e015e5858edf8c6634daa8b0e2bd",
+    "ciel_geometry/phasenav/continuous_propagator.py": "9881e9fede149b2ed74e1085c1bfa516d856f4dfa59268cf2acf7e3ae7243205"
+  },
+  "patch_sha256": "449438aa38b019be1612342619edbb370c3e97e1562a22331be18f0ef8c729fa",
+  "candidate_sha256": {
+    "ciel_geometry/noema_surface_mmap.py": "ae1edfe99b929441c0d217f0af430b3721e6242149d0e91bcd54e83a2c3cda99",
+    "ciel_geometry/phasenav/continuous_propagator.py": "1dcf02f21f0a60999b861c590dc3efaa836a600f0c634dfc5ad6f819fb5ea555"
+  },
+  "candidate_manifest_sha256": "7abaadfa7fbea0abd0b1bd54f77150847e57e9851b5b69ece508a97eca9a00d9",
+  "patch_replay": {
+    "fresh_pinned_source_copy": true,
+    "candidate_hashes_exact": true,
+    "status": "PASS"
+  },
+  "compatibility": {
+    "continuous_cases": 200,
+    "continuous_bitwise_equal": true,
+    "pure_steps": 250,
+    "pure_bitwise_equal": true,
+    "hybrid_steps": 250,
+    "hybrid_bitwise_equal": true,
+    "maximum_measured_difference": 0.0
+  },
+  "tracked_shadow": {
+    "steps": 250,
+    "tracked_vs_untracked_bitwise_equal": true,
+    "maximum_measured_difference": 0.0,
+    "final_tick": 250,
+    "turn_min": 30,
+    "turn_max": 39,
+    "z2_minus_axes": 17
+  },
+  "integrity_probe": {
+    "status": "PASS",
+    "cases": [
+      "PLUS_MINUS_2PI_4PI_PARITY",
+      "REOPEN",
+      "TICK_MISMATCH_FAIL_CLOSED",
+      "PARTIAL_STATE_FAIL_CLOSED"
+    ]
+  },
+  "live_snapshot_shadow": {
+    "surface": "/dev/shm/ciel_noema",
+    "snapshot_tick": 2652,
+    "steps": 80,
+    "baseline_vs_tracked_bitwise_equal": true,
+    "maximum_measured_difference": 0.0,
+    "final_tick": 2732,
+    "turn_min": 8,
+    "turn_max": 12,
+    "z2_minus_axes": 19
+  },
+  "live_ring_negative_attachment": {
+    "root": "/dev/shm/ciel_noema/bifurcation_ring_v01",
+    "require_spinor": true,
+    "expected_failure": "spinor lift receipt required",
+    "next_sequence_after_failure": 0,
+    "slot_count_after_failure": 0,
+    "consumer_cursor_after_failure": -1,
+    "status": "PASS_FAIL_CLOSED"
+  },
+  "active_runtime_modified": false,
+  "library_current_modified": false,
+  "promotion_state": "PENDING_EXPLICIT_NOEMA_LIBRARY_PROMOTION"
+}
