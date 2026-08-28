@@ -152,9 +152,53 @@ def persistence_manifest(
     return manifest
 
 
-def pnh5_view(manifest: Mapping[str, Any], *, dataset_path: str, dataset_schema: str) -> dict[str, Any]:
+def verify_persistence_manifest(manifest: Mapping[str, Any]) -> None:
     if manifest.get("schema") != MANIFEST_SCHEMA:
         raise PNLFPersistenceError("PNLF persistence manifest required")
+    required = {
+        "generation",
+        "file_id",
+        "content_commitment",
+        "checkpoint_object_id",
+        "tau_frame_commitment",
+        "t36_witness_commitment",
+        "tau_start",
+        "tau_end",
+        "active_liminal_layers",
+        "pncs_codec_contract",
+        "state_memory_contract",
+        "realization_profile",
+        "wall_clock_role",
+        "content_parameter",
+        "integrity_witness",
+        "consolidation_boundary",
+        "commitment_holonomy",
+        "manifest_id",
+    }
+    missing = required.difference(manifest)
+    if missing:
+        raise PNLFPersistenceError(f"missing persistence manifest fields: {sorted(missing)}")
+    for name in (
+        "file_id",
+        "content_commitment",
+        "checkpoint_object_id",
+        "tau_frame_commitment",
+        "t36_witness_commitment",
+        "manifest_id",
+    ):
+        _hex32(str(manifest[name]), name)
+    if isinstance(manifest["generation"], bool) or not isinstance(manifest["generation"], int) or manifest["generation"] < 0:
+        raise PNLFPersistenceError("generation must be a non-negative integer")
+    if _tau_fraction(manifest["tau_end"], "tau_end") <= _tau_fraction(manifest["tau_start"], "tau_start"):
+        raise PNLFPersistenceError("invalid persistence tau interval")
+    raw = {k: manifest[k] for k in manifest if k != "manifest_id"}
+    expected = hashlib.blake2b(MANIFEST_DOMAIN + _canonical(raw), digest_size=32).hexdigest()
+    if expected != manifest["manifest_id"]:
+        raise PNLFPersistenceError("persistence manifest identity mismatch")
+
+
+def pnh5_view(manifest: Mapping[str, Any], *, dataset_path: str, dataset_schema: str) -> dict[str, Any]:
+    verify_persistence_manifest(manifest)
     if not dataset_path or not dataset_schema:
         raise PNLFPersistenceError("dataset_path and dataset_schema are required")
     return {
