@@ -6,14 +6,18 @@ on:
       - feat/bioos-v0.4-liminal-persistence-v0.1
     paths:
       - 'tools/pnlf_persistence_v01.py'
+      - 'tools/pnh5_container_v01.py'
       - 'tests/test_pnlf_persistence_v01.py'
+      - 'tests/test_pnh5_container_v01.py'
       - 'spec/PNLF_LIMINAL_PERSISTENCE_V0_1.md'
       - 'provenance/PNLF_LOCAL_EXECUTABLE_EVIDENCE_AGGREGATE_V0_1.json'
       - '.github/workflows/pnlf-liminal-persistence-v01.yml'
   pull_request:
     paths:
       - 'tools/pnlf_persistence_v01.py'
+      - 'tools/pnh5_container_v01.py'
       - 'tests/test_pnlf_persistence_v01.py'
+      - 'tests/test_pnh5_container_v01.py'
       - 'spec/PNLF_LIMINAL_PERSISTENCE_V0_1.md'
       - 'provenance/PNLF_LOCAL_EXECUTABLE_EVIDENCE_AGGREGATE_V0_1.json'
 
@@ -33,4 +37,4 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install pytest
-      - run: python -m pytest -q tests/test_pnlf_persistence_v01.py
+      - run: python -m pytest -q tests/test_pnlf_persistence_v01.py tests/test_pnh5_container_v01.py
