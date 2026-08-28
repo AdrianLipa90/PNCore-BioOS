@@ -1,0 +1,13 @@
+{
+  "schema": "BIOOS_GREMLIN_NOEMA_QHTRI_BANK_PIN_V0_1",
+  "bank_repository": "AdrianLipa90/PhaseNav-Natural-Coding-System",
+  "bank_branch": "feat/noema-qhtri-isomorphism-bank-v0.1",
+  "bank_head_commit": "892e96e6dd4afb8b49d33d76758910ac14791141",
+  "bank_spec_path": "spec/PNCS_GREMLIN_NOEMA_QHTRI_ISOMORPHISM_BANK_V0_1.md",
+  "bank_implementation_path": "src/phasenav_natural_code/gremlin_noema_qhtri_isomorphism_bank_v01.py",
+  "bank_entry_count": 10,
+  "runtime_execution_authority": false,
+  "canon_write_authority": false,
+  "promotion_state": "CANDIDATE_ONLY",
+  "epistemic": "CHYBA"
+}
