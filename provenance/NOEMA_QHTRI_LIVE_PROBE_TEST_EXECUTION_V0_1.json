@@ -1,0 +1,30 @@
+{
+  "schema": "BIOOS_NOEMA_QHTRI_LIVE_PROBE_TEST_EXECUTION_V0_1",
+  "live_probe_receipt_sha256": "6a39afc25c4c52ebf5358a60d99fdc30abde7803253390ee41508dfa7e5f2e34",
+  "live_probe_path": "provenance/NOEMA_QHTRI_LIVE_PROBE_RECEIPT_V0_1.json",
+  "tested_modules": {
+    "tools/qhtri_idt_edge_kinetics_v01.py": {
+      "sha256": "60e5697428abcd943b4d2ea611befdc963e661ccb13f2b13a14de1fd787ca788",
+      "git_blob_sha1": "c3e6cb7e3b02a310a69b08afbdc504177db8ed51"
+    },
+    "tools/noema_qhtri_anchor_stages_v01.py": {
+      "sha256": "b02d1dc4af9e08c7ad78e090372f5de30f695fb514c81ec76cad876b08c860a3",
+      "git_blob_sha1": "7af2bb1fe77ce33606b26362765fd6cc5a917fda"
+    }
+  },
+  "test_files": [
+    "tests/test_qhtri_idt_edge_kinetics_v01.py",
+    "tests/test_noema_qhtri_anchor_stages_v01.py"
+  ],
+  "test_command": "pytest -q tests/test_qhtri_idt_edge_kinetics_v01.py tests/test_noema_qhtri_anchor_stages_v01.py",
+  "test_result": {
+    "passed": 10,
+    "failed": 0,
+    "status": "PASS",
+    "elapsed_seconds": 0.06
+  },
+  "tested_bytes_equal_pr_bytes": true,
+  "execution_admitted": false,
+  "production_runtime_write": false,
+  "epistemic_status": "LOCAL_EXECUTABLE_CANDIDATE"
+}

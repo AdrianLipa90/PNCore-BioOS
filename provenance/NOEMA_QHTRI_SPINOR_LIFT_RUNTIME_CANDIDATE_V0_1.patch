@@ -1,0 +1,393 @@
+--- a/ciel_geometry/noema_surface_mmap.py
++++ b/ciel_geometry/noema_surface_mmap.py
+@@ -67,6 +67,192 @@
+ N_GRAVITY = 8  # 0-3: semantic_density, tau_dilation, mass_total, unruh_power; 4-7: CIELingo metrics
+ N_HOLONOMY_FEATURES = 7  # total_gamma, gauge_rank, closure_score, surface_holonomy, conn_mean, conn_max, winding
+ N_TAU = 36  # per-oscillator synchronisation coupling strength (τ↔φ feedback)
++
++SPINOR_TURNS_FILENAME = "spinor_turns.i64"
++SPINOR_TICK_FILENAME = "spinor_tick.u64"
++SPINOR_EPOCH_FILENAME = "spinor_lift_epoch.json"
++SPINOR_EPOCH_SCHEMA = "NOEMA-QHTRI-SPINOR-LIFT-EPOCH/0.1"
++_SPINOR_TAU = 2.0 * math.pi
++_SPINOR_TURNS_DTYPE = np.dtype(np.int64)
++_SPINOR_TICK_DTYPE = np.dtype(np.uint64)
++
++
++def _spinor_canonical_json(value: Any) -> bytes:
++    return json.dumps(
++        value,
++        sort_keys=True,
++        separators=(",", ":"),
++        ensure_ascii=False,
++        allow_nan=False,
++    ).encode("utf-8")
++
++
++def _spinor_projective_phase(value: np.ndarray) -> np.ndarray:
++    arr = np.asarray(value, dtype=np.float64).reshape(-1)
++    if arr.shape != (N_OSCILLATORS,) or not np.all(np.isfinite(arr)):
++        raise SurfaceStateIntegrityError("spinor projective phase must be exactly 36 finite values")
++    return np.mod(arr, _SPINOR_TAU)
++
++
++def spinor_sheet_from_turns(turns: np.ndarray) -> np.ndarray:
++    arr = np.asarray(turns)
++    if arr.shape != (N_OSCILLATORS,) or arr.dtype.kind not in "iu":
++        raise SurfaceStateIntegrityError("spinor turns must be exactly 36 integers")
++    return np.where(np.mod(arr, 2) == 0, 1, -1).astype(np.int8)
++
++
++def _spinor_working_turns(
++    surface: Mapping[str, np.memmap],
++    spinor_lineage: Mapping[str, np.memmap] | None,
++) -> np.ndarray | None:
++    if spinor_lineage is None:
++        return None
++    if "turns" not in spinor_lineage or "tick" not in spinor_lineage:
++        raise SurfaceStateIntegrityError("spinor lineage requires turns and tick channels")
++    turns = np.asarray(spinor_lineage["turns"])
++    lineage_tick = np.asarray(spinor_lineage["tick"])
++    if turns.shape != (N_OSCILLATORS,) or turns.dtype.kind not in "iu":
++        raise SurfaceStateIntegrityError("spinor lineage turns must be exactly 36 integers")
++    if lineage_tick.shape != (1,) or lineage_tick.dtype.kind not in "iu":
++        raise SurfaceStateIntegrityError("spinor lineage tick must be one unsigned/integer value")
++    surface_tick = int(np.asarray(surface["tick"], dtype=np.uint64)[0])
++    if int(lineage_tick[0]) != surface_tick:
++        raise SurfaceStateIntegrityError(
++            f"spinor lineage tick mismatch: {int(lineage_tick[0])} != {surface_tick}"
++        )
++    return turns.astype(np.int64, copy=True)
++
++
++def _spinor_advance_exact(turns: np.ndarray | None, phase_before: np.ndarray, increment: np.ndarray) -> None:
++    if turns is None:
++        return
++    phase = _spinor_projective_phase(phase_before)
++    delta = np.asarray(increment, dtype=np.float64).reshape(-1)
++    if delta.shape != phase.shape or not np.all(np.isfinite(delta)):
++        raise SurfaceStateIntegrityError("spinor exact increment must be exactly 36 finite values")
++    raw_local = phase + delta
++    turns += np.floor(raw_local / _SPINOR_TAU).astype(np.int64)
++
++
++def _spinor_advance_predicted(
++    turns: np.ndarray | None,
++    phase_before: np.ndarray,
++    predicted_increment: np.ndarray,
++    phase_after: np.ndarray,
++    *,
++    ambiguity_tolerance: float,
++) -> float:
++    if turns is None:
++        return math.inf
++    if not math.isfinite(ambiguity_tolerance) or ambiguity_tolerance < 0.0 or ambiguity_tolerance >= math.pi:
++        raise SurfaceStateIntegrityError("spinor ambiguity tolerance must lie in [0, pi)")
++    before = _spinor_projective_phase(phase_before)
++    after = _spinor_projective_phase(phase_after)
++    delta = np.asarray(predicted_increment, dtype=np.float64).reshape(-1)
++    if delta.shape != before.shape or not np.all(np.isfinite(delta)):
++        raise SurfaceStateIntegrityError("spinor predicted increment must be exactly 36 finite values")
++    predicted_lift = before + _SPINOR_TAU * turns.astype(np.float64) + delta
++    turns_after = np.rint((predicted_lift - after) / _SPINOR_TAU).astype(np.int64)
++    selected_lift = after + _SPINOR_TAU * turns_after.astype(np.float64)
++    residual = predicted_lift - selected_lift
++    margin = math.pi - np.abs(residual)
++    if np.any(margin <= ambiguity_tolerance):
++        idx = int(np.argmin(margin))
++        raise SurfaceStateIntegrityError(
++            f"spinor lift ambiguous at oscillator {idx}: uniqueness margin {margin[idx]:.17g}"
++        )
++    turns[...] = turns_after
++    return float(np.min(margin))
++
++
++def _spinor_epoch_paths(root: Path) -> tuple[Path, Path, Path]:
++    root = Path(root)
++    return (
++        root / SPINOR_TURNS_FILENAME,
++        root / SPINOR_TICK_FILENAME,
++        root / SPINOR_EPOCH_FILENAME,
++    )
++
++
++def initialize_spinor_lift_epoch(
++    surface: Mapping[str, np.memmap],
++    root: Path = DEFAULT_SURFACE_ROOT,
++    *,
++    authority_ref: str,
++) -> dict[str, np.memmap]:
++    """Create a prospective spinor lineage epoch bound to the current live tick."""
++    authority = str(authority_ref).strip()
++    if not authority:
++        raise SurfaceStateIntegrityError("spinor lift epoch requires authority_ref")
++    root = Path(root)
++    root.mkdir(parents=True, exist_ok=True)
++    turns_path, tick_path, epoch_path = _spinor_epoch_paths(root)
++    present = [path.exists() for path in (turns_path, tick_path, epoch_path)]
++    if any(present):
++        if not all(present):
++            raise SurfaceStateIntegrityError("partial spinor lineage epoch present")
++        raise FileExistsError("spinor lift epoch already exists")
++
++    phi = _spinor_projective_phase(np.asarray(surface["phi"], dtype=np.float64))
++    tick = int(np.asarray(surface["tick"], dtype=np.uint64)[0])
++    body = {
++        "schema": SPINOR_EPOCH_SCHEMA,
++        "epoch_tick": tick,
++        "projective_state_sha256": sha256(phi.astype("<f8", copy=False).tobytes()).hexdigest(),
++        "authority_ref": authority,
++        "lineage_origin": "EXPLICIT_ACTIVATION_EPOCH",
++    }
++    epoch_id = sha256(_spinor_canonical_json(body)).hexdigest()
++    epoch = {**body, "spinor_epoch_id": epoch_id}
++
++    created: list[Path] = []
++    try:
++        with turns_path.open("xb") as handle:
++            handle.truncate(N_OSCILLATORS * _SPINOR_TURNS_DTYPE.itemsize)
++        created.append(turns_path)
++        with tick_path.open("xb") as handle:
++            handle.truncate(_SPINOR_TICK_DTYPE.itemsize)
++        created.append(tick_path)
++        turns = np.memmap(turns_path, dtype=_SPINOR_TURNS_DTYPE, mode="r+", shape=(N_OSCILLATORS,))
++        line_tick = np.memmap(tick_path, dtype=_SPINOR_TICK_DTYPE, mode="r+", shape=(1,))
++        turns[...] = 0
++        line_tick[0] = tick
++        turns.flush()
++        line_tick.flush()
++        tmp = epoch_path.with_suffix(epoch_path.suffix + ".tmp")
++        tmp.write_bytes(_spinor_canonical_json(epoch) + b"\n")
++        os.replace(tmp, epoch_path)
++        created.append(epoch_path)
++    except Exception:
++        for path in reversed(created):
++            try:
++                path.unlink()
++            except FileNotFoundError:
++                pass
++        raise
++    return {"turns": turns, "tick": line_tick}
++
++
++def open_spinor_lineage(root: Path = DEFAULT_SURFACE_ROOT, mode: str = "r+") -> dict[str, np.memmap]:
++    root = Path(root)
++    turns_path, tick_path, epoch_path = _spinor_epoch_paths(root)
++    if not turns_path.exists() or not tick_path.exists() or not epoch_path.exists():
++        raise FileNotFoundError("complete spinor lineage epoch is required")
++    if turns_path.stat().st_size != N_OSCILLATORS * _SPINOR_TURNS_DTYPE.itemsize:
++        raise SurfaceStateIntegrityError("spinor turns file size mismatch")
++    if tick_path.stat().st_size != _SPINOR_TICK_DTYPE.itemsize:
++        raise SurfaceStateIntegrityError("spinor tick file size mismatch")
++    epoch = json.loads(epoch_path.read_text(encoding="utf-8"))
++    if epoch.get("schema") != SPINOR_EPOCH_SCHEMA:
++        raise SurfaceStateIntegrityError("spinor epoch schema mismatch")
++    body = {key: value for key, value in epoch.items() if key != "spinor_epoch_id"}
++    if epoch.get("spinor_epoch_id") != sha256(_spinor_canonical_json(body)).hexdigest():
++        raise SurfaceStateIntegrityError("spinor epoch seal mismatch")
++    turns = np.memmap(turns_path, dtype=_SPINOR_TURNS_DTYPE, mode=mode, shape=(N_OSCILLATORS,))
++    line_tick = np.memmap(tick_path, dtype=_SPINOR_TICK_DTYPE, mode=mode, shape=(1,))
++    spinor_sheet_from_turns(turns)
++    return {"turns": turns, "tick": line_tick}
++
+ 
+ # ── Flavor slot contract ──────────────────────────────────────────────────
+ # Każdy daemon pisze tylko swoje sloty — reszta to cudze półki.
+@@ -1003,6 +1189,8 @@
+     flush: bool = True,
+     continuous: bool = True,
+     cont_every: int = 10,
++    spinor_lineage: Mapping[str, np.memmap] | None = None,
++    spinor_ambiguity_tolerance: float = 1e-9,
+ ) -> float:
+     """Phase evolution on the shared surface.
+     
+@@ -1019,6 +1207,7 @@
+     omega = np.asarray(surface["omega"], dtype=np.float64)
+     g = np.asarray(surface["g"], dtype=np.float64)
+     flavor = np.asarray(surface["flavor"], dtype=np.float64)
++    spinor_turns_work = _spinor_working_turns(surface, spinor_lineage)
+ 
+     # 3-6-9 harmonic composite phase for coupling (Tesla harmonics) — wektorowo
+     S = np.sum(
+@@ -1042,6 +1231,10 @@
+         _curious_idle = 0
+     if _curious_idle > 0 and _curious_idle % 200 == 0:
+         lucky = np.random.randint(0, N_OSCILLATORS)
++        if spinor_turns_work is not None:
++            spinor_increment = np.zeros_like(phi)
++            spinor_increment[lucky] = np.pi / 4
++            _spinor_advance_exact(spinor_turns_work, phi, spinor_increment)
+         phi[lucky] = (phi[lucky] + np.pi / 4) % (2 * np.pi)
+         for h_idx, h in enumerate(HARMONIC_VALUES):
+             if HARMONIC_MASK[lucky, h_idx]:
+@@ -1116,7 +1309,9 @@
+         target = (ch_mean + np.pi) % (2 * np.pi)
+         target_osc = np.repeat(target, 3)  # (36,) — każdy osc target swojej kanały
+         diff_osc = np.angle(np.exp(1j * (target_osc - phi)))
+-        phi += push * diff_osc
++        spinor_increment = push * diff_osc
++        _spinor_advance_exact(spinor_turns_work, phi, spinor_increment)
++        phi += spinor_increment
+         phi %= 2 * np.pi
+ 
+     surface["g"][...] = g
+@@ -1127,15 +1322,31 @@
+     use_cont = continuous and _cont_counter % cont_every == 0
+     if use_cont:
+         try:
+-            from .phasenav.continuous_propagator import evolve_continuous
+-            phi_new, _, _ = evolve_continuous(
+-                phi, dt=dt * cont_every, hbar=0.1,
+-                coupling=coupling, omega_eff=effective_omega,
+-            )
++            if spinor_turns_work is None:
++                from .phasenav.continuous_propagator import evolve_continuous
++                phi_new, _, _ = evolve_continuous(
++                    phi, dt=dt * cont_every, hbar=0.1,
++                    coupling=coupling, omega_eff=effective_omega,
++                )
++            else:
++                from .phasenav.continuous_propagator import evolve_continuous_lifted
++                phi_new, phi_lift_target, _, _ = evolve_continuous_lifted(
++                    phi, dt=dt * cont_every, hbar=0.1,
++                    coupling=coupling, omega_eff=effective_omega,
++                )
++                _spinor_advance_predicted(
++                    spinor_turns_work,
++                    phi_before_step,
++                    phi_lift_target - phi_before_step,
++                    phi_new,
++                    ambiguity_tolerance=spinor_ambiguity_tolerance,
++                )
+         except Exception as exc:
+             raise RuntimeError("continuous PhaseNav propagation failed; refusing reduced-dynamics fallback") from exc
+     else:
+-        phi_new = (phi + dt * (effective_omega + coupling)) % (2.0 * np.pi)
++        spinor_increment = dt * (effective_omega + coupling)
++        _spinor_advance_exact(spinor_turns_work, phi_before_step, spinor_increment)
++        phi_new = (phi + spinor_increment) % (2.0 * np.pi)
+     _cont_counter += 1
+     surface["phi"][...] = phi_new
+ 
+@@ -1164,15 +1375,21 @@
+     if unruh_power > WARP_THRESHOLD and dt > 0:
+         warp_strength = min(1.0, float(unruh_power * 100.0))
+         warp_bias = 0.05 * warp_strength * np.sin(warp_strength * _WARP_UNIT_RAMP - phi_new)
+-        phi_new = (phi_new + dt * warp_bias) % (2.0 * np.pi)
++        spinor_increment = dt * warp_bias
++        _spinor_advance_exact(spinor_turns_work, phi_new, spinor_increment)
++        phi_new = (phi_new + spinor_increment) % (2.0 * np.pi)
+         surface["phi"][...] = phi_new
+         gravity[2] += 0.01  # warp contribution to mass
+ 
+     surface["gravity"][...] = gravity
+     # ── /WARP_DRIFT + /Semantic gravity ────────────────────────────────
+ 
+-    # Tick
+-    surface["tick"][0] = int(np.asarray(surface["tick"], dtype=np.uint64)[0]) + 1
++    # Tick + spinor lineage commit
++    new_tick = int(np.asarray(surface["tick"], dtype=np.uint64)[0]) + 1
++    surface["tick"][0] = new_tick
++    if spinor_turns_work is not None:
++        spinor_lineage["turns"][...] = spinor_turns_work
++        spinor_lineage["tick"][0] = new_tick
+ 
+     # Geometry
+     sync_surface_geometry(surface)
+@@ -1182,6 +1399,10 @@
+ 
+     if flush:
+         flush_surface(surface)
++        if spinor_lineage is not None:
++            for mem in spinor_lineage.values():
++                if hasattr(mem, "flush"):
++                    mem.flush()
+ 
+     return thinking_delta
+ 
+--- a/ciel_geometry/phasenav/continuous_propagator.py
++++ b/ciel_geometry/phasenav/continuous_propagator.py
+@@ -118,14 +118,14 @@
+     return np.sum(np.cos(_ZETA_N[None, :] * phi[:, None]) / _ZETA_DENOM[None, :], axis=1)
+ 
+ 
+-def evolve_continuous(
++def _evolve_continuous_core(
+     phi_knots: np.ndarray,
+     dt: float = 0.01,
+     hbar: float = 0.1,
+     coupling: np.ndarray | None = None,
+     omega_eff: np.ndarray | None = None,
+-) -> tuple[np.ndarray, float, float]:
+-    """Single step with shared periodic-spline construction for exactly 36D fields."""
++) -> tuple[np.ndarray, np.ndarray, float, float]:
++    """Shared continuous step returning projective output plus its pre-modulo lift target."""
+     phi_knots = _require_v36("phi_knots", phi_knots)
+     if not np.isfinite(dt) or dt <= 0.0:
+         raise ValueError("dt must be finite and > 0")
+@@ -156,7 +156,8 @@
+     V = zeta_potential(phi_dense)
+     H_kinetic = -hbar * 0.5 * d2phi
+     H_potential = V * phi_dense
+-    phi_new_dense = np.mod(phi_dense + dt * (H_kinetic + H_potential + H_drive), 2 * np.pi)
++    phi_lift_dense = phi_dense + dt * (H_kinetic + H_potential + H_drive)
++    phi_new_dense = np.mod(phi_lift_dense, 2 * np.pi)
+ 
+     max_dphi = float(np.max(np.abs(phi_new_dense - phi_dense)))
+     d2_norm = float(np.mean(np.abs(d2phi)))
+@@ -166,11 +167,54 @@
+     phi_wrap[-1] = phi_wrap[0]
+     cs_new = _DENSE_CACHE.build(phi_wrap)
+     phi_out = np.asarray(cs_new(theta_knots[:-1]), dtype=np.float64)
++
++    lift_wrap = np.asarray(phi_lift_dense).copy()
++    lift_wrap[-1] = lift_wrap[0]
++    cs_lift = _DENSE_CACHE.build(lift_wrap)
++    lift_out = np.asarray(cs_lift(theta_knots[:-1]), dtype=np.float64)
++
+     if phi_out.shape != (N_KNOTS,) or not np.all(np.isfinite(phi_out)):
+         raise RuntimeError("continuous propagator produced invalid 36D output")
++    if lift_out.shape != (N_KNOTS,) or not np.all(np.isfinite(lift_out)):
++        raise RuntimeError("continuous propagator produced invalid 36D lift target")
+     if not np.isfinite(max_dphi) or not np.isfinite(d2_norm):
+         raise RuntimeError("continuous propagator produced non-finite diagnostics")
++    return phi_out, lift_out, max_dphi, d2_norm
++
++
++def evolve_continuous(
++    phi_knots: np.ndarray,
++    dt: float = 0.01,
++    hbar: float = 0.1,
++    coupling: np.ndarray | None = None,
++    omega_eff: np.ndarray | None = None,
++) -> tuple[np.ndarray, float, float]:
++    """Compatibility API preserving the existing projective 36D output."""
++    phi_out, _, max_dphi, d2_norm = _evolve_continuous_core(
++        phi_knots,
++        dt=dt,
++        hbar=hbar,
++        coupling=coupling,
++        omega_eff=omega_eff,
++    )
+     return phi_out, max_dphi, d2_norm
++
++
++def evolve_continuous_lifted(
++    phi_knots: np.ndarray,
++    dt: float = 0.01,
++    hbar: float = 0.1,
++    coupling: np.ndarray | None = None,
++    omega_eff: np.ndarray | None = None,
++) -> tuple[np.ndarray, np.ndarray, float, float]:
++    """Continuous step with the endogenous pre-modulo lift target for Z2 lineage."""
++    return _evolve_continuous_core(
++        phi_knots,
++        dt=dt,
++        hbar=hbar,
++        coupling=coupling,
++        omega_eff=omega_eff,
++    )
+ 
+ 
+ def self_test():
