@@ -1,0 +1,30 @@
+{
+  "canon_promotion": false,
+  "control_status": "EXPERIMENTAL_CONTROL",
+  "execution_authority": false,
+  "max_observed_silence_ticks": 2,
+  "max_suppressed_phase_rms": 0.041882951176641585,
+  "min_suppressed_overlap": 0.9991475980178053,
+  "module_sha256": "b975fd07f825b3131c2ba808b948bb54bfc76ce891e25f2c093f1ac62668c711",
+  "physical_energy_measurement": "UNAVAILABLE_IN_THIS_CONTAINER",
+  "policy": {
+    "max_silence_ticks": 10,
+    "overlap_floor_wake": 0.999,
+    "phase_rms_wake": 0.05
+  },
+  "qhtri_trajectory_mutated": false,
+  "receipt_sha256": "5d6006362f904ee096dc1de38bfa2196cc24f233a1bd5f64c89b3989df6bee4c",
+  "sample_count": 120,
+  "schema": "BIOOS_ZPE_NOEMA_EVENT_GATE_LIVE_V0_1",
+  "suppressed_count": 72,
+  "tick_end": 14240,
+  "tick_start": 14121,
+  "wake_reasons": {
+    "GENESIS": 1,
+    "OVERLAP": 47,
+    "PHASE_RMS": 47
+  },
+  "wakeup_count": 48,
+  "wakeup_reduction_fraction": 0.6,
+  "zpe_pin": "43b981fc9f350ba6e8a8d6c846e4be52737f941d"
+}
