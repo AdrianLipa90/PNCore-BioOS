@@ -56,30 +56,37 @@ def build_cnu_qhtri_admission_v061(
 ) -> dict[str, Any]:
     """Build a zero-force M4/M11/M10 admission envelope for one C-Nu claim.
 
-    This function binds canonical knowledge into the existing BioOS v0.5 gate
-    fabric without creating a phase target, torsion edge, or execution grant.
-    A later operator-binding step must supply its own provenance-bearing
-    geometry and runtime authority.
+    Canonical knowledge is bound into the existing BioOS v0.5 gate fabric
+    without creating a phase target, torsion edge, or execution grant. A later
+    operator-binding step supplies its own provenance-bearing geometry and
+    runtime authority.
     """
 
     try:
         validate_neutrino_canon_binding_v06(binding)
-        evaluation = evaluate_c_nu_use_v06(
-            binding,
-            claim_id=claim_id,
-            satisfied_preconditions=satisfied_preconditions,
-            request_shared_absolute_spectrum=request_shared_absolute_spectrum,
-        )
     except BioOSGremlinCanonBindingV06Error as exc:
         raise BioOSCNuQHTRIAdmissionV061Error(str(exc)) from exc
 
     claim = _claim(binding, claim_id)
+    preconditions = sorted({str(v) for v in satisfied_preconditions})
+    evidence = sorted(str(v) for v in evidence_refs)
     validator = _unit_interval(runtime_validator_confidence, "runtime_validator_confidence")
     capability = _unit_interval(capability_admission, "capability_admission")
-    if capability > 0.0 and not str(capability_ref or ""):
+    capability_ref_normalized = str(capability_ref) if capability_ref is not None else None
+    if capability > 0.0 and not str(capability_ref_normalized or ""):
         raise BioOSCNuQHTRIAdmissionV061Error(
             "positive capability admission requires provenance-bearing capability_ref"
         )
+
+    try:
+        evaluation = evaluate_c_nu_use_v06(
+            binding,
+            claim_id=claim_id,
+            satisfied_preconditions=preconditions,
+            request_shared_absolute_spectrum=bool(request_shared_absolute_spectrum),
+        )
+    except BioOSGremlinCanonBindingV06Error as exc:
+        raise BioOSCNuQHTRIAdmissionV061Error(str(exc)) from exc
 
     precondition_open = bool(evaluation["missing_preconditions"])
     hard_no_go = bool(evaluation["m11_no_go"])
@@ -88,8 +95,8 @@ def build_cnu_qhtri_admission_v061(
     effective_validator = validator if knowledge_ready else 0.0
     effective_capability = capability if knowledge_ready else 0.0
 
-    # Deliberately omit every target and every M6 edge. The resulting v0.5
-    # fabric carries admission/provenance state but cannot generate Kχ force.
+    # No target and no M6 edge are supplied here. This is an admission profile,
+    # not an operator profile capable of driving T^36 dynamics.
     layer_frames = {
         "M4": {
             "procedure_match": 1.0,
@@ -97,7 +104,7 @@ def build_cnu_qhtri_admission_v061(
             "capability_admission": effective_capability,
             "activation": 1.0,
             "claim_ref": claim_id,
-            "capability_ref": capability_ref,
+            "capability_ref": capability_ref_normalized,
         },
         "M10": {
             "append_only": True,
@@ -131,8 +138,19 @@ def build_cnu_qhtri_admission_v061(
     else:
         status = "READY_FOR_SEPARATE_OPERATOR_BINDING_ZERO_FORCE"
 
+    request = {
+        "claim_id": claim_id,
+        "satisfied_preconditions": preconditions,
+        "request_shared_absolute_spectrum": bool(request_shared_absolute_spectrum),
+        "runtime_validator_confidence": validator,
+        "capability_admission": capability,
+        "capability_ref": capability_ref_normalized,
+        "evidence_refs": evidence,
+    }
+
     core = {
         "schema": SCHEMA,
+        "request": request,
         "claim_id": claim_id,
         "claim_role": str(claim["role"]),
         "claim_canon_status": str(claim["canon_status"]),
@@ -141,7 +159,7 @@ def build_cnu_qhtri_admission_v061(
         "runtime_validation": {
             "validator_confidence": validator,
             "capability_admission_requested": capability,
-            "capability_ref": capability_ref,
+            "capability_ref": capability_ref_normalized,
             "effective_validator_confidence": effective_validator,
             "effective_capability_admission": effective_capability,
         },
@@ -171,15 +189,27 @@ def build_cnu_qhtri_admission_v061(
         "authority_grant": False,
         "execution_admitted": False,
         "production_runtime_write": False,
-        "evidence_refs": sorted(str(v) for v in evidence_refs),
+        "evidence_refs": evidence,
         "status": status,
     }
     return {**core, "admission_commitment": _seal(core)}
 
 
-def validate_cnu_qhtri_admission_v061(envelope: Mapping[str, Any]) -> bool:
+def validate_cnu_qhtri_admission_v061(
+    envelope: Mapping[str, Any],
+    binding: Mapping[str, Any],
+) -> bool:
+    """Validate structurally and by deterministic replay from the canon binding."""
+
+    try:
+        validate_neutrino_canon_binding_v06(binding)
+    except BioOSGremlinCanonBindingV06Error as exc:
+        raise BioOSCNuQHTRIAdmissionV061Error(str(exc)) from exc
+
     if envelope.get("schema") != SCHEMA:
         raise BioOSCNuQHTRIAdmissionV061Error("unsupported C-Nu QHTRI admission envelope schema")
+    if envelope.get("canon_binding_commitment") != binding.get("canon_binding_commitment"):
+        raise BioOSCNuQHTRIAdmissionV061Error("canon binding commitment mismatch")
     if envelope.get("operator_binding_required") is not True:
         raise BioOSCNuQHTRIAdmissionV061Error("separate operator binding is required")
     if envelope.get("authority_grant") is not False or envelope.get("execution_admitted") is not False:
@@ -189,8 +219,9 @@ def validate_cnu_qhtri_admission_v061(envelope: Mapping[str, Any]) -> bool:
 
     qhtri = envelope.get("qhtri_admission_ir")
     m = envelope.get("m0_m11_projection")
-    if not isinstance(qhtri, Mapping) or not isinstance(m, Mapping):
-        raise BioOSCNuQHTRIAdmissionV061Error("admission projection sections missing")
+    request = envelope.get("request")
+    if not isinstance(qhtri, Mapping) or not isinstance(m, Mapping) or not isinstance(request, Mapping):
+        raise BioOSCNuQHTRIAdmissionV061Error("admission projection/request sections missing")
     if int(qhtri.get("character_term_count", -1)) != 0:
         raise BioOSCNuQHTRIAdmissionV061Error("pre-operator canon admission must contain zero character terms")
     if qhtri.get("force_status") != "ZERO_FORCE_ADMISSION_METADATA_ONLY":
@@ -203,4 +234,21 @@ def validate_cnu_qhtri_admission_v061(envelope: Mapping[str, Any]) -> bool:
     core.pop("admission_commitment", None)
     if supplied != _seal(core):
         raise BioOSCNuQHTRIAdmissionV061Error("admission commitment mismatch")
+
+    try:
+        rebuilt = build_cnu_qhtri_admission_v061(
+            binding,
+            claim_id=str(request["claim_id"]),
+            satisfied_preconditions=request.get("satisfied_preconditions", ()),
+            request_shared_absolute_spectrum=bool(request.get("request_shared_absolute_spectrum", False)),
+            runtime_validator_confidence=float(request.get("runtime_validator_confidence", 1.0)),
+            capability_admission=float(request.get("capability_admission", 0.0)),
+            capability_ref=request.get("capability_ref"),
+            evidence_refs=request.get("evidence_refs", ()),
+        )
+    except (KeyError, TypeError, ValueError, BioOSCNuQHTRIAdmissionV061Error) as exc:
+        raise BioOSCNuQHTRIAdmissionV061Error("admission deterministic replay failed") from exc
+
+    if _canonical(envelope) != _canonical(rebuilt):
+        raise BioOSCNuQHTRIAdmissionV061Error("admission deterministic replay mismatch")
     return True
