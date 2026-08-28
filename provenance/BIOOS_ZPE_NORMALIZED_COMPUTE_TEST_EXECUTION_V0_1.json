@@ -1,0 +1,49 @@
+{
+  "canon_promotion": false,
+  "execution_environment_cpu": "unknown",
+  "hardware_measurement_harness": {
+    "container_capability_probe": {
+      "battery": "UNAVAILABLE",
+      "live_tick": "AVAILABLE",
+      "nvidia": "UNAVAILABLE",
+      "rapl": "UNAVAILABLE"
+    },
+    "physical_dell_measurement": "PENDING_ON_TARGET_HARDWARE",
+    "status": "PASS_READ_ONLY_CAPABILITY_PROBE",
+    "tests_sha256": "20783f2eebc273d2578a6aaa81b86f4e5d92a40aa6a5b623110cd10966e06585",
+    "tool_sha256": "5dd040c4b60c7c6d7e01c6702664ec2b98e721527df5bf97ff7f611174d6eadb"
+  },
+  "hashes_sha256": {
+    "event_receipt": "b5a3e6e38a840f6abe8a3e665ff94fc2ade9d4b24878cc85251162d64390f741",
+    "macro_receipt": "56cbfec22b6afdade6cbcf78456b8a634d06566d700f0e0466317d43c52a8b97",
+    "module": "b975fd07f825b3131c2ba808b948bb54bfc76ce891e25f2c093f1ac62668c711",
+    "probe": "d3b0e2b039803612dc4717bf56ffd67ce33029a2beb8363783858cbb17576b7b",
+    "tests": "2c41d9b080d500c7078045ba1487003471fbd47bc69ef9f97408b5cabf6ce71d"
+  },
+  "live_event_gate": {
+    "receipt_sha256": "5d6006362f904ee096dc1de38bfa2196cc24f233a1bd5f64c89b3989df6bee4c",
+    "status": "PASS",
+    "wakeup_reduction_fraction": 0.6
+  },
+  "macrostep_shadow": {
+    "call_reduction_fraction": 0.9166666666666666,
+    "hybrid_any_admitted": false,
+    "receipt_sha256": "8601350b56b75c9a5d64ad8e3481bba8ce58bcf872e6757ed89bc2d0735211f8",
+    "selected": "PURE_STRIDE_12",
+    "status": "PASS_PURE_MODE_WITH_HYBRID_FAIL_CLOSED"
+  },
+  "physical_energy_measurement": "PENDING_DIRECT_DELL_METER",
+  "production_runtime_write": false,
+  "receipt_sha256": "8a1bf82d9fc78618d35e18e59dddb909b07d1e5c25389897276fcf648f661732",
+  "runtime_execution_authority": false,
+  "schema": "BIOOS_ZPE_NORMALIZED_COMPUTE_TEST_EXECUTION_V0_1",
+  "status": "PASS_WITH_TARGET_HARDWARE_ENERGY_GATE_PENDING",
+  "unit_tests": {
+    "command": "python3 -m pytest -q tests/test_bioos_dell_energy_probe_v01.py tests/test_bioos_zpe_normalized_compute_v01.py",
+    "failed": 0,
+    "passed": 15,
+    "total": 15
+  },
+  "zpe_pin": "43b981fc9f350ba6e8a8d6c846e4be52737f941d",
+  "zpe_repository": "AdrianLipa90/Zero-Point-Energy"
+}
