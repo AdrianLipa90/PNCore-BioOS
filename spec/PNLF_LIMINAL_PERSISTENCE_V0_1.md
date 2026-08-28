@@ -16,13 +16,30 @@ PNObject / FILE_ID
 
 The content parameter is scalar tau. Laboratory wall-clock belongs to realization evidence. The T36 lane supplies block-level relational/integrity evidence. State Memory supplies generation identity, lineage and recovery boundaries.
 
+## Cross-repository commitment holonomy
+
+The persistence binding follows one exact chain:
+
+```text
+PNCS.frame_commitment(frame)
+  -> StateMemory.carrier_commitment
+  -> BioOS.tau_frame_commitment
+
+PNCS.witness_commitment(frame.witness)
+  -> StateMemory.t36_witness_commitment
+  -> BioOS.t36_witness_commitment
+```
+
+BioOS derives `FILE_ID`, `CONTENT_COMMITMENT` and `CHECKPOINT_OBJECT_ID` from a `PNV-LIMINAL-CHECKPOINT/0.1` object through `binding_from_state_checkpoint()`. A persistence manifest supplied with a checkpoint verifies generation and `tau_end` against that checkpoint before admission.
+
 ## Identity
 
 ```text
 FILE_ID != CONTENT_COMMITMENT != CHECKPOINT_OBJECT_ID
+TAU_FRAME_COMMITMENT != T36_WITNESS_COMMITMENT
 ```
 
-The file identity is Genesis anchored. Content commitment changes with admitted content. Checkpoint identity changes with State Memory generation and lineage.
+The file identity is Genesis anchored. Content commitment changes with admitted content. Checkpoint identity changes with State Memory generation and lineage. Carrier and witness commitments remain separate integrity axes.
 
 ## PNLF generation
 
@@ -47,7 +64,14 @@ realization profile
 
 ## GREMLIN codec relation
 
-PNCS owns the GREMLIN isomorphic compiler specialization. The shared invariant connects `PNCS TAU FRAME`, `PNCS T36 WITNESS`, `PNV-State-Memory LIMINAL SEGMENT`, `BioOS PNLF FILE` and `PNH5 VIEW`. GREMLIN materializes candidate KAKU/RADICAL/OPERATORS and a READ_ONLY PNV conformance program. Canon promotion remains an explicit authority boundary.
+PNCS owns the GREMLIN isomorphic compiler specialization. The codec is formed from two bounded relational fragments joined on the shared `K.LIMINAL.SEGMENT` node:
+
+```text
+PNCS TAU FRAME <-> T36 WITNESS <-> State Memory
+State Memory <-> BioOS PNLF FILE <-> PNH5 VIEW
+```
+
+GREMLIN performs the isomorphic union first and then materializes one candidate KAKU set, one RADICAL, deterministic OPERATORS and one READ_ONLY PNV conformance program. Canon promotion remains an explicit authority boundary.
 
 ## Evidence
 
