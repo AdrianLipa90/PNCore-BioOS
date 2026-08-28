@@ -23,9 +23,7 @@ GREMLIN C-Nu canon
 
 ## Zero-force invariant
 
-The admission bridge deliberately supplies no phase target and no torsion edge.
-
-Therefore the compiled v0.5 Gate IR must satisfy
+The admission bridge supplies no phase target and no torsion edge. Therefore the compiled v0.5 Gate IR must satisfy
 
 \[
 \boxed{|K_\chi|=0}
@@ -33,9 +31,9 @@ Therefore the compiled v0.5 Gate IR must satisfy
 
 at this stage.
 
-Canonical knowledge may determine validation state, uncertainty state, provenance state and a hard NO-GO. It does not by itself define a QHTRI force field.
+Canonical knowledge may determine validation state, uncertainty state, provenance state and a hard NO-GO. A later, separately admitted operator supplies any effect-carrying QHTRI geometry.
 
-The required state is
+The required admission state is
 
 ```text
 character_term_count = 0
@@ -45,6 +43,34 @@ authority_grant = false
 execution_admitted = false
 production_runtime_write = false
 ```
+
+## Deterministic replay firewall
+
+A content hash is evidence of exact bytes, while admission validity is tied to the pinned BioOS v0.6 canon binding and the declared request.
+
+Each envelope therefore stores the normalized request:
+
+```text
+claim_id
+satisfied_preconditions
+request_shared_absolute_spectrum
+runtime_validator_confidence
+capability_admission
+capability_ref
+evidence_refs
+```
+
+Validation receives both the envelope `E` and the original canonical binding `B`, rebuilds the envelope from that request and requires canonical equality:
+
+\[
+\boxed{
+\operatorname{VALID}(E,B)
+\iff
+E=\operatorname{Build}\!\left(B,\operatorname{request}(E)\right)
+}
+\]
+
+The ordinary envelope commitment is also checked. Recomputing that commitment after changing a derived M4/M11/QHTRI field therefore does not satisfy validation: deterministic replay reconstructs the field from the pinned binding and request and detects the mismatch.
 
 ## C-Nu-1
 
@@ -71,7 +97,7 @@ Even with validated preconditions and admitted capability, v0.6.1 produces only
 READY_FOR_SEPARATE_OPERATOR_BINDING_ZERO_FORCE
 ```
 
-because no operator geometry has yet been supplied.
+because operator geometry has not yet been supplied.
 
 ## C-Nu-2
 
@@ -81,7 +107,7 @@ The probability-shadow firewall remains a knowledge relation:
 R_\alpha=|\langle S_{\nu_\alpha}|I\rangle|^2.
 \]
 
-v0.6.1 carries its validation and M10/M11 state while preserving zero QHTRI character terms. A later operator may reference this firewall as evidence, but the firewall itself contributes no phase force.
+v0.6.1 carries its validation and M10/M11 state while preserving zero QHTRI character terms. A later operator may reference this firewall as evidence; the firewall itself contributes no phase force.
 
 ## C-Nu-3
 
@@ -100,7 +126,7 @@ The branch-local evidence remains available for branch-qualified use.
 
 A positive `capability_admission` is accepted only together with a non-empty `capability_ref`.
 
-This keeps capability admission provenance-bearing and prevents a caller from converting a canon label directly into execution authority.
+This keeps capability admission provenance-bearing and prevents a canon label from becoming execution authority through an unbound scalar.
 
 ## QHTRI relation
 
@@ -127,13 +153,14 @@ The conformance suite covers:
 5. C-Nu-3 shared-spectrum request -> M11 hard NO-GO, zero force;
 6. C-Nu-2 probability-shadow knowledge path -> zero force;
 7. admission scalars outside `[0,1]` -> reject;
-8. envelope authority/character-term tamper -> reject.
+8. envelope authority/character-term tamper -> reject;
+9. derived-field tamper followed by attacker-side re-sealing -> reject by deterministic replay.
 
 ## Promotion boundary
 
-v0.6.1 remains part of the draft v0.6 stack. It introduces no BioOS canon promotion and no merge to `main`.
+v0.6.1 remains part of the draft v0.6 stack. Promotion and merge follow the repository's separate validated release path.
 
-A later operator-binding stage must independently provide:
+A later operator-binding stage independently supplies:
 
 - provenance-bearing operator geometry;
 - the applicable canonical claim commitment;
