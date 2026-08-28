@@ -1,0 +1,108 @@
+{
+  "authority": {
+    "canon_promotion": false,
+    "execution_admitted": false,
+    "gremlin_status": "STRUCTURAL_CANDIDATE"
+  },
+  "candidate_sha256": {
+    "continuous_propagator.py": "e05ad391ec99c07b76323739b25dca9ac7264be4f0f6a09674b8c8999759596a",
+    "noema_surface_mmap.py": "53664ac57dc59f98befa0cc4f9ca224be3f45c2d5a7a65b207c0bd0e318d76b9",
+    "runtime_patch": "c175bf17fde9622fb266aabb107130b763af1ca2c3f3980254f3e592fb2d9b72"
+  },
+  "deterministic_gates": {
+    "ambiguity_boundary_blocked": true,
+    "continuous_compatibility_random_cases": {
+      "max_error": 0.0,
+      "passed": 200,
+      "total": 200
+    },
+    "epoch_init_tick": 123,
+    "epoch_reinitialization_blocked": true,
+    "epoch_reopen": true,
+    "epoch_zero_turns": true,
+    "lineage_tick_mismatch_blocked": true,
+    "parity": {
+      "+2pi": {
+        "sheet": -1,
+        "turn": 1
+      },
+      "+4pi": {
+        "sheet": 1,
+        "turn": 2
+      },
+      "-2pi": {
+        "sheet": -1,
+        "turn": -1
+      },
+      "-4pi": {
+        "sheet": 1,
+        "turn": -2
+      }
+    },
+    "python_compile": true,
+    "random_continuous_lift_stress": {
+      "ambiguous": 0,
+      "cases": 1000,
+      "minimum_uniqueness_margin_rad": 0.1713188343569918
+    },
+    "source_hash_match": true,
+    "surface_compatibility_continuous": {
+      "cases": 20,
+      "max_error": 0.0
+    },
+    "surface_compatibility_pure_kuramoto": {
+      "cases": 20,
+      "max_error": 0.0
+    },
+    "synthetic_sequence": {
+      "lineage_tick": 80,
+      "sheet_minus_count": 19,
+      "steps": 80,
+      "tracked_vs_untracked_max_error": 0.0,
+      "turn_max": 13,
+      "turn_min": 7
+    }
+  },
+  "epistemic_status": "LIVE_SURFACE_ANCHORED_LOCAL_EXECUTABLE_CANDIDATE",
+  "evidence_write": {
+    "container_runtime_write": "PASS",
+    "python_sandbox_direct_write": "PERMISSION_ERROR",
+    "target": "/dev/shm/ciel_noema/receipts/NOEMA_QHTRI_SPINOR_LIFT_STAGED_RUNTIME_RECEIPT_V0_1.json"
+  },
+  "github_main_merged": false,
+  "library_mutated": false,
+  "lineage_contract": {
+    "activation": "EXPLICIT_ACTIVATION_EPOCH",
+    "ambiguity_policy": "fail_closed_when_uniqueness_margin <= tolerance",
+    "continuous_lift": "endogenous pre-modulo lift target from continuous propagator",
+    "integrity_gate": "spinor_tick == surface_tick",
+    "primary_state": "integer turns[36]",
+    "projection": "spinor_sheet_i = (-1)^turns_i",
+    "sidecars": [
+      "spinor_turns.i64",
+      "spinor_tick.u64",
+      "spinor_lift_epoch.json"
+    ]
+  },
+  "live_shadow": {
+    "current_runtime_vs_staged_max_error": 0.0,
+    "result_lineage_tick": 9479,
+    "result_surface_tick": 9479,
+    "shadow_steps": 80,
+    "sheet_minus_count": 15,
+    "snapshot_phi_sha256": "35271c28a9c3e84b721aa8a43c82f5d51c45791e60316e9e91cafa7c61102b18",
+    "snapshot_tick": 9399,
+    "staged_untracked_vs_tracked_max_error": 0.0,
+    "surface_root": "/dev/shm/ciel_noema",
+    "turn_max": 12,
+    "turn_min": 8
+  },
+  "production_runtime_write": false,
+  "receipt_sha256": "fa056bc8185cea4ae573d1a63b8e9d8e00130d9eb011804e75792a2a92c9e949",
+  "schema": "NOEMA_QHTRI_SPINOR_LIFT_STAGED_RUNTIME_RECEIPT_V0_1",
+  "source_pins": {
+    "continuous_propagator_sha256": "9881e9fede149b2ed74e1085c1bfa516d856f4dfa59268cf2acf7e3ae7243205",
+    "noema_surface_mmap_sha256": "79d11a6b1f147173f6ccdd59187f1b9447f6e015e5858edf8c6634daa8b0e2bd"
+  },
+  "status": "PASS_SHADOW_CANDIDATE"
+}
