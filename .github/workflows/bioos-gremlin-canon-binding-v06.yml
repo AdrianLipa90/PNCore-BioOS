@@ -9,6 +9,7 @@ on:
       - 'tools/bioos_gremlin_canon_binding_v06.py'
       - 'tests/test_bioos_gremlin_canon_binding_v06.py'
       - 'spec/BIOOS_GREMLIN_CANON_BINDING_V0_6.md'
+      - 'provenance/BIOOS_GREMLIN_CANON_PIN_V0_6.json'
       - '.github/workflows/bioos-gremlin-canon-binding-v06.yml'
 
 jobs:
@@ -19,6 +20,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Validate machine-readable canon pin JSON
+        run: python -m json.tool provenance/BIOOS_GREMLIN_CANON_PIN_V0_6.json >/dev/null
       - name: Compile canon binding
         run: python -m py_compile tools/bioos_gremlin_canon_binding_v06.py
       - name: Run v0.6 canon binding conformance
