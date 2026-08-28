@@ -6,7 +6,7 @@ Status: `NORMATIVE CANDIDATE`
 
 This directory defines the v0.1 normative contracts for the PhaseNav Natural File System (PNFS).
 
-PNFS binds semantic object identity, scalar-τ content evolution, State Memory checkpoint lineage, portable `.pnh5` realization, physical placement, recovery, snapshots, garbage collection, and a POSIX/FUSE compatibility surface.
+PNFS binds semantic object identity, scalar-τ content evolution, State Memory checkpoint lineage, portable `.pnh5` realization, physical placement, recovery, snapshots, garbage collection, metadata publication, authority, and a POSIX/FUSE compatibility surface.
 
 The architectural chain is:
 
@@ -52,6 +52,12 @@ The terms `MUST`, `MUST NOT`, `SHALL`, `SHOULD`, `SHOULD NOT`, and `MAY` are nor
 8. `PNFS_CROSS_REPO_AUTHORITY_CONTRACT_V0_1.md`
    - ownership boundaries between PNCS, PNV-State-Memory and PNCore-BioOS.
 
+9. `PNFS_METADATA_SUPERBLOCK_INDEX_CONTRACT_V0_1.md`
+   - superblock generations, metadata log, indexes, publication ordering and metadata recovery.
+
+10. `PNFS_AUTHORITY_PERMISSIONS_CONTRACT_V0_1.md`
+    - principals, mutation capabilities, checkpoint publication, namespace administration and reclamation authority.
+
 ## Global invariants
 
 The following identities are distinct namespaces:
@@ -73,17 +79,30 @@ A POSIX path is a mutable namespace binding to `FILE_ID`.
 
 The content carrier is scalar τ. Whole-lane T36 is the relational/integrity witness. State Memory is the crystallization authority. BioOS/PNFS is the integration and realization authority.
 
+The publication order is:
+
+```text
+candidate logical state
+-> verified liminal seal
+-> State Memory checkpoint
+-> required physical realization(s)
+-> verified metadata/index generation
+-> namespace-visible head publication
+```
+
 ## Required provenance
 
 Every implementation-level state transition that changes authoritative storage state MUST emit enough provenance to recover:
 
 - input FILE_ID;
+- principal or service authority;
 - parent checkpoint identity;
 - admitted τ interval;
 - content commitment;
 - T36 witness commitment;
 - resulting checkpoint identity;
 - realization identity when physical persistence occurred;
+- metadata generation where applicable;
 - validator result.
 
 Silent exception swallowing is forbidden. Validation failures MUST be externally observable and MUST preserve the prior verified state.
