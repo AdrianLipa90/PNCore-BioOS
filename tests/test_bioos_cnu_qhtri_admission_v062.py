@@ -64,6 +64,12 @@ class BioOSCNuQHTRIAdmissionV062Tests(unittest.TestCase):
                 capability_admission=1.0,
                 capability_ref="PNCAP:forbidden",
             )
+        with self.assertRaises(BioOSCNuQHTRIAdmissionV062Error):
+            build_cnu_qhtri_admission_v062(
+                self.binding,
+                claim_id="C-Nu-2",
+                capability_ref="PNCAP:also-forbidden",
+            )
 
     def test_cnu3_is_enforcement_only_and_no_go_stays_fail_closed(self):
         clear = build_cnu_qhtri_admission_v062(
@@ -94,6 +100,20 @@ class BioOSCNuQHTRIAdmissionV062Tests(unittest.TestCase):
                 claim_id="C-Nu-3",
                 capability_admission=1.0,
                 capability_ref="PNCAP:forbidden",
+            )
+
+    def test_shared_absolute_spectrum_request_must_route_through_cnu3(self):
+        with self.assertRaises(BioOSCNuQHTRIAdmissionV062Error):
+            build_cnu_qhtri_admission_v062(
+                self.binding,
+                claim_id="C-Nu-1",
+                request_shared_absolute_spectrum=True,
+            )
+        with self.assertRaises(BioOSCNuQHTRIAdmissionV062Error):
+            build_cnu_qhtri_admission_v062(
+                self.binding,
+                claim_id="C-Nu-2",
+                request_shared_absolute_spectrum=True,
             )
 
     def test_open_cnu1_preconditions_zero_capability_and_zero_force(self):
