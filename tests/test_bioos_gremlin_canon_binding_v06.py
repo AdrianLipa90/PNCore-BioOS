@@ -1,17 +1,28 @@
 from __future__ import annotations
 
 import copy
+import json
+from pathlib import Path
 import unittest
 
 from tools.bioos_gremlin_canon_binding_v06 import (
     BIOOS_V05_PARENT_COMMIT,
     GREMLIN_CANON_COMMIT,
     GREMLIN_LEDGER_BLOB_SHA,
+    GREMLIN_PIN_MANIFEST_COMMITMENT,
     BioOSGremlinCanonBindingV06Error,
+    build_canon_pin_manifest_v06,
     build_neutrino_canon_binding_v06,
     evaluate_c_nu_use_v06,
     make_m10_canon_binding_receipt_v06,
+    validate_canon_pin_manifest_v06,
     validate_neutrino_canon_binding_v06,
+)
+
+PIN_PATH = (
+    Path(__file__).resolve().parents[1]
+    / "provenance"
+    / "BIOOS_GREMLIN_CANON_PIN_V0_6.json"
 )
 
 
@@ -22,10 +33,29 @@ class BioOSGremlinCanonBindingV06Tests(unittest.TestCase):
             evidence_refs=["GREMLIN:PR4", "NOEMA:live-tether-active"],
         )
 
+    def test_machine_readable_canon_pin_matches_compiled_contract(self):
+        manifest = json.loads(PIN_PATH.read_text(encoding="utf-8"))
+        self.assertTrue(validate_canon_pin_manifest_v06(manifest))
+        self.assertEqual(manifest, build_canon_pin_manifest_v06())
+        self.assertEqual(
+            manifest["manifest_commitment"],
+            GREMLIN_PIN_MANIFEST_COMMITMENT,
+        )
+
+    def test_machine_readable_canon_pin_tamper_fails_closed(self):
+        manifest = json.loads(PIN_PATH.read_text(encoding="utf-8"))
+        manifest["canonical_claims"][0]["status"] = "CANONICAL"
+        with self.assertRaises(BioOSGremlinCanonBindingV06Error):
+            validate_canon_pin_manifest_v06(manifest)
+
     def test_exact_canon_and_parent_pins(self):
         self.assertTrue(validate_neutrino_canon_binding_v06(self.binding))
         self.assertEqual(self.binding["source_authority"]["commit"], GREMLIN_CANON_COMMIT)
         self.assertEqual(self.binding["source_authority"]["ledger_blob_sha"], GREMLIN_LEDGER_BLOB_SHA)
+        self.assertEqual(
+            self.binding["source_authority"]["pin_manifest_commitment"],
+            GREMLIN_PIN_MANIFEST_COMMITMENT,
+        )
         self.assertEqual(self.binding["bioos_parent"]["commit"], BIOOS_V05_PARENT_COMMIT)
         self.assertFalse(self.binding["authority"]["authority_grant"])
         self.assertFalse(self.binding["authority"]["execution_admitted"])
@@ -66,7 +96,7 @@ class BioOSGremlinCanonBindingV06Tests(unittest.TestCase):
         self.assertEqual(c2["semantic_layers"], ["M6"])
         self.assertEqual(c2["enforcement_layers"], ["M10", "M11"])
 
-    def test_m10_receipt_is_append_only_and_non_authoritative(self):
+    def test_m10_receipt_binds_machine_readable_canon_pin(self):
         r = make_m10_canon_binding_receipt_v06(
             self.binding,
             receipt_id="m10-cnu-bind-001",
@@ -76,6 +106,10 @@ class BioOSGremlinCanonBindingV06Tests(unittest.TestCase):
         self.assertFalse(r["authority_grant"])
         self.assertFalse(r["execution_admitted"])
         self.assertEqual(r["gremlin_canon_commit"], GREMLIN_CANON_COMMIT)
+        self.assertEqual(
+            r["gremlin_pin_manifest_commitment"],
+            GREMLIN_PIN_MANIFEST_COMMITMENT,
+        )
 
     def test_tamper_fails_closed(self):
         t = copy.deepcopy(self.binding)
@@ -87,6 +121,12 @@ class BioOSGremlinCanonBindingV06Tests(unittest.TestCase):
             build_neutrino_canon_binding_v06(
                 binding_id="wrong-pin",
                 gremlin_canon_commit="0" * 40,
+            )
+
+        with self.assertRaises(BioOSGremlinCanonBindingV06Error):
+            build_neutrino_canon_binding_v06(
+                binding_id="wrong-manifest-pin",
+                gremlin_pin_manifest_commitment="0" * 64,
             )
 
 
