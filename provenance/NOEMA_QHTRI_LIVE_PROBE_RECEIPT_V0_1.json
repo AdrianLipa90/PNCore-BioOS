@@ -1,0 +1,102 @@
+{
+  "bioos_pre_probe_head": "1ba9165bc75aa27376e4c7eeebabe71f5694933e",
+  "boot_working_state_sha256": "d34430f5c5c6008393007a2cb1112423f2eff3fe162406fb2a9be0a992907b64",
+  "created_utc": "2026-08-28T12:17:04.498764+00:00",
+  "direct_telemetry_gate": {
+    "all_finite": true,
+    "max_wrapped_phi_step_rad": 3.079754495587883,
+    "min_wrapped_phi_step_rad": 0.44224291576337826,
+    "omega_all_nonzero": true,
+    "omega_bitwise_stable": true,
+    "phi_changes_each_tick": true,
+    "status": "PASS",
+    "tick_first": 2581,
+    "tick_last": 2592,
+    "tick_strictly_increasing": true,
+    "unique_tick_count": 12,
+    "width_omega": 36,
+    "width_phi": 36
+  },
+  "dynamics_class": "ENDOGENOUS_RUNTIME_DYNAMICS",
+  "edge_kinetics_gate": {
+    "adapter_id": "GREMLIN.QHTRI.IDT.EDGE_KINETICS.V0_1",
+    "edge_observations": 7560,
+    "isomorphism_id": "ISO.NQ.02.IDT.BIFURCATION.NQ.RECEIPT",
+    "latest_strongest_edge_receipt": {
+      "adapter_id": "GREMLIN.QHTRI.IDT.EDGE_KINETICS.V0_1",
+      "coupling_matrix_commitment": "7803f9dac5bfc1300f919677849d7b7291bebf92c6bbefe8cc526da982f24c88",
+      "dynamics_class": "ENDOGENOUS_RUNTIME_DYNAMICS",
+      "edge_kinetics_receipt_sha256": "57c075cf92683c6d9579c0f99c70414ee57d11513ec8f00d9bf54d258455692c",
+      "evidence_status": "GREMLIN_STRUCTURAL_CANDIDATE",
+      "isomorphism_id": "ISO.NQ.02.IDT.BIFURCATION.NQ.RECEIPT",
+      "kinetics": {
+        "activity": 2.287343635211182,
+        "beta": -0.023534312696260103,
+        "coupling": 0.8053534105964806,
+        "coupling_magnitude": 0.8053534105964806,
+        "coupling_parity": 1,
+        "current": -1.624058016729566,
+        "edge_drive": -1.7744453729725376,
+        "forward_rate": 0.331642809240808,
+        "local_phase_delta": -1.7744453729725376,
+        "mobility_M": 0.8053534105964806,
+        "reverse_rate": 1.9557008259703739
+      },
+      "oscillator_i": 6,
+      "oscillator_j": 7,
+      "phi_lane_commitment": "66e893c7c36056e0e0f4f7c69832325c0e8a7abbe67cc3d66f8ca96e482b70b6",
+      "qhtri_tick": 2592,
+      "schema": "BIOOS-QHTRI-IDT-EDGE-KINETICS/0.1",
+      "source_class": "NATURAL_SYSTEM_STATE"
+    },
+    "max_idt_roundtrip_error": 5.551115123125783e-16,
+    "max_reversal_error": 1.1102230246251565e-15,
+    "min_branch_margin_to_pi": 0.0024528372785166397,
+    "min_positive_rate": 7.170330797904732e-07,
+    "status": "STRUCTURAL_PASS_LIVE_SUPPORTED_CANDIDATE",
+    "ticks_tested": 12
+  },
+  "evidence_status": "LIVE_RUNTIME_STRUCTURAL_PROBE",
+  "idt_source_commit": "3ac1f53af5223d16f8818dba99a63a6af2ba9498",
+  "pncs_bank_head": "892e96e6dd4afb8b49d33d76758910ac14791141",
+  "poincare_holonomy_gate": {
+    "all_poincare_points_inside_unit_disk": true,
+    "holonomy_all_finite": true,
+    "holonomy_vector": [
+      0.7629899819351381,
+      32.0,
+      0.7222,
+      0.0,
+      0.9999999999999175,
+      -2.0,
+      0.9999999999999092
+    ],
+    "max_poincare_radius": 0.2055315719421228,
+    "oscillator_count": 36,
+    "runtime_function": "ciel_geometry.noema_surface_mmap.surface_bipolar_snapshot",
+    "status": "PASS",
+    "surface_holonomy_gamma": 0.0,
+    "surface_winding": -2
+  },
+  "receipt_sha256": "6a39afc25c4c52ebf5358a60d99fdc30abde7803253390ee41508dfa7e5f2e34",
+  "schema": "BIOOS_NOEMA_QHTRI_LIVE_PROBE_RECEIPT_V0_1",
+  "semantic_loop_gate": {
+    "execution_admitted": false,
+    "next_gate": "ISO.NQ.04.SPINOR.SHEET.WITNESS",
+    "production_runtime_write": false,
+    "status": "PARTIAL_PASS_THROUGH_ISO_NQ_03"
+  },
+  "source_class": "NATURAL_SYSTEM_STATE",
+  "source_hashes": {
+    "anchor_stages_local_exact": "b02d1dc4af9e08c7ad78e090372f5de30f695fb514c81ec76cad876b08c860a3",
+    "edge_adapter_local_exact": "60e5697428abcd943b4d2ea611befdc963e661ccb13f2b13a14de1fd787ca788",
+    "noema_surface_mmap.py": "79d11a6b1f147173f6ccdd59187f1b9447f6e015e5858edf8c6634daa8b0e2bd",
+    "operator_algebra.py": "09db256cc093a65c36faa3dc846ede5487d234566542acf1f21276ffca98449a"
+  },
+  "spinor_sheet_gate": {
+    "isomorphism_id": "ISO.NQ.04.SPINOR.SHEET.WITNESS",
+    "next_required_evidence": "explicit spinor-sheet lineage witness bound to the live projective path",
+    "status": "PENDING_EXPLICIT_Z2_LIVE_CHANNEL"
+  },
+  "surface_root": "/dev/shm/ciel_noema"
+}
