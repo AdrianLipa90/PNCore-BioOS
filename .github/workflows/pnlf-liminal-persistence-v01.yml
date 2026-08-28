@@ -10,7 +10,9 @@ on:
       - 'tests/test_pnlf_persistence_v01.py'
       - 'tests/test_pnh5_container_v01.py'
       - 'spec/PNLF_LIMINAL_PERSISTENCE_V0_1.md'
+      - 'spec/PNH5_CONTAINER_V0_1.md'
       - 'provenance/PNLF_LOCAL_EXECUTABLE_EVIDENCE_AGGREGATE_V0_1.json'
+      - 'provenance/PNH5_FIRST_REAL_CONTAINER_RECEIPT_V0_1.json'
       - '.github/workflows/pnlf-liminal-persistence-v01.yml'
   pull_request:
     paths:
@@ -19,7 +21,9 @@ on:
       - 'tests/test_pnlf_persistence_v01.py'
       - 'tests/test_pnh5_container_v01.py'
       - 'spec/PNLF_LIMINAL_PERSISTENCE_V0_1.md'
+      - 'spec/PNH5_CONTAINER_V0_1.md'
       - 'provenance/PNLF_LOCAL_EXECUTABLE_EVIDENCE_AGGREGATE_V0_1.json'
+      - 'provenance/PNH5_FIRST_REAL_CONTAINER_RECEIPT_V0_1.json'
 
 permissions:
   contents: read
