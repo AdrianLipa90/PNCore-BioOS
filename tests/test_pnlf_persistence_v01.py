@@ -6,6 +6,7 @@ from tools.pnlf_persistence_v01 import (
     binding_from_state_checkpoint,
     persistence_manifest,
     pnh5_view,
+    verify_persistence_manifest,
 )
 
 A = "11" * 32
@@ -64,12 +65,26 @@ def test_manifest_binds_tau_t36_and_state_memory_checkpoint():
         active_liminal_layers=("M2", "M7", "M10", "M11"),
         state_checkpoint=cp,
     )
+    verify_persistence_manifest(m)
     assert m["content_parameter"] == "SCALAR_TAU"
     assert m["integrity_witness"] == "T36_WHOLE_LANE"
     assert m["consolidation_boundary"] == "STATE_MEMORY_CHECKPOINT"
     assert m["wall_clock_role"] == "REALIZATION_EVIDENCE"
     assert m["commitment_holonomy"]["PNCS.frame_commitment"].startswith("StateMemory.carrier_commitment")
     assert len(m["manifest_id"]) == 64
+
+
+def test_manifest_identity_tamper_fails_closed():
+    m = persistence_manifest(
+        binding(),
+        generation=0,
+        tau_start={"p": 0, "q": 1},
+        tau_end={"p": 1, "q": 1},
+        active_liminal_layers=("M2", "M10"),
+    )
+    m["generation"] = 1
+    with pytest.raises(PNLFPersistenceError, match="manifest identity mismatch"):
+        verify_persistence_manifest(m)
 
 
 def test_checkpoint_generation_or_tau_mismatch_fails_closed():
