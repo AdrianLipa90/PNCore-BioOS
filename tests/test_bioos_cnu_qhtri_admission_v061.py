@@ -1,14 +1,24 @@
 from __future__ import annotations
 
 import copy
+import hashlib
+import json
 import unittest
 
 from tools.bioos_cnu_qhtri_admission_v061 import (
+    DOMAIN,
     BioOSCNuQHTRIAdmissionV061Error,
     build_cnu_qhtri_admission_v061,
     validate_cnu_qhtri_admission_v061,
 )
 from tools.bioos_gremlin_canon_binding_v06 import build_neutrino_canon_binding_v06
+
+
+def _reseal(envelope):
+    core = dict(envelope)
+    core.pop("admission_commitment", None)
+    payload = json.dumps(core, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return hashlib.blake2b(DOMAIN + payload, digest_size=32).hexdigest()
 
 
 class BioOSCNuQHTRIAdmissionV061Tests(unittest.TestCase):
@@ -17,7 +27,7 @@ class BioOSCNuQHTRIAdmissionV061Tests(unittest.TestCase):
 
     def test_cnu1_open_preconditions_are_zero_force(self):
         env = build_cnu_qhtri_admission_v061(self.binding, claim_id="C-Nu-1")
-        self.assertTrue(validate_cnu_qhtri_admission_v061(env))
+        self.assertTrue(validate_cnu_qhtri_admission_v061(env, self.binding))
         self.assertEqual(env["status"], "PRECONDITION_OPEN_ZERO_FORCE")
         self.assertEqual(env["m0_m11_projection"]["M4"]["admission"], 0.0)
         self.assertEqual(env["m0_m11_projection"]["M11"]["closure"], 0.0)
@@ -33,6 +43,7 @@ class BioOSCNuQHTRIAdmissionV061Tests(unittest.TestCase):
                 "PMNS_ORIENTATION_BOUND",
             ],
         )
+        self.assertTrue(validate_cnu_qhtri_admission_v061(env, self.binding))
         self.assertEqual(env["status"], "CAPABILITY_OPEN_ZERO_FORCE")
         self.assertEqual(env["m0_m11_projection"]["M4"]["admission"], 0.0)
         self.assertEqual(env["m0_m11_projection"]["M11"]["closure"], 1.0)
@@ -62,7 +73,7 @@ class BioOSCNuQHTRIAdmissionV061Tests(unittest.TestCase):
             capability_ref="PNCAP:test-capability",
             runtime_validator_confidence=1.0,
         )
-        self.assertTrue(validate_cnu_qhtri_admission_v061(env))
+        self.assertTrue(validate_cnu_qhtri_admission_v061(env, self.binding))
         self.assertEqual(env["status"], "READY_FOR_SEPARATE_OPERATOR_BINDING_ZERO_FORCE")
         self.assertEqual(env["m0_m11_projection"]["M4"]["admission"], 1.0)
         self.assertEqual(env["m0_m11_projection"]["M11"]["closure"], 1.0)
@@ -78,6 +89,7 @@ class BioOSCNuQHTRIAdmissionV061Tests(unittest.TestCase):
             capability_admission=1.0,
             capability_ref="PNCAP:test-capability",
         )
+        self.assertTrue(validate_cnu_qhtri_admission_v061(env, self.binding))
         self.assertEqual(env["status"], "M11_NO_GO_ZERO_FORCE")
         self.assertEqual(env["m0_m11_projection"]["M11"]["no_go"], 1.0)
         self.assertEqual(env["m0_m11_projection"]["M11"]["closure"], 0.0)
@@ -90,6 +102,7 @@ class BioOSCNuQHTRIAdmissionV061Tests(unittest.TestCase):
             claim_id="C-Nu-2",
             runtime_validator_confidence=1.0,
         )
+        self.assertTrue(validate_cnu_qhtri_admission_v061(env, self.binding))
         self.assertEqual(env["claim_role"], "PROBABILITY_SHADOW_FIREWALL")
         self.assertEqual(env["status"], "CAPABILITY_OPEN_ZERO_FORCE")
         self.assertEqual(env["qhtri_admission_ir"]["force_status"], "ZERO_FORCE_ADMISSION_METADATA_ONLY")
@@ -114,12 +127,20 @@ class BioOSCNuQHTRIAdmissionV061Tests(unittest.TestCase):
         tampered = copy.deepcopy(env)
         tampered["execution_admitted"] = True
         with self.assertRaises(BioOSCNuQHTRIAdmissionV061Error):
-            validate_cnu_qhtri_admission_v061(tampered)
+            validate_cnu_qhtri_admission_v061(tampered, self.binding)
 
         tampered = copy.deepcopy(env)
         tampered["qhtri_admission_ir"]["character_term_count"] = 1
         with self.assertRaises(BioOSCNuQHTRIAdmissionV061Error):
-            validate_cnu_qhtri_admission_v061(tampered)
+            validate_cnu_qhtri_admission_v061(tampered, self.binding)
+
+    def test_resealed_projection_tamper_fails_deterministic_replay(self):
+        env = build_cnu_qhtri_admission_v061(self.binding, claim_id="C-Nu-2")
+        tampered = copy.deepcopy(env)
+        tampered["m0_m11_projection"]["M4"]["admission"] = 1.0
+        tampered["admission_commitment"] = _reseal(tampered)
+        with self.assertRaises(BioOSCNuQHTRIAdmissionV061Error):
+            validate_cnu_qhtri_admission_v061(tampered, self.binding)
 
 
 if __name__ == "__main__":
