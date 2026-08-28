@@ -98,6 +98,14 @@ def build_cnu_qhtri_admission_v062(
     capability = _unit_interval(capability_admission, "capability_admission")
     capability_ref_normalized = str(capability_ref) if capability_ref is not None else None
 
+    if bool(request_shared_absolute_spectrum) and claim_id != "C-Nu-3":
+        raise BioOSCNuQHTRIAdmissionV062Error(
+            "shared absolute spectrum requests must traverse the C-Nu-3 enforcement firewall"
+        )
+    if not operator_bindable and capability_ref_normalized is not None:
+        raise BioOSCNuQHTRIAdmissionV062Error(
+            "non-operator claim may not carry capability_ref"
+        )
     if capability > 0.0 and not operator_bindable:
         raise BioOSCNuQHTRIAdmissionV062Error(
             "claim effect policy forbids capability admission and operator binding"
