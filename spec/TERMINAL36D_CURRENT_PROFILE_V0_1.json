@@ -1,0 +1,12 @@
+{
+  "schema": "PNCORE_BIOOS_TERMINAL36D_CURRENT_PROFILE_V0_1",
+  "status": "CANONICAL_PROFILE_POINTER",
+  "profile": "spec/TERMINAL36D_V9_PROFILE_LOCK_V0_1.json",
+  "runtime_pointer": "/NOEMA/00_CONTROL/TERMINAL36D/V9",
+  "capability_manifest_pointer": "/NOEMA/00_CONTROL/TERMINAL36D/V9/CAPABILITY_MANIFEST_V9.json",
+  "capability_count": 33,
+  "vector_dimension": 36,
+  "rollback_profile": "spec/TERMINAL36D_V8_PROFILE_LOCK_V0_1.json",
+  "mutating_external_effects": "EXACT_PNCAP_PLUS_AUX_EFFECT_ADMISSION_REQUIRED",
+  "arbitrary_shell": "PROHIBITED"
+}
