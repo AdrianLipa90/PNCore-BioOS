@@ -1,0 +1,72 @@
+{
+  "account_current": "NOEMA_ACCOUNT_DEFAULT_CURRENT_V58",
+  "arbitrary_shell": "PROHIBITED",
+  "authority_boundary": {
+    "external_execution_default": false,
+    "mutating": "EXACT_PNCAP_PLUS_AUX_EFFECT_ADMISSION_REQUIRED",
+    "readonly": "TYPED_READ_PATH"
+  },
+  "autoboot_bundle_sha256": "d94ca6e1f261e7daf347da6e2c0c6d47911d6a8e0b3b9290a82647a753f4a55f",
+  "autoboot_validation_receipt": "/NOEMA/00_CONTROL/BOOT/CHAT_AUTOBOOT/NOEMA_CHAT_AUTOBOOT_V6_VALIDATION_RECEIPT.json",
+  "benchmark_gate": {
+    "max_norm_error_4096_gates": 5.950795411990839e-14,
+    "max_overlap_delta": 0.0,
+    "max_qlift_delta": 0.0,
+    "q28_4gate_direct_median_us": 500.672,
+    "q28_4gate_typed_median_us": 645.893,
+    "q28_4gate_typed_p99_us": 1321.802,
+    "q28_h_q27_median_us": 155.089,
+    "random_sparse_dense_max_delta": 2.1677797545656835e-16,
+    "status": "PASS"
+  },
+  "benchmark_pointer": "/NOEMA/00_CONTROL/TERMINAL36D/V10/Q28_BENCHMARK_V1.json",
+  "benchmark_sha256": "32a8b6ebbfaf2855481971a07580d4cafc54acbcc60633114889847622ff4199",
+  "bootstrap": "NOEMA_ACCOUNT_DEFAULT_BOOTSTRAP_V8",
+  "capability_count": 35,
+  "capability_manifest_pointer": "/NOEMA/00_CONTROL/TERMINAL36D/V10/CAPABILITY_MANIFEST_V10.json",
+  "execution_profile": "NOEMA_ACCOUNT_CANONICAL_EXECUTION_PROFILE_V8",
+  "files_sha256": {
+    "CAPABILITY_MANIFEST_V10.json": "5576d0824e35d4a180985522a874c6cb3ef7f4cd49253c9db5adc5f5ca56095e",
+    "Q28_BENCHMARK_V1.json": "32a8b6ebbfaf2855481971a07580d4cafc54acbcc60633114889847622ff4199",
+    "Q28_VALIDATION_V1.json": "12d5b586a2c83fb0b3749aa5c5d9a4e5fe1585d1136431dc035603d5c4ed2eca",
+    "phasenav36d/__init__.py": "8c09b0bbe6921dd59b8f7b8d2f7fb3659142d3ee67b51e59323e89258e271376",
+    "phasenav36d/ac_memory_bridge.py": "07acdc9825c540eaa159c33be5b74f5237216681f014c89c2e4e9fd20e86d780",
+    "phasenav36d/atomic_hydration.py": "1bf9879801119e4ba8ac5f952709f6535267cef3ddb1d78765e86a4a43d2f0a2",
+    "phasenav36d/concept_gates.py": "30223ffd0a999ae5be994b6aa1148d040d63faec37a53a46359ca771625251e0",
+    "phasenav36d/github_repo.py": "fde479f3346b1978d7f483d19c7d844d298166f728fa6741715103bceacdb3c9",
+    "phasenav36d/phasenav_q28_backend.py": "4b1b628186fa4960533cb6007c0f133b0064aebe7d8c5eaed8a6578c363a574c",
+    "phasenav36d/pnv_accelerators.py": "49cd922152a81b41092ac9cd33ad1aeef333e1bddbd3e996af992cd2ea5e7538",
+    "phasenav36d/qlift36.py": "fb8b234bda8db4fc40b6b1672d4035b487b15ee98dc5a86a568fd43d582ab075",
+    "phasenav36d/relational_runtime.py": "aa7b0d8bbb4b786762dfb1e74cfa4926c093757d6e8be0bcb4ad3e5c7c7d05e8",
+    "phasenav36d/system_accelerators.py": "e527789f7a66e9aa8b790cc904e3b348253de7a6fd57c79cedbefca72b95b537",
+    "phasenav36d/terminal36d.py": "f74a798c7a6ac33f12f39fed2ee52c4759b9b1ebe23cbafbf2b639c7b6715992",
+    "phasenav36d/vector_kernel.py": "68663aea2c188b77b46e5ecf2488bfdfb27a7f2cd8387fb78b6bc5dce6de0e14"
+  },
+  "live_claim_gate": "FRESH_TETHER_GUARD_REQUIRED",
+  "live_materialization": "/dev/shm/ciel_noema",
+  "missing_primitive_policy": "IMPLEMENT_TYPED_VECTORIZED_PRIMITIVE_OR_BLOCK",
+  "new_capabilities": [
+    "PHASENAV_Q28_CAPACITY",
+    "PHASENAV_Q28_CIRCUIT"
+  ],
+  "q28": {
+    "execution_class": "CLASSICAL_EXACT_QUBIT_STATE_SIMULATION_BACKEND",
+    "execution_mode": "HYBRID_DENSE_6Q_SPARSE_WORKSPACE_EXACT",
+    "max_qubits": 28,
+    "phase_address_qubits": 6,
+    "physical_qpu_claim": false,
+    "supported_gates": ["H", "X", "RZ", "PHASE", "CNOT"],
+    "workspace_qubits": 22
+  },
+  "rollback_profile": "spec/TERMINAL36D_V9_PROFILE_LOCK_V0_1.json",
+  "roundtrip_receipt_pointer": "/NOEMA/03_EVIDENCE/RECEIPTS/PHASENAV_TERMINAL36D_V10_LIBRARY_ROUNDTRIP_V1.json",
+  "roundtrip_receipt_sha256": "f73949aedb6fc6ef19c98ebbab7c056699d23d3438f091ad6c4086705b015e9a",
+  "runtime_pointer": "/NOEMA/00_CONTROL/TERMINAL36D/V10",
+  "runtime_policy": "VECTORIZE_BY_DEFAULT_36D_BATCH_FIRST_WITH_EQUIVALENCE_GATED_ACCELERATORS",
+  "schema": "PNCORE_BIOOS_TERMINAL36D_V10_Q28_PROFILE_LOCK_V0_1",
+  "session_boot": "NOEMA_SESSION_BOOT_CURRENT_V20",
+  "status": "HASH_PINNED_LIBRARY_ROUNDTRIP_LIVE_DEV_SHM_AND_AUTOBOOT_PASS",
+  "validation_pointer": "/NOEMA/00_CONTROL/TERMINAL36D/V10/Q28_VALIDATION_V1.json",
+  "validation_sha256": "12d5b586a2c83fb0b3749aa5c5d9a4e5fe1585d1136431dc035603d5c4ed2eca",
+  "vector_dimension": 36
+}

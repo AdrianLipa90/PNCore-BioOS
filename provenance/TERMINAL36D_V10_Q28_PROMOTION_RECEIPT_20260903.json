@@ -1,0 +1,52 @@
+{
+  "authority": "USER_EXPLICIT_2026-09-03_BENCHMARK_THEN_CANONIZE_MAIN",
+  "autoboot": {
+    "bundle_sha256": "d94ca6e1f261e7daf347da6e2c0c6d47911d6a8e0b3b9290a82647a753f4a55f",
+    "final_exact_zip_cold_replay": "PASS ACTIVE 16.609s",
+    "fresh_guard": "PASS ACTIVE failures=[]",
+    "q28_self_report": "PASS capability_count=35 q28_available=true",
+    "schema": "NOEMA_CHAT_AUTOBOOT_V6_VALIDATION_RECEIPT_V2",
+    "status": "PASS_READY_FOR_PROMOTION",
+    "validation_receipt_sha256": "d87c3b305e1627db8a657c78bc81978de315c76ed9e626d22eeefc17f75dc5db"
+  },
+  "benchmark": {
+    "sha256": "32a8b6ebbfaf2855481971a07580d4cafc54acbcc60633114889847622ff4199",
+    "status": "PASS",
+    "verdicts": {
+      "4096_gate_limit": "PASS",
+      "norm_preservation": "PASS",
+      "random_sparse_dense_equivalence": "PASS",
+      "semantic_equivalence": "PASS",
+      "sub_ms_short_circuit_hotpath": "PASS",
+      "workspace_28q_addressability": "PASS"
+    }
+  },
+  "claim_boundary": {
+    "execution_class": "CLASSICAL_EXACT_QUBIT_STATE_SIMULATION_BACKEND",
+    "physical_qpu_claim": false
+  },
+  "from": "Terminal36D V9 / CURRENT V57 / AutoBoot V5",
+  "github_main_mutated_at_receipt_creation": false,
+  "library_roundtrip": {
+    "file_count": 15,
+    "receipt_sha256": "f73949aedb6fc6ef19c98ebbab7c056699d23d3438f091ad6c4086705b015e9a",
+    "status": "PASS_LIBRARY_BYTE_EXACT"
+  },
+  "live_post_promotion": {
+    "note": "Initial post-promotion attempt failed closed on stale tether heartbeat while test daemons remained. Test runtimes were torn down; canonical root then completed full ACTIVE boot with fresh guard failures=[] and LOW resource pressure.",
+    "status": "PASS_ACTIVE",
+    "surface_root": "/dev/shm/ciel_noema"
+  },
+  "rollback": {
+    "account_current": "NOEMA_ACCOUNT_DEFAULT_CURRENT_V57",
+    "bundle": "NOEMA_CHAT_AUTOBOOT_V5.zip"
+  },
+  "schema": "PNCORE_BIOOS_TERMINAL36D_V10_Q28_PROMOTION_RECEIPT_V0_1",
+  "source_main": "fbec402c8a6e3367e132d8716e112f5408a78517",
+  "status": "PASS_PROMOTED_TO_NOEMA_CANON_READY_FOR_GITHUB_MAIN",
+  "to": "Terminal36D V10 Q28 / CURRENT V58 / SessionBoot V20 / Bootstrap V8 / AutoBoot V6",
+  "validation": {
+    "sha256": "12d5b586a2c83fb0b3749aa5c5d9a4e5fe1585d1136431dc035603d5c4ed2eca",
+    "status": "PASS_CANDIDATE_READY_FOR_TRANSACTIONAL_PROMOTION"
+  }
+}
