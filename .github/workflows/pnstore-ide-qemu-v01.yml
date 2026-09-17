@@ -9,9 +9,12 @@ on:
       - 'arch/x86_64/pncore/pnstore_media.S'
       - 'arch/x86_64/pncore/pnstore_ata_pio.S'
       - 'arch/x86_64/pncore/pnstore_ide_qemu_entry.S'
+      - 'arch/x86_64/pncore/pnvh_template_pnstore_ide.S'
+      - 'arch/x86_64/pncore/t36_identity_template_pnstore_ide.S'
       - 'arch/x86_64/pnrom/**'
       - 'tools/qemu_pnstore_ide_build_v01.py'
       - 'tools/qemu_pnstore_ide_conformance_v01.py'
+      - 'tools/qemu_pnstore_ide_adversarial_v01.py'
       - '.github/workflows/pnstore-ide-qemu-v01.yml'
 
 jobs:
@@ -44,6 +47,15 @@ jobs:
             --out provenance/PNSTORE_IDE_QEMU_CONFORMANCE_V0_1.json \
             --timeout 5
 
+      - name: Execute adversarial corruption fail-closed gate
+        run: |
+          python tools/qemu_pnstore_ide_adversarial_v01.py . \
+            --rom build/x86_64/pnstore_ide_qemu_test.bin \
+            --build-receipt provenance/PNSTORE_IDE_QEMU_BUILD_V0_1.json \
+            --disk build/x86_64/pnstore_ide_test.img \
+            --out provenance/PNSTORE_IDE_QEMU_ADVERSARIAL_V0_1.json \
+            --timeout 3
+
       - name: Upload PNStore IDE evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -56,4 +68,5 @@ jobs:
             provenance/PNSTORE_IDE_QEMU_PNR_T36_RECEIPT_V0_1.json
             provenance/PNSTORE_IDE_QEMU_T36_RECEIPT_V0_1.json
             provenance/PNSTORE_IDE_QEMU_CONFORMANCE_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_ADVERSARIAL_V0_1.json
             build/x86_64/pnstore_ide_test.img
