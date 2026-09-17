@@ -97,7 +97,7 @@ pncore_entry:
     movl $1, %esi
     movl $4096, %edx
     call pnstore_publish_head
-    cmpq $1, %eax
+    cmpq $1, %rax
     jne pncore_fail
 
     # Durability order gate 2: persist HEAD_A sector 1, then FLUSH again.
