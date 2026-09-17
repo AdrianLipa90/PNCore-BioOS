@@ -144,8 +144,8 @@ def main() -> int:
 
     pnvh_template = build / "pnstore_ide_pnvh_template.o"
     t36_template = build / "pnstore_ide_t36_template.o"
-    run(["as", "--32", "-o", str(pnvh_template.relative_to(root)), "arch/x86_64/pncore/pnvh_template.S"], root)
-    run(["as", "--32", "-o", str(t36_template.relative_to(root)), "arch/x86_64/pncore/t36_identity_template.S"], root)
+    run(["as", "--32", "-o", str(pnvh_template.relative_to(root)), "arch/x86_64/pncore/pnvh_template_pnstore_ide.S"], root)
+    run(["as", "--32", "-o", str(t36_template.relative_to(root)), "arch/x86_64/pncore/t36_identity_template_pnstore_ide.S"], root)
 
     elf = build / "pnstore_ide_qemu_test.elf"
     rom = build / "pnstore_ide_qemu_test.bin"
