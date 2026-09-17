@@ -75,6 +75,34 @@ def test_preregistered_avalanche_sample_is_centered() -> None:
     assert 0.45 <= mean <= 0.55
 
 
+def test_known_answer_vectors_are_frozen() -> None:
+    empty = commit(b"")
+    assert empty.fold256.hex() == "1e874b96d55f09b26d760b92aeb3c769fd14020a10e34f7fa3d5e72fb8905088"
+    assert hashlib.sha256(empty.state2304).hexdigest() == "d02299cbcd7947dd6ceb1a3d5bb04a647ab2b9d7fb01bf2bec97c8a96cfa5baa"
+
+    payload = hashlib.shake_256(b"BIOOS/DN36/NATIVE/PARITY/288").digest(288)
+    result = commit(payload)
+    assert result.fold256.hex() == "9a063705ac2c757d7593d34e88320e659337ae7d100cf694dae6f9addadecf29"
+    assert hashlib.sha256(result.state2304).hexdigest() == "ca9b23e68c1e71acb5659a4f0d9baad4c4c021b7f02de1f8c5249dfe8c4008be"
+
+
+def test_small_deterministic_population_has_no_duplicate_outputs() -> None:
+    states: set[bytes] = set()
+    folds: set[bytes] = set()
+    anchors: set[bytes] = set()
+    for index in range(128):
+        payload = hashlib.shake_256(
+            b"BIOOS/DN36/TEST/POP/V0.1|" + index.to_bytes(8, "big")
+        ).digest(288)
+        result = commit(payload)
+        states.add(result.state2304)
+        folds.add(result.fold256)
+        anchors.add(result.anchor256)
+    assert len(states) == 128
+    assert len(folds) == 128
+    assert len(anchors) == 128
+
+
 def test_receipt_refuses_security_and_canon_claims() -> None:
     receipt = commit(b"claim-firewall").receipt()
     assert receipt["rounds"] == ROUNDS
