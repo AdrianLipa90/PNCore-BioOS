@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
+from pathlib import Path
 
 from tools.dn36_fundamental_vector_commit_v01 import DOMAIN_DEFAULT, _genome_constants
 
@@ -16,7 +18,7 @@ def _u64_row(name: str, values: tuple[int, ...]) -> str:
     return f"static const uint64_t {name}[36] = {{{body}}};"
 
 
-def main() -> int:
+def render_header() -> str:
     operator, route, phase, initial = _genome_constants(DOMAIN_DEFAULT)
     canonical = json.dumps(
         {
@@ -30,15 +32,31 @@ def main() -> int:
         separators=(",", ":"),
     ).encode("utf-8")
     digest = hashlib.sha256(canonical).hexdigest()
-    print("#ifndef BIOOS_DN36_GENERATED_CONSTANTS_V01_H")
-    print("#define BIOOS_DN36_GENERATED_CONSTANTS_V01_H")
-    print("#include <stdint.h>")
-    print(f"/* generator_receipt_sha256={digest} */")
-    print(_u8_row("DN36_OPERATOR", operator))
-    print(_u8_row("DN36_ROUTE", route))
-    print(_u64_row("DN36_PHASE", phase))
-    print(_u64_row("DN36_INITIAL", initial))
-    print("#endif")
+    lines = [
+        "#ifndef BIOOS_DN36_GENERATED_CONSTANTS_V01_H",
+        "#define BIOOS_DN36_GENERATED_CONSTANTS_V01_H",
+        "#include <stdint.h>",
+        f"/* generator_receipt_sha256={digest} */",
+        _u8_row("DN36_OPERATOR", operator),
+        _u8_row("DN36_ROUTE", route),
+        _u64_row("DN36_PHASE", phase),
+        _u64_row("DN36_INITIAL", initial),
+        "#endif",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--out", type=Path)
+    args = parser.parse_args()
+    header = render_header()
+    if args.out is None:
+        print(header, end="")
+    else:
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(header, encoding="utf-8")
     return 0
 
 
