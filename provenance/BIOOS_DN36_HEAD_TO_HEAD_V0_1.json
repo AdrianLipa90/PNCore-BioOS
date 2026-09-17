@@ -1,0 +1,117 @@
+{
+  "avalanche_sample": {
+    "input_bit_flips": 256,
+    "max_changed_fraction": 0.5859375,
+    "mean_changed_bits": 128.67578125,
+    "mean_changed_fraction": 0.5026397705078125,
+    "median_changed_fraction": 0.5,
+    "min_changed_fraction": 0.40234375
+  },
+  "canon_allowed": false,
+  "claim_boundary": "Python reference implementation benchmark and small statistical probes only; not native/SIMD performance, not cryptanalytic validation, not a secure-hash claim",
+  "duplicate_search": {
+    "claim": "SMALL_POPULATION_DUPLICATE_SEARCH_ONLY_NOT_COLLISION_SECURITY",
+    "duplicate_fold256_count": 0,
+    "population": 512,
+    "unique_fold256_count": 512,
+    "unique_input_count": 512
+  },
+  "epistemic": "CHYBA",
+  "host": {
+    "machine": "x86_64",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "python": "3.13.15"
+  },
+  "output_bit_bias_sample": {
+    "max_abs_bias_from_half": 0.1328125,
+    "mean_abs_bias_from_half": 0.0335693359375,
+    "mean_one_fraction": 0.50152587890625,
+    "population": 128
+  },
+  "payload_bytes": 288,
+  "payload_generator": "SHAKE256(domain || uint64_be(seed)) -> 288 bytes",
+  "payload_sha256": "a1a50d40f6f8c7fc1275fb77d535295302d5d81ac48c6e0e3bed7cd8f30c2251",
+  "performance": [
+    {
+      "gb_per_s_288B_from_median": 0.47023975843522364,
+      "iterations_per_trial": 100000,
+      "latency_ratio_vs_sha256": 1.0,
+      "max_ns_per_op": 673.42923,
+      "median_ns_per_op": 612.45353,
+      "median_us_per_op": 0.61245353,
+      "min_ns_per_op": 602.33916,
+      "name": "sha256_python_openssl",
+      "ops_per_s_from_median": 1632776.939011193,
+      "sink": 0,
+      "speed_ratio_vs_sha256": 1.0,
+      "trials": 5
+    },
+    {
+      "gb_per_s_288B_from_median": 0.3526616661691443,
+      "iterations_per_trial": 100000,
+      "latency_ratio_vs_sha256": 1.3334019643906698,
+      "max_ns_per_op": 958.99671,
+      "median_ns_per_op": 816.64674,
+      "median_us_per_op": 0.81664674,
+      "min_ns_per_op": 783.55137,
+      "name": "blake2b256_python",
+      "ops_per_s_from_median": 1224519.6741984177,
+      "sink": 0,
+      "speed_ratio_vs_sha256": 0.7499613970172708,
+      "trials": 5
+    },
+    {
+      "gb_per_s_288B_from_median": 0.1949547379068104,
+      "iterations_per_trial": 100000,
+      "latency_ratio_vs_sha256": 2.412045808602001,
+      "max_ns_per_op": 1485.54322,
+      "median_ns_per_op": 1477.26597,
+      "median_us_per_op": 1.47726597,
+      "min_ns_per_op": 1472.39017,
+      "name": "sha3_256_python",
+      "ops_per_s_from_median": 676926.173287536,
+      "sink": 0,
+      "speed_ratio_vs_sha256": 0.41458582437934316,
+      "trials": 5
+    },
+    {
+      "gb_per_s_288B_from_median": 0.00010265179527297037,
+      "iterations_per_trial": 100,
+      "latency_ratio_vs_sha256": 4580.920939422131,
+      "max_ns_per_op": 2809439.72,
+      "median_ns_per_op": 2805601.2,
+      "median_us_per_op": 2805.6012,
+      "min_ns_per_op": 2798847.71,
+      "name": "dn36_fold256_reference",
+      "ops_per_s_from_median": 356.4298446978138,
+      "sink": 0,
+      "speed_ratio_vs_sha256": 0.0002182967165825278,
+      "trials": 5
+    },
+    {
+      "gb_per_s_288B_from_median": 0.00010286788226405122,
+      "iterations_per_trial": 100,
+      "latency_ratio_vs_sha256": 4571.298135876529,
+      "max_ns_per_op": 2822068.15,
+      "median_ns_per_op": 2799707.68,
+      "median_us_per_op": 2799.70768,
+      "min_ns_per_op": 2786830.35,
+      "name": "dn36_anchor256_reference",
+      "ops_per_s_from_median": 357.1801467501778,
+      "sink": 0,
+      "speed_ratio_vs_sha256": 0.00021875624172306443,
+      "trials": 5
+    }
+  ],
+  "receipt_sha256": "bec074d5e250672b32dd9e87e52973a1343582f508c260eb6eb0a841a429d87c",
+  "replacement_for_standard_hash": false,
+  "schema": "BIOOS_DN36_HEAD_TO_HEAD_V0_1",
+  "security_claim": false,
+  "source_pins": {
+    "dncrypt_commit": "20f53a9b297b6208d74841aee7c3bb4b8b17ce2a",
+    "resonant_chemistry_commit": "6a9f21678ba4f07e5bdbb1a98a0cafe5c4838697",
+    "tir_commit": "45b54c0c8aa60ec92607e6132b69aca9ab766d75"
+  },
+  "status": "MEASURED_EXPERIMENTAL_REFERENCE"
+}
