@@ -111,6 +111,8 @@ def main() -> int:
         "-monitor", "none",
         "-debugcon", "stdio",
         "-global", "isa-debugcon.iobase=0xe9",
+        "-d", "int,guest_errors,cpu_reset",
+        "-D", "/dev/stderr",
         "-no-reboot",
         "-no-shutdown",
     ]
