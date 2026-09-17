@@ -13,6 +13,7 @@ on:
       - 'arch/x86_64/pncore/pnstore_ata_pio.S'
       - 'tools/qemu_pnterm_interactive_build_v01.py'
       - 'tools/qemu_pnterm_interactive_conformance_v01.py'
+      - 'tools/qemu_pnterm_interactive_conformance_sync_v01.py'
       - 'tools/qemu_pnterm_interactive_adversarial_v01.py'
       - 'spec/PNTERM_QEMU_INTERACTIVE_VERTICAL_SLICE_V0_1.md'
       - '.github/workflows/pnterm-interactive-qemu-v01.yml'
@@ -25,6 +26,7 @@ on:
       - 'arch/x86_64/pncore/pnstore_ata_pio.S'
       - 'tools/qemu_pnterm_interactive_build_v01.py'
       - 'tools/qemu_pnterm_interactive_conformance_v01.py'
+      - 'tools/qemu_pnterm_interactive_conformance_sync_v01.py'
       - 'tools/qemu_pnterm_interactive_adversarial_v01.py'
       - 'spec/PNTERM_QEMU_INTERACTIVE_VERTICAL_SLICE_V0_1.md'
       - '.github/workflows/pnterm-interactive-qemu-v01.yml'
@@ -49,8 +51,8 @@ jobs:
           sudo apt-get install -y qemu-system-x86
       - name: Build interactive PNTERM ROM
         run: python tools/qemu_pnterm_interactive_build_v01.py
-      - name: Execute interactive two-process PNTERM gate
-        run: python tools/qemu_pnterm_interactive_conformance_v01.py
+      - name: Execute synchronized interactive two-process PNTERM gate
+        run: python tools/qemu_pnterm_interactive_conformance_sync_v01.py
       - name: Execute inherited PNStore corruption fail-closed gate
         run: python tools/qemu_pnterm_interactive_adversarial_v01.py
       - name: Upload interactive PNTERM evidence
