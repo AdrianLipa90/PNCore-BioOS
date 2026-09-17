@@ -12,7 +12,11 @@ on:
       - 'tools/qemu_vector_native_qhtri_build_v01.py'
       - 'tools/qemu_vector_native_qhtri_conformance_v01.py'
       - 'tools/qemu_vector_native_qhtri_adversarial_v01.py'
+      - 'tools/apocalypos_qhtri_execution_admission_v01.py'
       - 'tests/test_vector_native_qhtri_replay_v01.py'
+      - 'tests/test_apocalypos_qhtri_execution_admission_v01.py'
+      - 'spec/APOCALYPOS_QHTRI_EXECUTION_ADMISSION_V0_1.md'
+      - 'native/APOCALYPOS_QHTRI_EXECUTION_ADMISSION_V0_1.pnv'
       - 'provenance/BIOOS_VECTOR_NATIVE_QHTRI_SOURCE_V0_1.json'
       - 'provenance/BIOOS_VECTOR_NATIVE_QHTRI_REPLAY_V0_1.json'
       - '.github/workflows/bioos-vector-native-qhtri-replay-v01.yml'
@@ -39,6 +43,9 @@ jobs:
 
       - name: Run fail-closed replay unit surface
         run: python -m pytest -q tests/test_vector_native_qhtri_replay_v01.py
+
+      - name: Run ApocalypOS shadow execution admission gate
+        run: python -m pytest -q tests/test_apocalypos_qhtri_execution_admission_v01.py
 
       - name: Build exact source-bound BioOS replay ROM
         run: python tools/qemu_vector_native_qhtri_build_v01.py .
