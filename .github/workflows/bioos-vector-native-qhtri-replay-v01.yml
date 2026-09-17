@@ -9,14 +9,19 @@ on:
       - 'arch/x86_64/pncore/vector_native_qhtri_replay_entry.S'
       - 'arch/x86_64/pncore/vector_native_qhtri_replay_template.S'
       - 'tools/vector_native_qhtri_replay_v01.py'
+      - 'tools/noema_qhtri_semantic_loop_v01.py'
+      - 'tools/apocalypos_qhtri_execution_admission_v01.py'
+      - 'tools/apocalypos_qhtri_closed_loop_v01.py'
       - 'tools/qemu_vector_native_qhtri_build_v01.py'
       - 'tools/qemu_vector_native_qhtri_conformance_v01.py'
       - 'tools/qemu_vector_native_qhtri_adversarial_v01.py'
-      - 'tools/apocalypos_qhtri_execution_admission_v01.py'
       - 'tests/test_vector_native_qhtri_replay_v01.py'
+      - 'tests/test_noema_qhtri_semantic_loop_v01.py'
       - 'tests/test_apocalypos_qhtri_execution_admission_v01.py'
+      - 'tests/test_apocalypos_qhtri_closed_loop_v01.py'
       - 'spec/APOCALYPOS_QHTRI_EXECUTION_ADMISSION_V0_1.md'
       - 'native/APOCALYPOS_QHTRI_EXECUTION_ADMISSION_V0_1.pnv'
+      - 'provenance/GREMLIN_NOEMA_QHTRI_BANK_PIN_V0_1.json'
       - 'provenance/BIOOS_VECTOR_NATIVE_QHTRI_SOURCE_V0_1.json'
       - 'provenance/BIOOS_VECTOR_NATIVE_QHTRI_REPLAY_V0_1.json'
       - '.github/workflows/bioos-vector-native-qhtri-replay-v01.yml'
@@ -44,14 +49,26 @@ jobs:
       - name: Run fail-closed replay unit surface
         run: python -m pytest -q tests/test_vector_native_qhtri_replay_v01.py
 
+      - name: Run NOEMA semantic-loop unit surface
+        run: python -m pytest -q tests/test_noema_qhtri_semantic_loop_v01.py
+
       - name: Run ApocalypOS shadow execution admission gate
         run: python -m pytest -q tests/test_apocalypos_qhtri_execution_admission_v01.py
+
+      - name: Run closed-loop receipt-chain unit surface
+        run: python -m pytest -q tests/test_apocalypos_qhtri_closed_loop_v01.py
 
       - name: Build exact source-bound BioOS replay ROM
         run: python tools/qemu_vector_native_qhtri_build_v01.py .
 
-      - name: Execute exact replay under QEMU TCG
+      - name: Admit exact build through ApocalypOS before execution
+        run: python tools/apocalypos_qhtri_closed_loop_v01.py pre .
+
+      - name: Execute admitted exact replay under QEMU TCG
         run: python tools/qemu_vector_native_qhtri_conformance_v01.py . --timeout 3
+
+      - name: Reintegrate measured QEMU result into NOEMA/QHTRI candidate chain
+        run: python tools/apocalypos_qhtri_closed_loop_v01.py post .
 
       - name: Execute adversarial replay fail-closed gate
         run: python tools/qemu_vector_native_qhtri_adversarial_v01.py . --timeout 2
@@ -65,6 +82,13 @@ jobs:
             provenance/BIOOS_VECTOR_NATIVE_QHTRI_QEMU_BUILD_V0_1.json
             provenance/BIOOS_VECTOR_NATIVE_QHTRI_QEMU_CONFORMANCE_V0_1.json
             provenance/BIOOS_VECTOR_NATIVE_QHTRI_QEMU_ADVERSARIAL_V0_1.json
+            provenance/BIOOS_APOCALYPOS_QHTRI_SEMANTIC_BUNDLE_V0_1.json
+            provenance/BIOOS_APOCALYPOS_PNCAP_SHADOW_GRANT_V0_1.json
+            provenance/BIOOS_APOCALYPOS_QHTRI_ADMISSION_V0_1.json
+            provenance/BIOOS_APOCALYPOS_QHTRI_EXECUTION_RESULT_V0_1.json
+            provenance/BIOOS_NOEMA_QHTRI_REINTEGRATION_CANDIDATE_V0_1.json
+            provenance/BIOOS_QHTRI_NEXT_STATE_CANDIDATE_V0_1.json
+            provenance/BIOOS_APOCALYPOS_QHTRI_CLOSED_LOOP_V0_1.json
             provenance/BIOOS_VECTOR_NATIVE_QHTRI_PNVH_RECEIPT_V0_1.json
             provenance/BIOOS_VECTOR_NATIVE_QHTRI_CODE_BINDING_RECEIPT_V0_1.json
             provenance/BIOOS_VECTOR_NATIVE_QHTRI_PNR_T36_RECEIPT_V0_1.json
