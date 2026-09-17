@@ -11,6 +11,7 @@ on:
       - 'tools/dn36_emit_c_constants_v01.py'
       - 'tools/dn36_native_parity_v01.py'
       - 'tools/benchmark/dn36_head_to_head_v01.py'
+      - 'tools/benchmark/dn36_native_benchmark_v01.py'
       - 'native/dn36/**'
       - 'tests/test_dn36_fundamental_vector_commit_v01.py'
       - '.github/workflows/dn36-fundamental-code-v01.yml'
@@ -21,6 +22,7 @@ on:
       - 'tools/dn36_emit_c_constants_v01.py'
       - 'tools/dn36_native_parity_v01.py'
       - 'tools/benchmark/dn36_head_to_head_v01.py'
+      - 'tools/benchmark/dn36_native_benchmark_v01.py'
       - 'native/dn36/**'
       - 'tests/test_dn36_fundamental_vector_commit_v01.py'
       - '.github/workflows/dn36-fundamental-code-v01.yml'
@@ -46,11 +48,15 @@ jobs:
         run: python -m tools.dn36_native_parity_v01 build/dn36/dn36_native_v01
       - name: Measured DN36 vs standard hash reference
         run: python -m tools.benchmark.dn36_head_to_head_v01
+      - name: Measured scalar native DN36 benchmark
+        run: python -m tools.benchmark.dn36_native_benchmark_v01 build/dn36/dn36_native_v01
       - name: Upload DN36 evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: dn36-fundamental-code-v01-evidence
           path: |
             build/dn36/BIOOS_DN36_NATIVE_PARITY_V0_1.json
             build/dn36/BIOOS_DN36_HEAD_TO_HEAD_V0_1.json
-          if-no-files-found: error
+            build/dn36/BIOOS_DN36_NATIVE_SCALAR_BENCH_V0_1.json
+          if-no-files-found: warn
