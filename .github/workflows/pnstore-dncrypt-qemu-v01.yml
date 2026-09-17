@@ -7,11 +7,13 @@ on:
       - feat/bioos-dncrypt-pnstore-qemu-v0.1
     paths:
       - 'fixtures/BIOOS_DN36_DNCRYPT_BINARY_ENVELOPE_V0_1.hex'
+      - 'spec/EMULATION_REFERENCE_SPEC_V0_1.json'
       - 'arch/x86_64/pncore/pnstore_dncrypt_qemu_entry.S'
       - 'arch/x86_64/pncore/pnstore_media.S'
       - 'arch/x86_64/pncore/pnstore_ata_pio.S'
       - 'tools/qemu_dncrypt_pnstore_build_v01.py'
       - 'tools/qemu_dncrypt_pnstore_conformance_v01.py'
+      - 'tools/qemu_emulation_reference_v01.py'
       - 'tools/qemu_pnstore_ide_build_v01.py'
       - 'tools/qemu_pnstore_ide_conformance_v01.py'
       - 'tools/qemu_pnstore_ide_adversarial_v01.py'
@@ -19,11 +21,13 @@ on:
   pull_request:
     paths:
       - 'fixtures/BIOOS_DN36_DNCRYPT_BINARY_ENVELOPE_V0_1.hex'
+      - 'spec/EMULATION_REFERENCE_SPEC_V0_1.json'
       - 'arch/x86_64/pncore/pnstore_dncrypt_qemu_entry.S'
       - 'arch/x86_64/pncore/pnstore_media.S'
       - 'arch/x86_64/pncore/pnstore_ata_pio.S'
       - 'tools/qemu_dncrypt_pnstore_build_v01.py'
       - 'tools/qemu_dncrypt_pnstore_conformance_v01.py'
+      - 'tools/qemu_emulation_reference_v01.py'
       - '.github/workflows/pnstore-dncrypt-qemu-v01.yml'
 
 jobs:
@@ -53,6 +57,14 @@ jobs:
             --disk build/x86_64/pnstore_dncrypt_test.img \
             --out provenance/PNSTORE_DNCRYPT_QEMU_ADVERSARIAL_V0_1.json \
             --timeout 3
+      - name: Verify frozen emulation reference semantics
+        run: |
+          python tools/qemu_emulation_reference_v01.py \
+            --spec spec/EMULATION_REFERENCE_SPEC_V0_1.json \
+            --build provenance/PNSTORE_DNCRYPT_QEMU_BUILD_V0_1.json \
+            --conformance provenance/PNSTORE_DNCRYPT_QEMU_CONFORMANCE_V0_1.json \
+            --adversarial provenance/PNSTORE_DNCRYPT_QEMU_ADVERSARIAL_V0_1.json \
+            --out provenance/EMULATION_REFERENCE_RECEIPT_V0_1.json
       - name: Upload DNCrypt PNStore QEMU evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -62,6 +74,7 @@ jobs:
             provenance/PNSTORE_DNCRYPT_QEMU_BUILD_V0_1.json
             provenance/PNSTORE_DNCRYPT_QEMU_CONFORMANCE_V0_1.json
             provenance/PNSTORE_DNCRYPT_QEMU_ADVERSARIAL_V0_1.json
+            provenance/EMULATION_REFERENCE_RECEIPT_V0_1.json
             provenance/PNSTORE_IDE_QEMU_PNVH_RECEIPT_V0_1.json
             provenance/PNSTORE_IDE_QEMU_CODE_BINDING_RECEIPT_V0_1.json
             provenance/PNSTORE_IDE_QEMU_PNR_T36_RECEIPT_V0_1.json
