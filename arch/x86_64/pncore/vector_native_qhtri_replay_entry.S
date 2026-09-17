@@ -4,6 +4,9 @@
 .type pncore_entry,@function
 
 .set PNVQ_EVIDENCE, 0x5b00
+.set PNVQ_EXPECTED_TICK, 20215
+.set PNVQ_EXPECTED_I, 24
+.set PNVQ_EXPECTED_J, 26
 
 .macro OUTC ch
     movb $\ch, %al
@@ -30,7 +33,19 @@ pncore_entry:
     cmpl $36, 12(%rsi)
     jne pnvq_fail
 
-    # Selected edge must be two distinct in-range 36D indices.
+    # This ROM is bound to one exact replay event, not merely a valid ABI.
+    cmpq $PNVQ_EXPECTED_TICK, 16(%rsi)
+    jne pnvq_fail
+    cmpl $PNVQ_EXPECTED_I, 24(%rsi)
+    jne pnvq_fail
+    cmpl $PNVQ_EXPECTED_J, 28(%rsi)
+    jne pnvq_fail
+    movq 32(%rsi), %rax
+    movabsq $0x3ff0000000000000, %r10   # exact IEEE-754 +1.0 coupling
+    cmpq %r10, %rax
+    jne pnvq_fail
+
+    # Selected edge must still satisfy the generic geometry constraints.
     movl 24(%rsi), %r8d
     movl 28(%rsi), %r9d
     cmpl $35, %r8d
@@ -68,17 +83,39 @@ pncore_entry:
     decl %ecx
     jnz .Llane_loop
 
-    # Both source lineage commitments must be non-zero 256-bit values.
-    movq 616(%rsi), %r8
-    orq 624(%rsi), %r8
-    orq 632(%rsi), %r8
-    orq 640(%rsi), %r8
-    jz pnvq_fail
-    movq 648(%rsi), %r9
-    orq 656(%rsi), %r9
-    orq 664(%rsi), %r9
-    orq 672(%rsi), %r9
-    jz pnvq_fail
+    # The exact snapshot fold is admitted in-guest. A finite but modified lane
+    # is rejected instead of being silently accepted as a different state.
+    movabsq $0x687aac2ca5b6feb3, %r10
+    cmpq %r10, %rax
+    jne pnvq_fail
+
+    # Exact source-lineage commitments. This closes the previous gap where an
+    # arbitrary non-zero 256-bit value could pass the guest gate.
+    movabsq $0xb03d0528b2c48096, %r10
+    cmpq %r10, 616(%rsi)
+    jne pnvq_fail
+    movabsq $0xd2e477949a68f250, %r10
+    cmpq %r10, 624(%rsi)
+    jne pnvq_fail
+    movabsq $0x8a8080fbc7d1f8b2, %r10
+    cmpq %r10, 632(%rsi)
+    jne pnvq_fail
+    movabsq $0x92743432c21cbcdb, %r10
+    cmpq %r10, 640(%rsi)
+    jne pnvq_fail
+
+    movabsq $0xd45800af48405ff0, %r10
+    cmpq %r10, 648(%rsi)
+    jne pnvq_fail
+    movabsq $0xf69b5103a5c5ef0f, %r10
+    cmpq %r10, 656(%rsi)
+    jne pnvq_fail
+    movabsq $0x867afd00a66d8a6d, %r10
+    cmpq %r10, 664(%rsi)
+    jne pnvq_fail
+    movabsq $0xdbd5c1a046f54083, %r10
+    cmpq %r10, 672(%rsi)
+    jne pnvq_fail
 
     # Bounded in-guest evidence record.
     movq %rax, PNVQ_EVIDENCE+0
