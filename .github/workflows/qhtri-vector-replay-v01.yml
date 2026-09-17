@@ -1,0 +1,71 @@
+name: BioOS QHTRI vector-native QEMU replay v0.1
+
+on:
+  push:
+    branches:
+      - feat/bioos-vector-native-exec-loop-v0.1
+    paths:
+      - 'provenance/BIOOS_VECTOR_NATIVE_QHTRI_SOURCE_V0_1.json'
+      - 'arch/x86_64/pnrom/**'
+      - 'arch/x86_64/pncore/**'
+      - 'tools/pnvector_handoff_builder_v01.py'
+      - 'tools/pnrom_code_binding_v01.py'
+      - 'tools/pnr_t36_binding_v01.py'
+      - 'tools/t36_identity_builder_v01.py'
+      - 'tools/qemu_qhtri_vector_replay_build_v01.py'
+      - 'tools/qemu_qhtri_vector_replay_conformance_v01.py'
+      - 'tests/test_qemu_qhtri_vector_replay_v01.py'
+      - '.github/workflows/qhtri-vector-replay-v01.yml'
+  workflow_dispatch:
+
+jobs:
+  qhtri-vector-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install test dependencies
+        run: python -m pip install --disable-pip-version-check pytest
+
+      - name: Run QHTRI replay binding and adversarial tests
+        run: |
+          python -m pytest -q tests/test_qemu_qhtri_vector_replay_v01.py
+          python -m pytest -q tests/test_noema_qhtri_semantic_loop_v01.py tests/test_noema_qhtri_anchor_stages_v01.py tests/test_qhtri_idt_edge_kinetics_v01.py
+
+      - name: Install QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86
+
+      - name: Build frozen QHTRI vector replay ROM
+        run: |
+          python tools/qemu_qhtri_vector_replay_build_v01.py . \
+            --source provenance/BIOOS_VECTOR_NATIVE_QHTRI_SOURCE_V0_1.json \
+            --receipt provenance/PNCORE_QEMU_QHTRI_VECTOR_REPLAY_BUILD_V0_1.json
+
+      - name: Execute QHTRI vector replay through QEMU realization boundary
+        run: |
+          python tools/qemu_qhtri_vector_replay_conformance_v01.py . \
+            --build-receipt provenance/PNCORE_QEMU_QHTRI_VECTOR_REPLAY_BUILD_V0_1.json \
+            --out provenance/PNCORE_QEMU_QHTRI_VECTOR_REPLAY_CONFORMANCE_V0_1.json \
+            --timeout 5
+
+      - name: Upload vector replay evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bioos-qhtri-vector-replay-v01-evidence
+          path: |
+            provenance/PNCORE_QEMU_QHTRI_VECTOR_REPLAY_BUILD_V0_1.json
+            provenance/PNCORE_QEMU_QHTRI_VECTOR_REPLAY_CONFORMANCE_V0_1.json
+            provenance/QEMU_QHTRI_PNVECTOR_HANDOFF_BUILD_RECEIPT_V0_1.json
+            provenance/QEMU_QHTRI_PNROM_CODE_BINDING_RECEIPT_V0_1.json
+            provenance/QEMU_QHTRI_PNR_T36_BINDING_RECEIPT_V0_1.json
+            provenance/QEMU_QHTRI_T36_IDENTITY_BUILD_RECEIPT_V0_1.json
