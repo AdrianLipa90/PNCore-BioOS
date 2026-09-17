@@ -20,7 +20,11 @@ COLLISION_POPULATION = 512
 
 
 def _payload(seed: int = 0) -> bytes:
-    return bytes(((i * 131 + 17 + seed * 29) & 0xFF) for i in range(PAYLOAD_BYTES))
+    if seed < 0:
+        raise ValueError("seed must be non-negative")
+    return hashlib.shake_256(
+        b"BIOOS/DN36/BENCH/PAYLOAD/V0.1|" + seed.to_bytes(8, "big")
+    ).digest(PAYLOAD_BYTES)
 
 
 def _bench(name: str, fn, iterations: int) -> dict[str, float | int | str]:
@@ -71,10 +75,8 @@ def _avalanche() -> dict[str, object]:
 
 def _output_bit_bias() -> dict[str, object]:
     counts = [0] * 256
-    outputs = []
     for index in range(BIAS_POPULATION):
         digest = commit(_payload(index)).fold256
-        outputs.append(digest)
         for bit in range(256):
             counts[bit] += (digest[bit // 8] >> (bit % 8)) & 1
     fractions = [value / BIAS_POPULATION for value in counts]
@@ -88,17 +90,23 @@ def _output_bit_bias() -> dict[str, object]:
 
 
 def _duplicate_search() -> dict[str, object]:
-    seen: set[bytes] = set()
-    duplicates = 0
+    seen_inputs: set[bytes] = set()
+    seen_outputs: set[bytes] = set()
+    duplicate_outputs = 0
     for index in range(COLLISION_POPULATION):
-        digest = commit(_payload(index + 1000)).fold256
-        if digest in seen:
-            duplicates += 1
-        seen.add(digest)
+        payload = _payload(index + 1000)
+        if payload in seen_inputs:
+            raise RuntimeError("benchmark payload generator produced a duplicate input")
+        seen_inputs.add(payload)
+        digest = commit(payload).fold256
+        if digest in seen_outputs:
+            duplicate_outputs += 1
+        seen_outputs.add(digest)
     return {
         "population": COLLISION_POPULATION,
-        "duplicate_fold256_count": duplicates,
-        "unique_fold256_count": len(seen),
+        "unique_input_count": len(seen_inputs),
+        "duplicate_fold256_count": duplicate_outputs,
+        "unique_fold256_count": len(seen_outputs),
         "claim": "SMALL_POPULATION_DUPLICATE_SEARCH_ONLY_NOT_COLLISION_SECURITY",
     }
 
@@ -126,6 +134,7 @@ def main() -> int:
         "security_claim": False,
         "replacement_for_standard_hash": False,
         "payload_bytes": PAYLOAD_BYTES,
+        "payload_generator": "SHAKE256(domain || uint64_be(seed)) -> 288 bytes",
         "payload_sha256": hashlib.sha256(payload).hexdigest(),
         "host": {
             "python": platform.python_version(),
