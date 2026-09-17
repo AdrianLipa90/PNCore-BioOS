@@ -13,6 +13,7 @@ on:
       - 'arch/x86_64/pncore/pnstore_ata_pio.S'
       - 'tools/qemu_pnterm_vga_build_v01.py'
       - 'tools/qemu_pnterm_vga_conformance_v01.py'
+      - 'tools/qemu_pnterm_vga_conformance_qmp_v01.py'
       - 'tools/qemu_pnterm_vga_adversarial_v01.py'
       - 'spec/PNTERM_VGA_QEMU_VERTICAL_SLICE_V0_1.md'
       - '.github/workflows/pnterm-vga-qemu-v01.yml'
@@ -25,6 +26,7 @@ on:
       - 'arch/x86_64/pncore/pnstore_ata_pio.S'
       - 'tools/qemu_pnterm_vga_build_v01.py'
       - 'tools/qemu_pnterm_vga_conformance_v01.py'
+      - 'tools/qemu_pnterm_vga_conformance_qmp_v01.py'
       - 'tools/qemu_pnterm_vga_adversarial_v01.py'
       - 'spec/PNTERM_VGA_QEMU_VERTICAL_SLICE_V0_1.md'
       - '.github/workflows/pnterm-vga-qemu-v01.yml'
@@ -49,8 +51,8 @@ jobs:
           sudo apt-get install -y qemu-system-x86
       - name: Build PNTERM VGA ROM
         run: python tools/qemu_pnterm_vga_build_v01.py
-      - name: Execute two-process serial plus VGA physical-memory gate
-        run: python tools/qemu_pnterm_vga_conformance_v01.py
+      - name: Execute two-process serial plus QMP VGA physical-memory gate
+        run: python tools/qemu_pnterm_vga_conformance_qmp_v01.py
       - name: Execute inherited PNStore corruption fail-closed gate
         run: python tools/qemu_pnterm_vga_adversarial_v01.py
       - name: Upload PNTERM VGA evidence
