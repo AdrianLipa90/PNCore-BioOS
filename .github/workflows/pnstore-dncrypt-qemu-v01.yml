@@ -1,0 +1,70 @@
+name: PNStore DNCrypt QEMU v0.1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/bioos-dncrypt-pnstore-qemu-v0.1
+    paths:
+      - 'fixtures/BIOOS_DN36_DNCRYPT_BINARY_ENVELOPE_V0_1.hex'
+      - 'arch/x86_64/pncore/pnstore_dncrypt_qemu_entry.S'
+      - 'arch/x86_64/pncore/pnstore_media.S'
+      - 'arch/x86_64/pncore/pnstore_ata_pio.S'
+      - 'tools/qemu_dncrypt_pnstore_build_v01.py'
+      - 'tools/qemu_dncrypt_pnstore_conformance_v01.py'
+      - 'tools/qemu_pnstore_ide_build_v01.py'
+      - 'tools/qemu_pnstore_ide_conformance_v01.py'
+      - 'tools/qemu_pnstore_ide_adversarial_v01.py'
+      - '.github/workflows/pnstore-dncrypt-qemu-v01.yml'
+  pull_request:
+    paths:
+      - 'fixtures/BIOOS_DN36_DNCRYPT_BINARY_ENVELOPE_V0_1.hex'
+      - 'arch/x86_64/pncore/pnstore_dncrypt_qemu_entry.S'
+      - 'arch/x86_64/pncore/pnstore_media.S'
+      - 'arch/x86_64/pncore/pnstore_ata_pio.S'
+      - 'tools/qemu_dncrypt_pnstore_build_v01.py'
+      - 'tools/qemu_dncrypt_pnstore_conformance_v01.py'
+      - '.github/workflows/pnstore-dncrypt-qemu-v01.yml'
+
+jobs:
+  pnstore-dncrypt-qemu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86
+      - name: Build exact DNCrypt PNStore bridge ROM
+        run: python tools/qemu_dncrypt_pnstore_build_v01.py
+      - name: Execute exact DNCrypt two-boot persistence gate
+        run: python tools/qemu_dncrypt_pnstore_conformance_v01.py
+      - name: Execute inherited PNStore corruption fail-closed gate
+        run: |
+          python tools/qemu_pnstore_ide_adversarial_v01.py . \
+            --rom build/x86_64/pnstore_ide_qemu_test.bin \
+            --build-receipt provenance/PNSTORE_DNCRYPT_QEMU_BUILD_V0_1.json \
+            --disk build/x86_64/pnstore_dncrypt_test.img \
+            --out provenance/PNSTORE_DNCRYPT_QEMU_ADVERSARIAL_V0_1.json \
+            --timeout 3
+      - name: Upload DNCrypt PNStore QEMU evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pnstore-dncrypt-qemu-v01-evidence
+          path: |
+            provenance/PNSTORE_DNCRYPT_QEMU_BUILD_V0_1.json
+            provenance/PNSTORE_DNCRYPT_QEMU_CONFORMANCE_V0_1.json
+            provenance/PNSTORE_DNCRYPT_QEMU_ADVERSARIAL_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_PNVH_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_CODE_BINDING_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_PNR_T36_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_T36_RECEIPT_V0_1.json
+            build/x86_64/pnstore_dncrypt_test.img
+          if-no-files-found: warn
