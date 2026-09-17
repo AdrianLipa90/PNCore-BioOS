@@ -1,0 +1,46 @@
+{
+  "schema": "BIOOS_EMULATION_REFERENCE_SPEC_V0_1",
+  "status": "REFERENCE_SPEC",
+  "hard_pins": {
+    "machine": "pc,accel=tcg",
+    "cpu": "max",
+    "memory": "16M",
+    "bios_basename": "pnstore_ide_qemu_test.bin",
+    "drive": {
+      "format": "raw",
+      "if": "ide",
+      "index": "0",
+      "media": "disk",
+      "cache": "writeback"
+    },
+    "display": "none",
+    "serial": "none",
+    "monitor": "none",
+    "debugcon": "stdio",
+    "debugcon_iobase": "0xe9",
+    "no_reboot": true,
+    "no_shutdown": true,
+    "pnstore_media_bytes": 65536,
+    "pnstore_sector_bytes": 512,
+    "pnstore_backend": "ATA_PIO_PRIMARY_MASTER_LBA28",
+    "conformance_timeout_seconds": 5,
+    "adversarial_timeout_seconds": 3
+  },
+  "record_only": {
+    "qemu_version": true,
+    "qemu_binary_sha256": true,
+    "qemu_binary_path": true,
+    "runner_image": true,
+    "toolchain_versions": true
+  },
+  "drift_policy": {
+    "hard_pin_mismatch": "BLOCK",
+    "record_only_change": "RECORD_AND_REVIEW",
+    "missing_provenance": "BLOCK"
+  },
+  "physical_machine_claim": false,
+  "physical_power_loss_claim": false,
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "claim_boundary": "Reference contract for reproducible BioOS QEMU semantics. It freezes semantic emulator parameters while recording QEMU binary/version and runner provenance separately. It is not bare-metal or physical-durability evidence."
+}
