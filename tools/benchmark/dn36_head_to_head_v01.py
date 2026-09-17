@@ -158,9 +158,20 @@ def main() -> int:
         row["latency_ratio_vs_sha256"] = float(row["median_ns_per_op"]) / sha_ns
         row["speed_ratio_vs_sha256"] = sha_ns / float(row["median_ns_per_op"])
 
+    duplicate_search = _duplicate_search()
+    duplicate_gate_pass = (
+        duplicate_search["unique_input_count"] == COLLISION_POPULATION
+        and duplicate_search["unique_state2304_count"] == COLLISION_POPULATION
+        and duplicate_search["unique_fold256_count"] == COLLISION_POPULATION
+        and duplicate_search["unique_anchor256_count"] == COLLISION_POPULATION
+        and duplicate_search["duplicate_state2304_count"] == 0
+        and duplicate_search["duplicate_fold256_count"] == 0
+        and duplicate_search["duplicate_anchor256_count"] == 0
+    )
+
     receipt = {
         "schema": "BIOOS_DN36_HEAD_TO_HEAD_V0_1",
-        "status": "MEASURED_EXPERIMENTAL_REFERENCE",
+        "status": "MEASURED_EXPERIMENTAL_REFERENCE" if duplicate_gate_pass else "FAIL_DUPLICATE_GATE",
         "epistemic": "CHYBA",
         "canon_allowed": False,
         "security_claim": False,
@@ -182,7 +193,8 @@ def main() -> int:
         "performance": rows,
         "avalanche_sample": _avalanche(),
         "output_bit_bias_sample": _output_bit_bias(),
-        "duplicate_search": _duplicate_search(),
+        "duplicate_search": duplicate_search,
+        "duplicate_gate_pass": duplicate_gate_pass,
         "claim_boundary": (
             "Python reference implementation benchmark and small statistical probes only; "
             "not native/SIMD performance, not cryptanalytic validation, not a secure-hash claim"
@@ -195,7 +207,7 @@ def main() -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(receipt, indent=2, sort_keys=True))
-    return 0
+    return 0 if duplicate_gate_pass else 5
 
 
 if __name__ == "__main__":
