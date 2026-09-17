@@ -1,9 +1,9 @@
-name: BioOS full QEMU boot v0.1
+name: BioOS full QEMU boot v0.2 hardening
 
 on:
   push:
     branches:
-      - feat/bioos-full-qemu-boot-v0.1
+      - fix/bioos-full-qemu-hardening-v0.2
   pull_request:
     paths:
       - 'arch/x86_64/pnrom/**'
@@ -15,6 +15,7 @@ on:
       - 'tools/t36_identity_record_v01.py'
       - 'tools/qemu_full_boot_build_v01.py'
       - 'tools/qemu_boot_conformance_v02.py'
+      - 'tests/test_qemu_boot_conformance_v02.py'
       - '.github/workflows/bioos-full-qemu-boot-v01.yml'
 
 jobs:
@@ -29,6 +30,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Install test dependencies
+        run: python -m pip install --disable-pip-version-check pytest
+
+      - name: Run adversarial QEMU harness tests
+        run: python -m pytest -q tests/test_qemu_boot_conformance_v02.py
 
       - name: Install QEMU
         run: |
@@ -47,14 +54,15 @@ jobs:
         run: |
           python tools/qemu_boot_conformance_v02.py . \
             --rom build/x86_64/pnrom_v0_3_qemu_test.bin \
+            --build-receipt provenance/PNCORE_QEMU_FULL_BOOT_BUILD_V0_1.json \
             --out provenance/PNCORE_QEMU_BOOT_CONFORMANCE_V0_2.json \
-            --timeout 3
+            --timeout 5
 
       - name: Upload QEMU evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: bioos-full-qemu-boot-v01-evidence
+          name: bioos-full-qemu-boot-v02-hardening-evidence
           path: |
             provenance/PNCORE_QEMU_FULL_BOOT_BUILD_V0_1.json
             provenance/QEMU_PNVECTOR_HANDOFF_BUILD_RECEIPT_V0_1.json
