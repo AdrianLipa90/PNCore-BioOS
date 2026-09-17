@@ -58,15 +58,24 @@ pncore_entry:
     jne pncore_fail
 
     # MMU/page-walk substrate verification. Exact authority remains PNR/PNObject.
+    # x86 hardware is permitted to set Accessed (A) on every walked entry and
+    # Dirty (D) on a writable leaf. Those bits are observation state, not map
+    # authority, so normalize only A/D before comparing the declared mapping.
     movq %cr3, %rax
     andq $0xfffffffffffff000, %rax
     cmpq $PN_PML4, %rax
     jne pncore_fail
-    cmpl $0x00008003, PN_PML4
+    movl PN_PML4, %eax
+    andl $0xffffffdf, %eax                 # ignore hardware Accessed bit
+    cmpl $0x00008003, %eax
     jne pncore_fail
-    cmpl $0x00009003, PN_PDPT
+    movl PN_PDPT, %eax
+    andl $0xffffffdf, %eax                 # ignore hardware Accessed bit
+    cmpl $0x00009003, %eax
     jne pncore_fail
-    cmpl $0x00000083, PN_PD
+    movl PN_PD, %eax
+    andl $0xffffff9f, %eax                 # ignore hardware Accessed/Dirty bits
+    cmpl $0x00000083, %eax
     jne pncore_fail
 
     # Bind bounded page-walk evidence.
@@ -75,7 +84,7 @@ pncore_entry:
     movl $PN_PML4,    PN_MAP_EVIDENCE+8
     movl $0x000f0000, PN_MAP_EVIDENCE+12  # selector VA inside ROM
     movl $0x00000000, PN_MAP_EVIDENCE+16  # resolved 2 MiB frame base
-    movl $0x00000083, PN_MAP_EVIDENCE+20  # exact PDE authority bits
+    movl $0x00000083, PN_MAP_EVIDENCE+20  # canonical PDE authority bits (A/D normalized)
     movl $1,          PN_MAP_EVIDENCE+24
 
     # Validate PNR header and exact program/schedule identity bindings.
