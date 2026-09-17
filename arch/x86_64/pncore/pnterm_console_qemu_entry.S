@@ -97,7 +97,14 @@ pncore_entry:
     movl $0, PNTERM_LAST_CR
     jmp .Lrx_loop
 .Llf_normal:
-    jmp .Lline_end
+    # If this LF closes a line already failed closed, reset the discipline
+    # instance and do not dispatch the discarded bytes.
+    cmpl $0, PNTERM_DISCARD
+    je .Lline_end
+    movl $0, PNTERM_DISCARD
+    movl $0, PNTERM_LEN
+    call pnterm_console_prompt
+    jmp .Lrx_loop
 .Lnot_lf:
     movl $0, PNTERM_LAST_CR
 
