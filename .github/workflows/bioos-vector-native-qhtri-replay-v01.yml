@@ -11,6 +11,7 @@ on:
       - 'tools/vector_native_qhtri_replay_v01.py'
       - 'tools/qemu_vector_native_qhtri_build_v01.py'
       - 'tools/qemu_vector_native_qhtri_conformance_v01.py'
+      - 'tools/qemu_vector_native_qhtri_adversarial_v01.py'
       - 'tests/test_vector_native_qhtri_replay_v01.py'
       - 'provenance/BIOOS_VECTOR_NATIVE_QHTRI_SOURCE_V0_1.json'
       - 'provenance/BIOOS_VECTOR_NATIVE_QHTRI_REPLAY_V0_1.json'
@@ -45,6 +46,9 @@ jobs:
       - name: Execute exact replay under QEMU TCG
         run: python tools/qemu_vector_native_qhtri_conformance_v01.py . --timeout 3
 
+      - name: Execute adversarial replay fail-closed gate
+        run: python tools/qemu_vector_native_qhtri_adversarial_v01.py . --timeout 2
+
       - name: Upload vector-native replay evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -53,6 +57,7 @@ jobs:
           path: |
             provenance/BIOOS_VECTOR_NATIVE_QHTRI_QEMU_BUILD_V0_1.json
             provenance/BIOOS_VECTOR_NATIVE_QHTRI_QEMU_CONFORMANCE_V0_1.json
+            provenance/BIOOS_VECTOR_NATIVE_QHTRI_QEMU_ADVERSARIAL_V0_1.json
             provenance/BIOOS_VECTOR_NATIVE_QHTRI_PNVH_RECEIPT_V0_1.json
             provenance/BIOOS_VECTOR_NATIVE_QHTRI_CODE_BINDING_RECEIPT_V0_1.json
             provenance/BIOOS_VECTOR_NATIVE_QHTRI_PNR_T36_RECEIPT_V0_1.json
