@@ -1,0 +1,42 @@
+name: DN36 fundamental code v0.1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/bioos-dn36-fundamental-code-v0.1
+    paths:
+      - 'spec/DN36_FUNDAMENTAL_VECTOR_COMMIT_V0_1.md'
+      - 'tools/dn36_fundamental_vector_commit_v01.py'
+      - 'tools/benchmark/dn36_head_to_head_v01.py'
+      - 'tests/test_dn36_fundamental_vector_commit_v01.py'
+      - '.github/workflows/dn36-fundamental-code-v01.yml'
+  pull_request:
+    paths:
+      - 'spec/DN36_FUNDAMENTAL_VECTOR_COMMIT_V0_1.md'
+      - 'tools/dn36_fundamental_vector_commit_v01.py'
+      - 'tools/benchmark/dn36_head_to_head_v01.py'
+      - 'tests/test_dn36_fundamental_vector_commit_v01.py'
+      - '.github/workflows/dn36-fundamental-code-v01.yml'
+
+jobs:
+  dn36-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install test runner
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: DN36 conformance and avalanche sanity gates
+        run: python -m pytest -q tests/test_dn36_fundamental_vector_commit_v01.py
+      - name: Measured DN36 vs standard hash reference
+        run: python tools/benchmark/dn36_head_to_head_v01.py
+      - name: Upload DN36 evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: dn36-fundamental-code-v01-evidence
+          path: build/dn36/BIOOS_DN36_HEAD_TO_HEAD_V0_1.json
+          if-no-files-found: error
