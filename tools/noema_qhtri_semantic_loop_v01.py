@@ -77,6 +77,8 @@ def _require_hex64(value: Any, name: str) -> str:
 
 
 def _require_text(value: Any, name: str) -> str:
+    if value is None:
+        raise NoemaQhtriSemanticLoopError(f"{name} is required")
     text = str(value).strip()
     if not text:
         raise NoemaQhtriSemanticLoopError(f"{name} is required")
