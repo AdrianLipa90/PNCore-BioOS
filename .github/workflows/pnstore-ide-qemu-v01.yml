@@ -1,0 +1,59 @@
+name: PNStore IDE QEMU v0.1
+
+on:
+  push:
+    branches:
+      - feat/bioos-pnstore-ide-qemu-v0.1
+  pull_request:
+    paths:
+      - 'arch/x86_64/pncore/pnstore_media.S'
+      - 'arch/x86_64/pncore/pnstore_ata_pio.S'
+      - 'arch/x86_64/pncore/pnstore_ide_qemu_entry.S'
+      - 'arch/x86_64/pnrom/**'
+      - 'tools/qemu_pnstore_ide_build_v01.py'
+      - 'tools/qemu_pnstore_ide_conformance_v01.py'
+      - '.github/workflows/pnstore-ide-qemu-v01.yml'
+
+jobs:
+  pnstore-ide-qemu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86
+
+      - name: Build dedicated PNStore IDE validation ROM
+        run: python tools/qemu_pnstore_ide_build_v01.py .
+
+      - name: Execute two-boot IDE persistence-semantics gate
+        run: |
+          python tools/qemu_pnstore_ide_conformance_v01.py . \
+            --rom build/x86_64/pnstore_ide_qemu_test.bin \
+            --build-receipt provenance/PNSTORE_IDE_QEMU_BUILD_V0_1.json \
+            --disk build/x86_64/pnstore_ide_test.img \
+            --out provenance/PNSTORE_IDE_QEMU_CONFORMANCE_V0_1.json \
+            --timeout 5
+
+      - name: Upload PNStore IDE evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pnstore-ide-qemu-v01-evidence
+          path: |
+            provenance/PNSTORE_IDE_QEMU_BUILD_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_PNVH_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_CODE_BINDING_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_PNR_T36_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_T36_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_CONFORMANCE_V0_1.json
+            build/x86_64/pnstore_ide_test.img
