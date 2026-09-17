@@ -91,22 +91,54 @@ def _output_bit_bias() -> dict[str, object]:
 
 def _duplicate_search() -> dict[str, object]:
     seen_inputs: set[bytes] = set()
-    seen_outputs: set[bytes] = set()
-    duplicate_outputs = 0
+    seen_state: dict[bytes, int] = {}
+    seen_fold: dict[bytes, int] = {}
+    seen_anchor: dict[bytes, int] = {}
+    duplicate_state = 0
+    duplicate_fold = 0
+    duplicate_anchor = 0
+    first_state_pairs: list[list[int]] = []
+    first_fold_pairs: list[list[int]] = []
+    first_anchor_pairs: list[list[int]] = []
+
     for index in range(COLLISION_POPULATION):
-        payload = _payload(index + 1000)
+        seed = index + 1000
+        payload = _payload(seed)
         if payload in seen_inputs:
             raise RuntimeError("benchmark payload generator produced a duplicate input")
         seen_inputs.add(payload)
-        digest = commit(payload).fold256
-        if digest in seen_outputs:
-            duplicate_outputs += 1
-        seen_outputs.add(digest)
+        result = commit(payload)
+
+        for output, seen, pairs, kind in (
+            (result.state2304, seen_state, first_state_pairs, "state"),
+            (result.fold256, seen_fold, first_fold_pairs, "fold"),
+            (result.anchor256, seen_anchor, first_anchor_pairs, "anchor"),
+        ):
+            previous = seen.get(output)
+            if previous is not None:
+                if kind == "state":
+                    duplicate_state += 1
+                elif kind == "fold":
+                    duplicate_fold += 1
+                else:
+                    duplicate_anchor += 1
+                if len(pairs) < 16:
+                    pairs.append([previous, seed])
+            else:
+                seen[output] = seed
+
     return {
         "population": COLLISION_POPULATION,
         "unique_input_count": len(seen_inputs),
-        "duplicate_fold256_count": duplicate_outputs,
-        "unique_fold256_count": len(seen_outputs),
+        "unique_state2304_count": len(seen_state),
+        "duplicate_state2304_count": duplicate_state,
+        "unique_fold256_count": len(seen_fold),
+        "duplicate_fold256_count": duplicate_fold,
+        "unique_anchor256_count": len(seen_anchor),
+        "duplicate_anchor256_count": duplicate_anchor,
+        "first_state_collision_seed_pairs": first_state_pairs,
+        "first_fold_collision_seed_pairs": first_fold_pairs,
+        "first_anchor_collision_seed_pairs": first_anchor_pairs,
         "claim": "SMALL_POPULATION_DUPLICATE_SEARCH_ONLY_NOT_COLLISION_SECURITY",
     }
 
