@@ -1,0 +1,55 @@
+{
+  "schema": "BIOOS_EMULATION_REFERENCE_LIVE_SYSTEM_SPEC_V0_1",
+  "status": "REFERENCE_SPEC",
+  "hard_pins": {
+    "machine": "pc,accel=tcg",
+    "cpu": "max",
+    "memory": "16M",
+    "bios_basename": "bioos_live_system_qemu_test.bin",
+    "drive": {
+      "format": "raw",
+      "if": "ide",
+      "index": "0",
+      "media": "disk",
+      "cache": "writeback"
+    },
+    "display": "none",
+    "serial": "stdio",
+    "monitor": "none",
+    "debugcon_mode": "file",
+    "debugcon_iobase": "0xe9",
+    "no_reboot": true,
+    "no_shutdown": true,
+    "pnstore_media_bytes": 65536,
+    "pnstore_sector_bytes": 512,
+    "pnstore_payload_max_bytes": 3936,
+    "uart_base": "0x3f8",
+    "uart_baud": 115200,
+    "uart_format": "8N1",
+    "line_bytes_max": 128,
+    "observation_timeout_seconds": 2
+  },
+  "record_only": {
+    "qemu_version": true,
+    "qemu_binary_sha256": true,
+    "qemu_binary_path": true,
+    "runner_image": true,
+    "toolchain_versions": true
+  },
+  "authority_boundary": {
+    "console_read_only": true,
+    "write_commands": 0,
+    "arbitrary_shell": false,
+    "internal_boot_storage_transition": true,
+    "physical_power_loss_claim": false,
+    "physical_machine_claim": false
+  },
+  "drift_policy": {
+    "hard_pin_mismatch": "BLOCK",
+    "record_only_change": "RECORD_AND_REVIEW",
+    "missing_provenance": "BLOCK"
+  },
+  "canon_allowed": false,
+  "epistemic": "CHYBA",
+  "claim_boundary": "Reference profile for the integrated QEMU live-system vertical slice: PNStore persistent state plus read-only PNTERM serial console. It is not physical durability, bare-metal execution, or canon."
+}
