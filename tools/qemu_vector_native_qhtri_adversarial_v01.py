@@ -140,15 +140,40 @@ def main() -> int:
     def bad_dimension(raw: bytearray) -> None:
         struct.pack_into("<I", raw, replay_offset + 12, 35)
 
+    def wrong_tick(raw: bytearray) -> None:
+        struct.pack_into("<Q", raw, replay_offset + 16, 20216)
+
+    def wrong_edge_i(raw: bytearray) -> None:
+        struct.pack_into("<i", raw, replay_offset + 24, 23)
+
+    def wrong_coupling(raw: bytearray) -> None:
+        struct.pack_into("<d", raw, replay_offset + 32, 0.5)
+
     def nonfinite_phi(raw: bytearray) -> None:
         struct.pack_into("<Q", raw, replay_offset + 40, 0x7ff0000000000000)
+
+    def finite_phi_single_bit(raw: bytearray) -> None:
+        value = struct.unpack_from("<Q", raw, replay_offset + 40)[0]
+        struct.pack_into("<Q", raw, replay_offset + 40, value ^ 0x1)
+
+    def source_lineage_single_bit(raw: bytearray) -> None:
+        raw[replay_offset + 616] ^= 0x1
+
+    def working_state_single_bit(raw: bytearray) -> None:
+        raw[replay_offset + 648] ^= 0x1
 
     def zero_source_lineage(raw: bytearray) -> None:
         raw[replay_offset + 616:replay_offset + 648] = b"\x00" * 32
 
     cases.extend([
         ("DIMENSION_35", bad_dimension),
+        ("TICK_PLUS_ONE", wrong_tick),
+        ("EDGE_I_CHANGED", wrong_edge_i),
+        ("COUPLING_HALF", wrong_coupling),
         ("PHI0_POSITIVE_INFINITY", nonfinite_phi),
+        ("PHI0_FINITE_SINGLE_BIT", finite_phi_single_bit),
+        ("SOURCE_RECEIPT_SINGLE_BIT", source_lineage_single_bit),
+        ("WORKING_STATE_SINGLE_BIT", working_state_single_bit),
         ("SOURCE_RECEIPT_ZEROED", zero_source_lineage),
     ])
 
