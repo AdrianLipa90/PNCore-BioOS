@@ -357,6 +357,9 @@ pncore_entry:
     movl $1,          PN_STORE_EVIDENCE+40 # durable barrier required
     movl $0,          PN_STORE_EVIDENCE+44 # device backend not yet bound
 
+    # Callees use RDX as an ordinary SysV argument/scratch register. Restore the
+    # debug witness port before emitting the final execution receipts.
+    movw $0x00e9, %dx
     OUTC 'S'
     OUTC 'I'
     OUTC 'G'
