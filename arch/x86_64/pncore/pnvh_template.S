@@ -3,5 +3,5 @@
 .global pnvh_template
 .global pnvh_template_end
 pnvh_template:
-    .incbin "build/x86_64/pnstore_ide_pnvh.bin"
+    .incbin "build/x86_64/pnvector_handoff_test.bin"
 pnvh_template_end:
