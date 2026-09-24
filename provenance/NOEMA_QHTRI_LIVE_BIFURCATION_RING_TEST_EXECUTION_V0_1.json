@@ -1,0 +1,32 @@
+{
+  "boot_bundle_sha256": "7e578b650406efc49c320584ac014459a4a49916bc739285ea15f44fd3e55ba4",
+  "boot_status": "ACTIVE",
+  "boot_working_state_sha256": "2690763a241f5f242eb1caa591aa56ae3afc764db7712c6f67fbde9099631697",
+  "branch": "feat/noema-qhtri-live-bifurcation-ring-v0.1",
+  "canonical_live_surface": "/dev/shm/ciel_noema",
+  "corrective_action": "probe explicitly binds its repository root before importing tools namespace",
+  "created_date": "2026-08-28",
+  "evidence_status": "EXECUTED_LOCAL_AND_LIVE_SHADOW",
+  "initial_live_probe_attempt": {
+    "error": "ModuleNotFoundError: No module named 'tools.noema_qhtri_live_bifurcation_ring_v01'",
+    "runtime_reached": false,
+    "status": "HARNESS_IMPORT_FAIL"
+  },
+  "live_event_count": 8,
+  "live_shadow_receipt_sha256": "d70c2ab2d8c24d5405c866a24790bc6f9f1d55bb4707416625266cc94cc4e621",
+  "live_shadow_transport_status": "PASS",
+  "live_tick_first": 2275,
+  "live_tick_last": 2282,
+  "post_process_reopen_status": "PASS",
+  "production_activation": "PENDING",
+  "receipt_sha256": "7a2ac824ba25f34380ad063c025365eebbe388b0427d28cae03f221f500a02aa",
+  "schema": "BIOOS_NOEMA_QHTRI_LIVE_BIFURCATION_RING_TEST_EXECUTION_V0_1",
+  "spinor_join_status": "PENDING_EXPLICIT_Z2_LIVE_CHANNEL",
+  "stacked_base": "feat/semantic-autonomy-capability-v0.1",
+  "stacked_base_head": "91ab7ff1e761e49b6f6bbde42e77933d6d892272",
+  "tamper_detection_status": "PASS",
+  "unit_test_command": "python3 -m pytest -q tests/test_noema_qhtri_live_bifurcation_ring_v01.py",
+  "unit_test_status": "PASS",
+  "unit_tests_failed": 0,
+  "unit_tests_passed": 16
+}

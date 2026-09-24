@@ -1,0 +1,50 @@
+{
+  "schema": "BIOOS-NOEMA-QHTRI-LIVE-BIFURCATION-RING-PROVENANCE/0.1",
+  "branch": "feat/noema-qhtri-live-bifurcation-ring-v0.1",
+  "base_branch": "feat/semantic-autonomy-capability-v0.1",
+  "base_head_sha256_ref": "91ab7ff1e761e49b6f6bbde42e77933d6d892272",
+  "transport_authority": "L0_OBSERVE_INTERPRET",
+  "runtime_effect_admitted": false,
+  "operational_path": "/dev/shm/ciel_noema",
+  "producer_model": "SINGLE_DECLARED_PRODUCER",
+  "consumer_model": "MULTI_CONSUMER_INDEPENDENT_CURSOR",
+  "overflow_policy": "FAIL_CLOSED_NO_UNACKED_OVERWRITE",
+  "publication_order": [
+    "VALIDATE_CHILD_RECEIPTS",
+    "VERIFY_PRODUCER",
+    "VERIFY_CAPACITY",
+    "ATOMIC_SLOT_WRITE_FSYNC",
+    "SEALED_METADATA_PUBLICATION_FSYNC"
+  ],
+  "local_shadow_test_runs": [
+    {
+      "layout": "standalone_module",
+      "command": "python3 -m pytest -q test_ring.py",
+      "result": "12_PASSED",
+      "duration_s": 0.20
+    },
+    {
+      "layout": "repository_tools_package",
+      "command": "python3 -m pytest -q test_tmp.py",
+      "result": "12_PASSED",
+      "duration_s": 0.31
+    }
+  ],
+  "tests_cover": [
+    "ORDER_ACK_REOPEN",
+    "OVERFLOW_FAIL_CLOSED",
+    "SLOWEST_CONSUMER_CONTROLS_WRAP",
+    "PRODUCER_OWNERSHIP",
+    "BIFURCATION_SPINOR_TICK_BINDING",
+    "SPINOR_REQUIRED",
+    "RESEALED_OUTER_TAMPER",
+    "TORN_SLOT",
+    "ACK_ORDER",
+    "QHTRI_TICK_MONOTONICITY",
+    "LIVE_PATH_GUARD",
+    "L0_AUTHORITY_BOUNDARY"
+  ],
+  "live_qhtri_attachment": "PENDING",
+  "throughput_latency_benchmark": "PENDING",
+  "main_modified": false
+}

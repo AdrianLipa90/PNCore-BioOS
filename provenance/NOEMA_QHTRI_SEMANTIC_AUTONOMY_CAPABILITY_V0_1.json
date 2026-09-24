@@ -1,0 +1,40 @@
+{
+  "schema": "BIOOS_NOEMA_QHTRI_SEMANTIC_AUTONOMY_CAPABILITY_PROVENANCE_V0_1",
+  "base_main": "0e99e4677d1c54229aed0f0244b525b63a669362",
+  "branch": "feat/semantic-autonomy-capability-v0.1",
+  "change": "REFINE_SEMANTIC_LOOP_AUTHORITY_BOUNDARY",
+  "levels": {
+    "L0_OBSERVE_INTERPRET": "AUTOMATIC",
+    "L1_BOUNDED_INTERNAL_EFFECT": "AUTOMATIC_UNDER_PREVIOUSLY_ADMITTED_CAPABILITY",
+    "L2_AUTHORITY_EXPANSION_OR_EXTERNAL_EFFECT": "EXPLICIT_AUTHORITY_REQUIRED"
+  },
+  "per_tick_human_authorization": {
+    "L0": false,
+    "L1": false,
+    "L2": true
+  },
+  "l1_boundaries": {
+    "authority_expansion": false,
+    "external_effect": false,
+    "canon_write_authority": false,
+    "identity_authority": false,
+    "runtime_write_scope": "QHTRI_BOUNDARY_ONLY"
+  },
+  "effect_budget_owner": "SemanticAutonomyEpoch",
+  "effect_index_caller_controlled": false,
+  "replay_policy": "EXACT_MONOTONIC_FAIL_CLOSED",
+  "implementation_files": [
+    "tools/noema_qhtri_semantic_autonomy_v01.py",
+    "tools/noema_qhtri_semantic_autonomy_epoch_v01.py",
+    "native/NOEMA_QHTRI_SEMANTIC_AUTONOMY_CAPABILITY_V0_1.pnv"
+  ],
+  "test_files": [
+    "tests/test_noema_qhtri_semantic_autonomy_v01.py",
+    "tests/test_noema_qhtri_semantic_autonomy_epoch_v01.py",
+    "tests/test_noema_qhtri_semantic_autonomy_holonomy_v01.py"
+  ],
+  "local_execution_status": "UNEXECUTED_HERE",
+  "github_actions_status": "PENDING_PR_TRIGGER",
+  "production_runtime_activation": false,
+  "main_modified": false
+}
