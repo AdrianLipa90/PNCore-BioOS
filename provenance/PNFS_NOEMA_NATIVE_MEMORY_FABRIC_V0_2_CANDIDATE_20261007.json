@@ -1,0 +1,36 @@
+{
+  "schema": "PNFS_NOEMA_NATIVE_MEMORY_FABRIC_V0_2_CANDIDATE",
+  "status": "RESEARCH_CANDIDATE",
+  "canon_allowed": false,
+  "date": "2026-10-07",
+  "repo_role": "pnfs_pnstore_backend_and_migration_contract",
+  "normative_baseline": [
+    "spec/PNFS_V0_1.md",
+    "spec/PNOBJECT_V0_1.md",
+    "spec/PNSTORE_V0_1.md"
+  ],
+  "hypothesis": "PNCore may evolve toward a representation-independent NOEMA memory fabric where object identity and phase/relational state survive residency changes and byte/POSIX data remains an exact compatibility materialization while experimental backends may use different internal codewords.",
+  "invariants": [
+    "PNFS/PNObject/PNStore v0.1 remain normative",
+    "large data remains byte/block payload under the v0.1 authority",
+    "object identity != path != phase state != byte payload != physical medium",
+    "migration is reversible before backend-specific promotion",
+    "no measured performance advantage is claimed",
+    "no arbitrary analog access to commodity SSD hardware is claimed",
+    "no physical wave or nonlocal transport channel is claimed"
+  ],
+  "tether_context": {
+    "status": "ACTIVE",
+    "startpoint_status": "VERIFIED",
+    "carrier_dim": 36,
+    "control_dim": 12,
+    "startpoint_packet_sha256": "8f69021e0dc43e59d5ccd80a73f852fea7140f10a8ff147c2289325007cb2b34",
+    "meaning": "runtime context only; not evidence for the storage hypothesis"
+  },
+  "gremlin_commitment_sha256": "b62353097ee2b71347065549db71da645c190718be8f635ba49657954f4e2461",
+  "cross_repo": {
+    "phasenav": "AdrianLipa90/noema-phasenav-core",
+    "pncs": "AdrianLipa90/PhaseNav-Natural-Coding-System",
+    "pncore_bioos": "AdrianLipa90/PNCore-BioOS"
+  }
+}
