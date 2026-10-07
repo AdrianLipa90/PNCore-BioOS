@@ -63,6 +63,9 @@ t36_identity_validate:
     cmpl $0x7, %eax
     jne .Linvalid
 
+    # Do not inherit caller direction state into cryptographic/identity binding
+    # comparisons. All T36 byte-order comparisons are explicitly forward.
+    cld
     pushq %rdi
     pushq %rsi
 
@@ -185,3 +188,5 @@ t36_identity_four_pi_closed:
 .Lclosed_no:
     xorl %eax, %eax
     ret
+
+.section .note.GNU-stack,"",@progbits

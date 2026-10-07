@@ -1,0 +1,30 @@
+{
+  "schema": "BIOOS_DN36_RUN9_EVIDENCE_INDEX_V0_1",
+  "status": "PASS_BRANCH_EVIDENCE_INDEX",
+  "branch": "feat/bioos-dn36-fundamental-code-v0.1",
+  "head_sha": "430dfc8080edc8c30d95a946663b0c1c2195fafb",
+  "workflow_run_id": 35240603224,
+  "workflow_conclusion": "success",
+  "artifact": {
+    "id": 10505371249,
+    "name": "dn36-fundamental-code-v01-evidence",
+    "digest": "sha256:13cf2a5829027161043a31f3ca74cd4f813a301ef6cfa3788f48581effb79842"
+  },
+  "receipts": {
+    "dn36_dncrypt_aux": {
+      "status": "PASS_DN36_DNCRYPT_AUX_FAIL_CLOSED",
+      "receipt_sha256": "691eb7ccbb5fd1d74a5ec8e68f9f1581e00d4f2a2a715a845dc0d9aac7870884",
+      "authenticated_user_aad_bytes": 1234,
+      "adversarial_cases": 5,
+      "all_adversarial_cases_fail_closed": true
+    },
+    "native_parity": {
+      "status": "PASS_EXACT_SCALAR_C_PYTHON_PARITY",
+      "receipt_sha256": "d3d3c4f9f8fefaa03ae1390385d96fb5651f4c5c9b82196ced17110a688c4a8f"
+    }
+  },
+  "security_claim": false,
+  "canon_allowed": false,
+  "merge_to_main": false,
+  "claim_boundary": "Index of branch-local CI evidence only; no cryptographic-strength promotion, no canon promotion, no main merge."
+}

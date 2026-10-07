@@ -10,3 +10,5 @@ t36_identity_template_end:
 .if (t36_identity_template_end - t36_identity_template) != 256
 .error "T36 identity template must be exactly 256 bytes"
 .endif
+
+.section .note.GNU-stack,"",@progbits

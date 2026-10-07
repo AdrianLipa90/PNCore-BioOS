@@ -1,0 +1,72 @@
+name: BioOS full QEMU boot v0.2 hardening
+
+on:
+  push:
+    branches:
+      - fix/bioos-full-qemu-hardening-v0.2
+  pull_request:
+    paths:
+      - 'arch/x86_64/pnrom/**'
+      - 'arch/x86_64/pncore/**'
+      - 'tools/pnvector_handoff_builder_v01.py'
+      - 'tools/pnrom_code_binding_v01.py'
+      - 'tools/pnr_t36_binding_v01.py'
+      - 'tools/t36_identity_builder_v01.py'
+      - 'tools/t36_identity_record_v01.py'
+      - 'tools/qemu_full_boot_build_v01.py'
+      - 'tools/qemu_boot_conformance_v02.py'
+      - 'tests/test_qemu_boot_conformance_v02.py'
+      - '.github/workflows/bioos-full-qemu-boot-v01.yml'
+
+jobs:
+  qemu-full-boot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install test dependencies
+        run: python -m pip install --disable-pip-version-check pytest
+
+      - name: Run adversarial QEMU harness tests
+        run: python -m pytest -q tests/test_qemu_boot_conformance_v02.py
+
+      - name: Install QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86
+
+      - name: Run host-level identity and PNVH tests
+        run: |
+          python tests/test_t36_identity_v01.py
+          python tests/test_pnvector_handoff_builder_v01.py
+
+      - name: Build deterministic synthetic full ROM
+        run: python tools/qemu_full_boot_build_v01.py .
+
+      - name: Execute full PNROM to PNCore boot in QEMU
+        run: |
+          python tools/qemu_boot_conformance_v02.py . \
+            --rom build/x86_64/pnrom_v0_3_qemu_test.bin \
+            --build-receipt provenance/PNCORE_QEMU_FULL_BOOT_BUILD_V0_1.json \
+            --out provenance/PNCORE_QEMU_BOOT_CONFORMANCE_V0_2.json \
+            --timeout 5
+
+      - name: Upload QEMU evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bioos-full-qemu-boot-v02-hardening-evidence
+          path: |
+            provenance/PNCORE_QEMU_FULL_BOOT_BUILD_V0_1.json
+            provenance/QEMU_PNVECTOR_HANDOFF_BUILD_RECEIPT_V0_1.json
+            provenance/QEMU_PNROM_CODE_BINDING_RECEIPT_V0_1.json
+            provenance/QEMU_PNR_T36_BINDING_RECEIPT_V0_1.json
+            provenance/QEMU_T36_IDENTITY_BUILD_RECEIPT_V0_1.json
+            provenance/PNCORE_QEMU_BOOT_CONFORMANCE_V0_2.json
