@@ -1,0 +1,76 @@
+name: PNTERM Interactive QEMU v0.1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/bioos-qemu-interactive-pnterm-v0.1
+    paths:
+      - 'fixtures/BIOOS_DN36_DNCRYPT_BINARY_ENVELOPE_V0_1.hex'
+      - 'arch/x86_64/pncore/pnterm_dncrypt_qemu_entry.S'
+      - 'arch/x86_64/pncore/pnterm_uart16550.S'
+      - 'arch/x86_64/pncore/pnstore_media.S'
+      - 'arch/x86_64/pncore/pnstore_ata_pio.S'
+      - 'tools/qemu_pnterm_interactive_build_v01.py'
+      - 'tools/qemu_pnterm_interactive_conformance_v01.py'
+      - 'tools/qemu_pnterm_interactive_conformance_sync_v01.py'
+      - 'tools/qemu_pnterm_interactive_adversarial_v01.py'
+      - 'spec/PNTERM_QEMU_INTERACTIVE_VERTICAL_SLICE_V0_1.md'
+      - '.github/workflows/pnterm-interactive-qemu-v01.yml'
+  pull_request:
+    paths:
+      - 'fixtures/BIOOS_DN36_DNCRYPT_BINARY_ENVELOPE_V0_1.hex'
+      - 'arch/x86_64/pncore/pnterm_dncrypt_qemu_entry.S'
+      - 'arch/x86_64/pncore/pnterm_uart16550.S'
+      - 'arch/x86_64/pncore/pnstore_media.S'
+      - 'arch/x86_64/pncore/pnstore_ata_pio.S'
+      - 'tools/qemu_pnterm_interactive_build_v01.py'
+      - 'tools/qemu_pnterm_interactive_conformance_v01.py'
+      - 'tools/qemu_pnterm_interactive_conformance_sync_v01.py'
+      - 'tools/qemu_pnterm_interactive_adversarial_v01.py'
+      - 'spec/PNTERM_QEMU_INTERACTIVE_VERTICAL_SLICE_V0_1.md'
+      - '.github/workflows/pnterm-interactive-qemu-v01.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  pnterm-interactive-qemu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86
+      - name: Build interactive PNTERM ROM
+        run: python tools/qemu_pnterm_interactive_build_v01.py
+      - name: Execute synchronized interactive two-process PNTERM gate
+        run: python tools/qemu_pnterm_interactive_conformance_sync_v01.py
+      - name: Execute inherited PNStore corruption fail-closed gate
+        run: python tools/qemu_pnterm_interactive_adversarial_v01.py
+      - name: Upload interactive PNTERM evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pnterm-interactive-qemu-v01-evidence
+          path: |
+            provenance/PNTERM_INTERACTIVE_QEMU_BUILD_V0_1.json
+            provenance/PNTERM_INTERACTIVE_QEMU_CONFORMANCE_V0_1.json
+            provenance/PNTERM_INTERACTIVE_QEMU_ADVERSARIAL_V0_1.json
+            provenance/PNTERM_INTERACTIVE_QEMU_FIRST_SERIAL.txt
+            provenance/PNTERM_INTERACTIVE_QEMU_SECOND_SERIAL.txt
+            provenance/PNTERM_INTERACTIVE_QEMU_FIRST_DEBUG.txt
+            provenance/PNTERM_INTERACTIVE_QEMU_SECOND_DEBUG.txt
+            provenance/PNSTORE_IDE_QEMU_PNVH_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_CODE_BINDING_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_PNR_T36_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_T36_RECEIPT_V0_1.json
+            build/x86_64/pnterm_interactive_test.img
+          if-no-files-found: warn

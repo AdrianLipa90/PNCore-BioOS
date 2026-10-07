@@ -1,0 +1,73 @@
+name: PNTERM Live Console QEMU v0.1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/bioos-live-console-qemu-v0.1
+    paths:
+      - 'arch/x86_64/pncore/pnterm_console_qemu_entry.S'
+      - 'arch/x86_64/pncore/pnterm_uart16550.S'
+      - 'spec/EMULATION_REFERENCE_CONSOLE_SPEC_V0_1.json'
+      - 'tools/qemu_pnterm_console_build_v01.py'
+      - 'tools/qemu_pnterm_console_conformance_v01.py'
+      - 'tools/qemu_full_boot_build_v01.py'
+      - 'tools/qemu_boot_conformance_v02.py'
+      - 'arch/x86_64/pnrom/**'
+      - '.github/workflows/pnterm-live-console-qemu-v01.yml'
+  pull_request:
+    paths:
+      - 'arch/x86_64/pncore/pnterm_console_qemu_entry.S'
+      - 'arch/x86_64/pncore/pnterm_uart16550.S'
+      - 'spec/EMULATION_REFERENCE_CONSOLE_SPEC_V0_1.json'
+      - 'tools/qemu_pnterm_console_build_v01.py'
+      - 'tools/qemu_pnterm_console_conformance_v01.py'
+      - '.github/workflows/pnterm-live-console-qemu-v01.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  pnterm-live-console:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86
+      - name: Preserve existing full BioOS QEMU boot regression
+        run: |
+          python tools/qemu_full_boot_build_v01.py .
+          python tools/qemu_boot_conformance_v02.py . \
+            --rom build/x86_64/pnrom_v0_3_qemu_test.bin \
+            --build-receipt provenance/PNCORE_QEMU_FULL_BOOT_BUILD_V0_1.json \
+            --timeout 3 \
+            --out provenance/PNCORE_QEMU_BOOT_CONFORMANCE_V0_2.json
+      - name: Build bounded interactive PNTERM console ROM
+        run: python tools/qemu_pnterm_console_build_v01.py
+      - name: Execute interactive PNTERM read-only console conformance
+        run: |
+          python tools/qemu_pnterm_console_conformance_v01.py \
+            --spec spec/EMULATION_REFERENCE_CONSOLE_SPEC_V0_1.json \
+            --rom build/x86_64/pnterm_console_qemu_test.bin \
+            --build-receipt provenance/PNTERM_CONSOLE_QEMU_BUILD_V0_1.json \
+            --out provenance/PNTERM_CONSOLE_QEMU_CONFORMANCE_V0_1.json
+      - name: Upload PNTERM live-console evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pnterm-live-console-qemu-v01-evidence
+          path: |
+            provenance/PNCORE_QEMU_FULL_BOOT_BUILD_V0_1.json
+            provenance/PNCORE_QEMU_BOOT_CONFORMANCE_V0_2.json
+            provenance/PNTERM_CONSOLE_QEMU_BUILD_V0_1.json
+            provenance/PNTERM_CONSOLE_QEMU_CONFORMANCE_V0_1.json
+            build/x86_64/pnterm_console_qemu_test.bin
+          if-no-files-found: warn

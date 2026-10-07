@@ -1,0 +1,78 @@
+name: PNTERM VGA QEMU v0.1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/bioos-qemu-vga-pnterm-v0.1
+    paths:
+      - 'fixtures/BIOOS_DN36_DNCRYPT_BINARY_ENVELOPE_V0_1.hex'
+      - 'arch/x86_64/pncore/pnterm_vga_dncrypt_qemu_entry.S'
+      - 'arch/x86_64/pncore/pnterm_uart16550.S'
+      - 'arch/x86_64/pncore/pnstore_media.S'
+      - 'arch/x86_64/pncore/pnstore_ata_pio.S'
+      - 'tools/qemu_pnterm_vga_build_v01.py'
+      - 'tools/qemu_pnterm_vga_conformance_v01.py'
+      - 'tools/qemu_pnterm_vga_conformance_qmp_v01.py'
+      - 'tools/qemu_pnterm_vga_adversarial_v01.py'
+      - 'spec/PNTERM_VGA_QEMU_VERTICAL_SLICE_V0_1.md'
+      - '.github/workflows/pnterm-vga-qemu-v01.yml'
+  pull_request:
+    paths:
+      - 'fixtures/BIOOS_DN36_DNCRYPT_BINARY_ENVELOPE_V0_1.hex'
+      - 'arch/x86_64/pncore/pnterm_vga_dncrypt_qemu_entry.S'
+      - 'arch/x86_64/pncore/pnterm_uart16550.S'
+      - 'arch/x86_64/pncore/pnstore_media.S'
+      - 'arch/x86_64/pncore/pnstore_ata_pio.S'
+      - 'tools/qemu_pnterm_vga_build_v01.py'
+      - 'tools/qemu_pnterm_vga_conformance_v01.py'
+      - 'tools/qemu_pnterm_vga_conformance_qmp_v01.py'
+      - 'tools/qemu_pnterm_vga_adversarial_v01.py'
+      - 'spec/PNTERM_VGA_QEMU_VERTICAL_SLICE_V0_1.md'
+      - '.github/workflows/pnterm-vga-qemu-v01.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  pnterm-vga-qemu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86
+      - name: Build PNTERM VGA ROM
+        run: python tools/qemu_pnterm_vga_build_v01.py
+      - name: Execute two-process serial plus QMP VGA physical-memory gate
+        run: python tools/qemu_pnterm_vga_conformance_qmp_v01.py
+      - name: Execute inherited PNStore corruption fail-closed gate
+        run: python tools/qemu_pnterm_vga_adversarial_v01.py
+      - name: Upload PNTERM VGA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pnterm-vga-qemu-v01-evidence
+          path: |
+            provenance/PNTERM_VGA_QEMU_BUILD_V0_1.json
+            provenance/PNTERM_VGA_QEMU_CONFORMANCE_V0_1.json
+            provenance/PNTERM_VGA_QEMU_ADVERSARIAL_V0_1.json
+            provenance/PNTERM_VGA_QEMU_FIRST_SERIAL.txt
+            provenance/PNTERM_VGA_QEMU_SECOND_SERIAL.txt
+            provenance/PNTERM_VGA_QEMU_FIRST_DEBUG.txt
+            provenance/PNTERM_VGA_QEMU_SECOND_DEBUG.txt
+            provenance/PNTERM_VGA_QEMU_FIRST_VRAM.bin
+            provenance/PNTERM_VGA_QEMU_SECOND_VRAM.bin
+            provenance/PNSTORE_IDE_QEMU_PNVH_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_CODE_BINDING_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_PNR_T36_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_T36_RECEIPT_V0_1.json
+            build/x86_64/pnterm_vga_test.img
+          if-no-files-found: warn

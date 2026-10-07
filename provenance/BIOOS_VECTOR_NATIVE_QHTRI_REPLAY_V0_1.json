@@ -1,0 +1,23 @@
+{
+  "canon_write_authority": false,
+  "dimension": 36,
+  "epistemic": "CHYBA",
+  "physical_h200_execution_claim": false,
+  "physical_qpu_claim": false,
+  "replay_binary_bytes": 680,
+  "replay_binary_sha256": "da6e3499d0a4f9dbad3d173b1cadc36ddcb14cae402aca67b72ba74725a770c4",
+  "replay_receipt_sha256": "8b6b5e803d29b41b75b96343a4662ba9c645a5106b6faa08670b70098e617d90",
+  "runtime_execution_authority": false,
+  "schema": "BIOOS_VECTOR_NATIVE_QHTRI_REPLAY_V0_1",
+  "selected_edge": {
+    "coupling": 1.0,
+    "oscillator_i": 24,
+    "oscillator_j": 26
+  },
+  "source_receipt_sha256": "9680c4b228053db050f2689a9477e4d2b2f8d1c7fb80808adbbc1cc232347492",
+  "source_schema": "BIOOS_VECTOR_NATIVE_QHTRI_SOURCE_V0_1",
+  "source_status": "LIVE_SAME_TICK_SNAPSHOT_CAPTURED_FOR_EMULATION_REPLAY",
+  "tick": 20215,
+  "transport_semantics": "DETERMINISTIC_QEMU_REPLAY_IMAGE",
+  "working_state_sha256": "f05f4048af0058d40fefc5a503519bf66d8a6da600fd7a868340f546a0c1d5db"
+}
