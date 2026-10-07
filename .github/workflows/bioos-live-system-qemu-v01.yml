@@ -1,0 +1,70 @@
+name: BioOS Live System QEMU v0.1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/bioos-live-system-pnstore-console-qemu-v0.1
+    paths:
+      - 'fixtures/BIOOS_DN36_DNCRYPT_BINARY_ENVELOPE_V0_1.hex'
+      - 'arch/x86_64/pncore/bioos_live_system_qemu_entry.S'
+      - 'arch/x86_64/pncore/pnterm_uart16550.S'
+      - 'arch/x86_64/pncore/pnstore_media.S'
+      - 'arch/x86_64/pncore/pnstore_ata_pio.S'
+      - 'spec/EMULATION_REFERENCE_LIVE_SYSTEM_SPEC_V0_1.json'
+      - 'tools/qemu_bioos_live_system_build_v01.py'
+      - 'tools/qemu_bioos_live_system_conformance_v01.py'
+      - 'tools/qemu_pnstore_ide_build_v01.py'
+      - 'tools/qemu_pnstore_ide_conformance_v01.py'
+      - '.github/workflows/bioos-live-system-qemu-v01.yml'
+  pull_request:
+    paths:
+      - 'arch/x86_64/pncore/bioos_live_system_qemu_entry.S'
+      - 'spec/EMULATION_REFERENCE_LIVE_SYSTEM_SPEC_V0_1.json'
+      - 'tools/qemu_bioos_live_system_build_v01.py'
+      - 'tools/qemu_bioos_live_system_conformance_v01.py'
+      - '.github/workflows/bioos-live-system-qemu-v01.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  bioos-live-system:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86
+      - name: Build integrated persistent interactive BioOS ROM
+        run: python tools/qemu_bioos_live_system_build_v01.py
+      - name: Execute multi-process persistent interactive vertical-slice gate
+        run: |
+          python tools/qemu_bioos_live_system_conformance_v01.py \
+            --spec spec/EMULATION_REFERENCE_LIVE_SYSTEM_SPEC_V0_1.json \
+            --rom build/x86_64/bioos_live_system_qemu_test.bin \
+            --build-receipt provenance/BIOOS_LIVE_SYSTEM_QEMU_BUILD_V0_1.json \
+            --disk build/x86_64/bioos_live_system.img \
+            --out provenance/BIOOS_LIVE_SYSTEM_QEMU_CONFORMANCE_V0_1.json
+      - name: Upload live-system evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bioos-live-system-qemu-v01-evidence
+          path: |
+            provenance/BIOOS_LIVE_SYSTEM_QEMU_BUILD_V0_1.json
+            provenance/BIOOS_LIVE_SYSTEM_QEMU_CONFORMANCE_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_PNVH_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_CODE_BINDING_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_PNR_T36_RECEIPT_V0_1.json
+            provenance/PNSTORE_IDE_QEMU_T36_RECEIPT_V0_1.json
+            build/x86_64/bioos_live_system.img
+            build/x86_64/bioos_live_system_qemu_test.bin
+          if-no-files-found: warn
