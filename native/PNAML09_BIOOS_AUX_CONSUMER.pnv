@@ -1,0 +1,59 @@
+PNV.PROGRAM PNAML09_BIOOS_AUX_CONSUMER
+PNV.VERSION 0.9
+PNV.STATUS INTEGRATION_CANDIDATE
+PNV.EPISTEMIC CHYBA
+PNV.CANON_ALLOWED false
+REQUIRE T36_PHASE_FIELD
+REQUIRE PAUX_EXACT_FULL_STATE_LANE
+REQUIRE PNCS_TYPED_CONTENT_AND_ORDER
+REQUIRE RDSS_TYPED_RELATIONAL_OCCURRENCE
+INVARIANT DIMENSION 36
+INVARIANT TRIT_GROUPS 12
+INVARIANT PNCS_OPERATOR_TYPE PRESERVE_SOURCE
+INVARIANT RDSS_BRAID_WORD PRESERVE_ORDER
+INVARIANT REFERENCE_TRAJECTORY_SAME_SOURCE_GENERATION true
+INVARIANT SOURCE_STATE_NOT_EQUAL_PHASE_FINGERPRINT true
+INVARIANT NO_EARLY_COLLAPSE true
+INVARIANT NEW_PNV_OPCODES 0
+
+OP PNAML09_RX_REFERENCE
+  INPUT continuous_z[36](tau) source_exact_typed_state
+  INPUT paux_source_generation
+  INPUT reference_theta_lifted[36](tau) tau_start tau_end
+  REQUIRE reference_theta_lifted FROM PAUX_EXACT_FULL_STATE_LANE
+  OUTPUT registered_exact_reference_trajectory
+END
+
+OP PNAML09_RX_PHASE_DEMODULATION
+  INPUT continuous_z[36](tau) registered_exact_reference_trajectory
+  NORMALIZE t=(tau-tau_start)/(tau_end-tau_start)
+  PILOT u(t)=3*t^2-2*t^3
+  BASIS f_n(t)=SIN(pi*t)^2*SIN(2*pi*n*t) FOR n=1,2,3
+  ESTIMATE phase_lifted_by_temporal_continuity
+  SUBTRACT reference_theta_lifted[36](tau)/(2*pi) + u(t)
+  ESTIMATE trit[12] VIA paired_channel_difference_f_1
+  ESTIMATE mass_scalar_projection_0to1 ethics_scalar_projection_0to1 VIA centered_joint_projection_f_2_f_3
+  INDEX address=1+SUM_g(trit[g]+1)*3^g
+  OUTPUT observed_symbol_address observed_mass_projection observed_ethics_projection
+  OUTPUT observed_pilot_winding phase_residual_uncertainty
+END
+
+OP PNAML09_RX_RDSS_PNCS_BINDING
+  INPUT observed_symbol_address source_exact_typed_state
+  INPUT exact_pncs_content_identity exact_rdss_occurrence exact_ordered_braid_word
+  PRESERVE source_operator_type exact_rdss_occurrence exact_ordered_braid_word
+  COMPARE address_with_registered_exact_semantic_key
+  COMPARE typed_ordered_relations_and_source_generation
+  COMPARE derived_spectral_invariant_with_phase_observation
+  OUTPUT readout_with_exact_semantic_identity
+END
+
+COMPOSE
+  REFERENCE PNAML09_RX_REFERENCE
+  DEMODULATE PNAML09_RX_PHASE_DEMODULATION
+  BIND PNAML09_RX_RDSS_PNCS_BINDING
+END
+
+OUTPUT readout_with_exact_semantic_identity
+OUTPUT phase_residual_uncertainty
+OUTPUT observed_pilot_winding
