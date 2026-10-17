@@ -1,0 +1,39 @@
+PNV.PROGRAM PNAML11_BIOOS_NATIVE_HANDOFF
+PNV.VERSION 1.1
+PNV.STATUS NATIVE_HARDWARE_PRIMITIVE_IMPLEMENTED_TESTED
+PNV.EPISTEMIC CHYBA
+
+REQUIRE T36_PHASE_FIELD
+REQUIRE QHTRI_M0_M11_ANALOG_GATE_FABRIC_V0_1
+REQUIRE PNCORE_PNAML_EXCHANGE_X86_64
+REQUIRE PAUX_EXACT_FULL_STATE_LANE
+INVARIANT DIMENSION 36
+INVARIANT FULL_RDSS_STATE_SEPARATE_FROM_PHASE true
+INVARIANT PNCS_OPERATOR_TYPE PRESERVE_SOURCE
+INVARIANT ORDERED_BRAID_WORD PRESERVE_SOURCE
+INVARIANT UNREGISTERED_SYMBOL_OPAQUE_PASS_THROUGH true
+INVARIANT NO_NEW_DYNAMICS_ENGINE true
+INVARIANT NO_EARLY_OBSERVATION true
+
+OP PNAML11_SEND
+  INPUT phase36_f64[36] typed_exact_state_bytes capacity generation sequence
+  SOURCE existing_BioOS_QHTRI_phase_trajectory_sample
+  NATIVE_SYMBOL pncore_pnaml_publish
+  OUTPUT coherent_native_snapshot
+END
+
+OP PNAML11_RECEIVE
+  INPUT coherent_native_snapshot destination_capacity
+  NATIVE_SYMBOL pncore_pnaml_consume
+  OUTPUT phase36_f64[36] typed_exact_state_bytes generation sequence
+END
+
+COMPOSE
+  TRANSPORT PNAML11_SEND PNAML11_RECEIVE
+  RETAIN semantic_operator_roles ordered_rdss_braid_and_full_state
+  DISPATCH unregistered_symbols_as_opaque_typed_transport
+END
+
+OUTPUT unchanged_typed_machine_message
+# Native symbol implemented: arch/x86_64/pncore/pncore_pnaml_exchange_x86_64.S.
+# Dispatcher registry binding and production AUX cutover are separate untested operations.
