@@ -1,0 +1,72 @@
+PNV.PROGRAM PNAML09_BIOOS_AUX_PRODUCER
+PNV.VERSION 0.9
+PNV.STATUS INTEGRATION_CANDIDATE
+PNV.EPISTEMIC CHYBA
+PNV.CANON_ALLOWED false
+
+# Uses existing Bio-OS/QHTRI fields, not a replacement dynamical integrator.
+REQUIRE T36_PHASE_FIELD
+REQUIRE QHTRI_M0_M11_ANALOG_GATE_FABRIC_V0_1
+REQUIRE QHTRI_TORSION_FLOW
+REQUIRE M0_M11_SEMANTIC_BINDING
+REQUIRE PNCS_TYPED_CONTENT_AND_ORDER
+REQUIRE RDSS_TYPED_RELATIONAL_OCCURRENCE
+REQUIRE PAUX_EXACT_FULL_STATE_LANE
+INVARIANT DIMENSION 36
+INVARIANT TRIT_GROUPS 12
+INVARIANT WHOLE_SEMANTIC_LANES true
+INVARIANT PNCS_OPERATOR_TYPE PRESERVE_SOURCE
+INVARIANT RDSS_OCCURRENCE_AND_ORDER PRESERVE_SOURCE
+INVARIANT TRANSMISSION_IS_NOT_EXECUTION true
+INVARIANT SOURCE_STATE_NOT_EQUAL_PHASE_FINGERPRINT true
+INVARIANT OBSERVATION_IN_WAVE_PATH false
+INVARIANT NEW_PNV_OPCODES 0
+
+OP PNAML09_TX_EXISTING_DYNAMICS
+  INPUT theta_initial[36] omega[36] amplitudes[36] tau_start tau_end
+  INPUT admitted_M6_edges admitted_M7_relations M9_holonomy[36]
+  USE QHTRI_M0_M11_ANALOG_GATE_FABRIC_V0_1
+  USE M6_RELATIONAL_TORSION
+  USE M7_DELIBERATION_BRAID
+  USE M8_PROTECTED_IDENTITY
+  USE M9_HOLONOMY
+  USE M10_RECEIPT_PROVENANCE
+  FIELD DTHETA_DT omega-GRAD(V_TOTAL)+F_M8
+  OUTPUT reference_theta_lifted[36](tau) source_exact_full_state
+END
+
+OP PNAML09_TX_PNCS_RDSS_ADDRESS
+  INPUT exact_registered_pncs_identity exact_rdss_occurrence exact_ordered_braid_word
+  INPUT source_registry_generation source_operator_type
+  PRESERVE source_operator_type exact_rdss_occurrence exact_ordered_braid_word
+  INDEX symbol_address=1+SUM_g(trit[g]+1)*3^g
+  TRIT trit[g] IN {-1,0,+1} FOR g=0..11
+  OUTPUT symbol_address trit[12] source_exact_typed_state
+END
+
+OP PNAML09_TX_CONTINUOUS_CARRIER
+  INPUT reference_theta_lifted[36](tau) amplitudes[36](tau) trit[12]
+  INPUT mass_scalar_projection_0to1 ethics_scalar_projection_0to1 tau_start tau_end
+  REQUIRE tau_end>tau_start
+  NORMALIZE t=(tau-tau_start)/(tau_end-tau_start)
+  PILOT u(t)=3*t^2-2*t^3
+  BASIS f_n(t)=SIN(pi*t)^2*SIN(2*pi*n*t) FOR n=1,2,3
+  PATTERN s[0]=+1 s[1]=0 s[2]=-1
+  COORDINATE j=3*g+r; g=0..11; r=0..2
+  LIFTED_PHASE_TURNS x[j](t)=reference_theta_lifted[j](tau)/(2*pi)+u(t)+0.09*trit[g]*s[r]*f_1(t)+0.05*mass_scalar_projection_0to1*f_2(t)+0.05*ethics_scalar_projection_0to1*f_3(t)
+  CARRIER z[j](tau)=amplitudes[j](tau)*EXP(i*2*pi*x[j](t))
+  OUTPUT continuous_z[36](tau) lifted_phase[36](tau)
+END
+
+COMPOSE
+  EVOLVE PNAML09_TX_EXISTING_DYNAMICS
+  BIND PNAML09_TX_PNCS_RDSS_ADDRESS
+  MODULATE PNAML09_TX_CONTINUOUS_CARRIER
+  EXACT_STATE_LANE PAUX_EXACT_FULL_STATE_LANE
+  FINGERPRINT derived_only
+END
+
+OUTPUT continuous_z[36](tau)
+OUTPUT source_exact_full_state
+OUTPUT exact_ordered_braid_word
+OUTPUT source_registry_generation
